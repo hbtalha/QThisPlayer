@@ -28,4 +28,5 @@ Picture in Picture
 # Credits
 - Videolan VLC media player
 - https://github.com/vlc-qt/vlc-qt
+- https://code.videolan.org/videolan/libvlcpp
 - https://github.com/Kumbong/vlc-clone
