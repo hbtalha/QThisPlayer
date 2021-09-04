@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/icons/openFile.png</file>
+        <file>images/icons/record.png</file>
+        <file>images/icons/refresh.png</file>
+        <file>images/icons/toggleRepeat.png</file>
+        <file>images/icons/nextChapter.png</file>
+        <file>images/icons/previousChapter.png</file>
+        <file>images/icons/chapterList.png</file>
+        <file>images/icons/playlist.png</file>
+        <file>images/icons/picture-in-picture.png</file>
+        <file>images/icons/increaseVolume.png</file>
+        <file>images/icons/decreaseVolume.png</file>
+        <file>images/icons/muteVolume.png</file>
+        <file>images/icons/exit-picture-in-picture.png</file>
+        <file>images/icons/exit-fullscreen.png</file>
+        <file>images/icons/fullscreen.png</file>
+        <file>images/icons/loop_current.png</file>
+        <file>images/icons/random.png</file>
+    </qresource>
+</RCC>
