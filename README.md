@@ -36,3 +36,6 @@ Picture in Picture
 - https://code.videolan.org/videolan/libvlcpp
 - https://github.com/Kumbong/vlc-clone
 
+# License
+ GNU GPLv3 &copy; Helder Batalha
+
