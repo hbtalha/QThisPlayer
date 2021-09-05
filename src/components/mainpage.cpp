@@ -89,9 +89,9 @@ void MainPage::setupShortcuts()
     QShortcut* playPauseShortcut = new QShortcut(QKeySequence(Qt::Key_Space), this);
     connect(playPauseShortcut, &QShortcut::activated, this, [this]
     {
+        mPlayerController->clickPlayButton();
         if(isPlayerSeekable())
         {
-            mPlayerController->clickPlayButton();
             emit message(player->isPaused() ? "Play" : "Pause");
         }
     });
