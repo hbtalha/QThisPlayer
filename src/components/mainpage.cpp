@@ -32,6 +32,7 @@
 MainPage::MainPage(QWidget *parent)
     : QWidget(parent)
 {
+    clipboard = QApplication::clipboard();
     playerHasMedia = false;
 
     videoWidget = new VideoWidget(this);
@@ -224,6 +225,12 @@ void MainPage::setupShortcuts()
         QStringList loops =  {"Off", "All", "One"};
         emit message("Loop: " + loops.at(mPlayerController->loopOption()));
     });
+    QShortcut* pasteToAddChapters = new QShortcut(QKeySequence(QKeySequence::Paste), this);
+    connect(pasteToAddChapters, &QShortcut::activated, this, [this]
+    {
+        if(isPlayerSeekable())
+            copyFromClipboard();
+    });
 }
 
 void MainPage::processDroppedChaptersText(QString txt)
@@ -284,6 +291,16 @@ void MainPage::processDroppedChaptersText(QString txt)
             chapterListPage->setChapters(chapters, timestamps);
             emit message("Chapter list added");
         }
+    }
+}
+
+void MainPage::copyFromClipboard()
+{
+    const QMimeData *mimeData = clipboard->mimeData();
+
+    if (mimeData->hasText())
+    {
+        processDroppedChaptersText(mimeData->text());
     }
 }
 

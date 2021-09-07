@@ -20,6 +20,7 @@
 #define PLAYERPAGE_H
 
 #include <QWidget>
+#include <QClipboard>
 
 class VideoWidget;
 class QStackedWidget;
@@ -83,6 +84,7 @@ private:
     void setupShortcuts();
     void processDroppedChaptersText(QString txt);
 //    void chapterizeProgressSlider(QStringList chapters, QList<qint64> timestamps);
+    void copyFromClipboard();
 
     PlayerController *mPlayerController;
     VideoWidget *videoWidget;
@@ -91,6 +93,7 @@ private:
     PlaylistPage *playlist;
     ChapterListPage *chapterListPage;
     QStackedWidget *stackedWidget;
+    QClipboard* clipboard;
 
     bool isDockedPlaylist;
     bool playerHasMedia;
