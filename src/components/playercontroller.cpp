@@ -356,7 +356,6 @@ QIcon *PlayerController::pauseIcon() const
 void PlayerController::setPicInPicView(bool picInPicView)
 {
     fullScreenButton->setVisible(! picInPicView);
-    extendedSettingsButton->setVisible(! picInPicView);
     playlistButton->setVisible(! picInPicView);
     chapterListButton->setVisible(! picInPicView);
     volButton->setVisible(! picInPicView);
