@@ -157,8 +157,15 @@ void PlaylistPage::playPrevious()
 
 void PlaylistPage::playCurrent()
 {
+    static int previousFilePosition = 0;
     emit playSelected(fileAt(currentFilePosition));
     emit mediaChanged(playlistFiles.at(currentFilePosition).fileName());
+
+    if(previousFilePosition < this->count())
+        this->item(previousFilePosition)->setBackground(QColor());
+
+    this->item(currentFilePosition)->setBackground(QColor(34, 49, 63));
+    previousFilePosition = currentFilePosition;
 }
 
 bool PlaylistPage::isAtEnd()
