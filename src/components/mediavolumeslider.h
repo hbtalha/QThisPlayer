@@ -94,7 +94,7 @@ protected:
     {
         event->accept();
 
-        float newValue = getValueFromXPos( event->position().x() );
+        float newValue = getValueFromXPos( event->pos().x() );
 
         if(newValue >= 0 and newValue <= 100)
         {
@@ -109,7 +109,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override
     {
         lock();
-        float newValue = getValueFromXPos( event->position().x() );
+        float newValue = getValueFromXPos( event->pos().x() );
         if(newValue >= 0 and newValue <= 100)
         {
             this->setValue(newValue);

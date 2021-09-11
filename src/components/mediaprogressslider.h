@@ -479,7 +479,7 @@ inline void MediaProgressSlider::mouseMoveEvent(QMouseEvent *event)
 {
     event->ignore();
 
-    int valueFromXPos = ( getValueFromXPos( event->position().x() ) );
+    int valueFromXPos = ( getValueFromXPos( event->pos().x() ) );
 
     // convert x pos value to current time
     qint64 newTime = (valueFromXPos * mediaLength()) / static_cast<float>(maximum());
@@ -515,7 +515,7 @@ inline void MediaProgressSlider::mousePressEvent(QMouseEvent *event)
     {
         if(event->button()==Qt::LeftButton)
         {
-            int valueFromXPos =( getValueFromXPos( event->position().x() ) );
+            int valueFromXPos =( getValueFromXPos( event->pos().x() ) );
             qint64 newTime = (valueFromXPos * mediaLength()) / static_cast<float>(maximum());
 
             this->setValue(valueFromXPos);
