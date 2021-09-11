@@ -59,12 +59,8 @@ MainPage::MainPage(QWidget *parent)
     playlist->setRandom(mPlayerController->isRandom());
     chapterListPage = new ChapterListPage;
 
-    stackedWidget = new QStackedWidget;
-    stackedWidget->addWidget(videoWidget);
-    stackedWidget->setCurrentWidget(videoWidget);
-
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(stackedWidget);
+    layout->addWidget(videoWidget);
     layout->addWidget(mPlayerController);
     layout->setSpacing(0);
     setLayout(layout);
