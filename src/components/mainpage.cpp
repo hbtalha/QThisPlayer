@@ -580,7 +580,7 @@ void MainPage::wheelEvent(QWheelEvent *event)
     if(! mPlayerController->shouldAllowWheelEventOperation() || ! player)
         return;
 
-    if( stackedWidget->underMouse() && ! isPlayerSeekable() )
+    if( videoWidget->underMouse() && ! isPlayerSeekable() )
         return;
 
     if (event->angleDelta().y() > 0)
