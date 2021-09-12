@@ -591,7 +591,7 @@ void MainPage::wheelEvent(QWheelEvent *event)
 
 void MainPage::mouseDoubleClickEvent(QMouseEvent *)
 {
-    if(stackedWidget->underMouse())
+    if(videoWidget->underMouse())
     {
         if(isPlayerSeekable())
             emit toggleFullScreen();
