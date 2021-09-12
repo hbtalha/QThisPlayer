@@ -92,7 +92,6 @@ private:
     VlcMediaPlayer *player;
     PlaylistPage *playlist;
     ChapterListPage *chapterListPage;
-    QStackedWidget *stackedWidget;
     QClipboard* clipboard;
 
     bool isDockedPlaylist;
