@@ -169,7 +169,7 @@ void MainWindow::addSubtitlesFile()
 {
     if(mainPage->isPlayerSeekable())
     {
-        QFileDialog dialog(this, tr("Opeb subtitle file"));
+        QFileDialog dialog(this, tr("Open subtitle file"));
         dialog.setFileMode(QFileDialog::ExistingFiles);
         dialog.setNameFilter(tr("Subtitle Files(*.cdg *.idx *.srt *.sub *.utf *.ass *.ssa *.aqt *.jss *.psb *.rt *.sami "
                                 "*.smi *.txt *.smil *.stl *.usf *.dks *.pjs *.mpl2 *.mks *.vtt *.tt *.ttml *.dfxp *.scc);;"
