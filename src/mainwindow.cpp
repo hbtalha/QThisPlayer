@@ -186,6 +186,30 @@ void MainWindow::addSubtitlesFile()
     }
 }
 
+void MainWindow::addChapterFile()
+{
+    if(mainPage->isPlayerSeekable())
+    {
+        QFileDialog dialog(this, tr("Open chapters file"));
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.setNameFilter(tr("Chapters File(*.txt *.ch)"));
+        dialog.setViewMode(QFileDialog::Detail);
+        dialog.setAcceptMode(QFileDialog::AcceptOpen);
+        dialog.setDirectory(Settings.lastOpenFoler());
+
+        if(dialog.exec())
+        {
+            Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
+
+            QFile file(dialog.selectedUrls().at(0).toLocalFile());
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream text(&file);
+
+            mainPage->processDroppedChaptersText(text.readAll());
+        }
+    }
+}
+
 void MainWindow::openFilesFromExplorer()
 {
     QList<QUrl> files;
@@ -525,6 +549,13 @@ void MainWindow::createMenuAndActions()
     connect(addSubtitlesFileAction, &QAction::triggered, this, &MainWindow::addSubtitlesFile);
 
     subtitleMenu->addAction(addSubtitlesFileAction);
+
+    auto chapterMenu = this->menuBar()->addMenu("Chapters");
+
+    QAction* addChapterFileAction = new QAction(tr("Add Chapters File..."));
+    connect(addChapterFileAction, &QAction::triggered, this, &MainWindow::addChapterFile);
+
+    chapterMenu->addAction(addChapterFileAction);
 
     auto viewMenu = this->menuBar()->addMenu("View");
 

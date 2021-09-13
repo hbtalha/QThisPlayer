@@ -53,6 +53,7 @@ private:
     void openFiles(bool play = true);
     void addFilesToPlaylist();
     void addSubtitlesFile();
+    void addChapterFile();
     void openFilesFromExplorer();
 
     GoToTime gotoTime;
