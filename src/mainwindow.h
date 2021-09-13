@@ -61,7 +61,7 @@ private:
     MainPage* mainPage;
     QDockWidget* playlistDockWidget;
     QDockWidget* chapterDockWidget;
-    PopUp *popup;
+    ScreenMessage *popup;
     QTimer* timerMouse;
 
     bool isPlaylistShown;

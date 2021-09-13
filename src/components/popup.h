@@ -25,14 +25,14 @@
 #include <QPropertyAnimation>
 #include <QTimer>
 
-class PopUp : public QWidget
+class ScreenMessage : public QWidget
 {
     Q_OBJECT
 
     Q_PROPERTY(float popupOpacity READ getPopupOpacity WRITE setPopupOpacity)
 
 public:
-    explicit PopUp();
+    explicit ScreenMessage();
 
     enum ShowOptions {GENERAL, ERROR_};
 

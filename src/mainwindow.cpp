@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(&gotoTime, &GoToTime::goToTime, mainPage, &MainPage::setPlayerTime);
 
-    popup = new PopUp();
+    popup = new ScreenMessage();
     popup->setParentWidget(this);
 
     picInPicWin = new PictureInPictureWindow();

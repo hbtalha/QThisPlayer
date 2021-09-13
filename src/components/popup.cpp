@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QStyle>
 
-PopUp::PopUp()
+ScreenMessage::ScreenMessage()
 {
     setWindowFlags(Qt::FramelessWindowHint |        // Disable window decoration
                    Qt::Tool |                       // Discard display in a separate window
@@ -45,10 +45,10 @@ PopUp::PopUp()
     setLayout(&layout);
 
     timer = new QTimer();
-    connect(timer, &QTimer::timeout, this, &PopUp::hide);
+    connect(timer, &QTimer::timeout, this, &ScreenMessage::hide);
 }
 
-void PopUp::paintEvent(QPaintEvent *event)
+void ScreenMessage::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
@@ -66,13 +66,13 @@ void PopUp::paintEvent(QPaintEvent *event)
     painter.drawRoundedRect(roundedRect, 10, 10);
 }
 
-void PopUp::setPopupText(const QString &text)
+void ScreenMessage::setPopupText(const QString &text)
 {
     label.setText(text);
     adjustSize();
 }
 
-void PopUp::displayMessage(const QString& text)
+void ScreenMessage::displayMessage(const QString& text)
 {
     setPopupText(text);
 
@@ -83,29 +83,29 @@ void PopUp::displayMessage(const QString& text)
     timer->start(popupTextDuration * 1000.0);
 }
 
-void PopUp::setParentWidget(QWidget *parent)
+void ScreenMessage::setParentWidget(QWidget *parent)
 {
     parentWidget = parent;
 }
 
-void PopUp::setPopupTextColor(const QString& color)
+void ScreenMessage::setPopupTextColor(const QString& color)
 {
     textColor = color;
 }
 
-void PopUp::setPopupTextDuration(const float sec)
+void ScreenMessage::setPopupTextDuration(const float sec)
 {
     popupTextDuration = sec;
 }
 
-void PopUp::setPopupOpacity(const float opacity)
+void ScreenMessage::setPopupOpacity(const float opacity)
 {
     popupOpacity = opacity;
 
     setWindowOpacity(opacity);
 }
 
-float PopUp::getPopupOpacity() const
+float ScreenMessage::getPopupOpacity() const
 {
     return popupOpacity;
 }
