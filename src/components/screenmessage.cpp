@@ -16,7 +16,7 @@
 * along with this library. If not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 
-#include "popup.h"
+#include "screenmessage.h"
 #include <QPainter>
 #include <QApplication>
 #include <QScreen>

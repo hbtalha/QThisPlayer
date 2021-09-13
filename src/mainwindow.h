@@ -26,7 +26,7 @@
 
 #include "components/mainpage.h"
 #include "components/pictureinpicturewindow.h"
-#include "components/popup.h"
+#include "components/screenmessage.h"
 #include "dialogs/gototime.h"
 
 class MainWindow : public QMainWindow
