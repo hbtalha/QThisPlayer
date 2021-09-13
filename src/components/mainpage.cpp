@@ -543,27 +543,21 @@ void MainPage::dropEvent(QDropEvent *event)
     {
         auto urls = mimeData->urls();
 
-        if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch")))
+        if(isPlayerSeekable())
         {
-            if(isPlayerSeekable())
+            if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch")))
             {
                 auto txtFile = urls.at(0).toLocalFile();
 
-                if(txtFile.endsWith(".txt") || txtFile.endsWith(".ch"))
-                {
-                    QFile file(txtFile);
-                    file.open(QIODevice::ReadOnly | QIODevice::Text);
-                    QTextStream text(&file);
-                    processDroppedChaptersText(text.readAll());
-                }
+                QFile file(txtFile);
+                file.open(QIODevice::ReadOnly | QIODevice::Text);
+                QTextStream text(&file);
+                processDroppedChaptersText(text.readAll());
+
+                return;
             }
 
-            return;
-        }
-
-        // will look for subtitle files
-        if(isPlayerSeekable())
-        {
+            // will look for subtitle files
             if(areAllSubtitleFiles(urls))
             {
                 addSubtiles(urls);
