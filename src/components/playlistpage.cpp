@@ -58,6 +58,9 @@ PlaylistPage::PlaylistPage()
 
 void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
 {
+    if(files.isEmpty())
+        return;
+
     QList<int> tempPlayList;
 
     for(int i = currentPlayingList.size(); i < (currentPlayingList.size() + files.size()); ++i)
