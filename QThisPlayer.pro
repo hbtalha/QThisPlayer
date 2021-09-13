@@ -19,7 +19,7 @@ SOURCES += \
     src/components/pictureinpicturewindow.cpp \
     src/components/playercontroller.cpp \
     src/components/playlistpage.cpp \
-    src/components/popup.cpp \
+    src/components/screenmessage.cpp \
     src/dialogs/gototime.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
@@ -35,7 +35,7 @@ HEADERS += \
     src/components/playercontroller.h \
     src/components/playlistdock.h \
     src/components/playlistpage.h \
-    src/components/popup.h \
+    src/components/screenmessage.h \
     src/components/videoWidget.h \
     src/dialogs/gototime.h \
     src/mainwindow.h \
