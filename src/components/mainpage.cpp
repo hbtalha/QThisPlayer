@@ -543,13 +543,13 @@ void MainPage::dropEvent(QDropEvent *event)
     {
         auto urls = mimeData->urls();
 
-        if(urls.size() == 1 && urls.at(0).toLocalFile().endsWith(".txt"))
+        if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch")))
         {
             if(isPlayerSeekable())
             {
                 auto txtFile = urls.at(0).toLocalFile();
 
-                if(txtFile.endsWith(".txt"))
+                if(txtFile.endsWith(".txt") || txtFile.endsWith(".ch"))
                 {
                     QFile file(txtFile);
                     file.open(QIODevice::ReadOnly | QIODevice::Text);
