@@ -202,10 +202,11 @@ void MainWindow::addChapterFile()
             Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
 
             QFile file(dialog.selectedUrls().at(0).toLocalFile());
-            file.open(QIODevice::ReadOnly | QIODevice::Text);
-            QTextStream text(&file);
-
-            mainPage->processDroppedChaptersText(text.readAll());
+            if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                QTextStream text(&file);
+                mainPage->processDroppedChaptersText(text.readAll());
+            }
         }
     }
 }

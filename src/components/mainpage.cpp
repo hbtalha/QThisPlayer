@@ -550,9 +550,11 @@ void MainPage::dropEvent(QDropEvent *event)
                 auto txtFile = urls.at(0).toLocalFile();
 
                 QFile file(txtFile);
-                file.open(QIODevice::ReadOnly | QIODevice::Text);
-                QTextStream text(&file);
-                processDroppedChaptersText(text.readAll());
+                if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+                {
+                    QTextStream text(&file);
+                    processDroppedChaptersText(text.readAll());
+                }
 
                 return;
             }
