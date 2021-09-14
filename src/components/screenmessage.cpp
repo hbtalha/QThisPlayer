@@ -35,7 +35,7 @@ ScreenMessage::ScreenMessage()
 
     label.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     label.setStyleSheet("QLabel { color: white;"
-                        "font-size:15pt;"
+                        "font-size:15pt;" // TODO: resize according to parent size
                         "margin-top: 6px;"
                         "margin-bottom: 6px;"
                         "margin-left: 0px;"
@@ -76,7 +76,7 @@ void ScreenMessage::displayMessage(const QString& text)
 {
     setPopupText(text);
 
-    this->move(parentWidget->geometry().topRight() - this->rect().topRight() - QPoint(50, 0));
+    this->move(parentWidget->geometry().topRight() - this->rect().topRight() - QPoint(50, 0)); // TODO: readjust position
 
     this->show();
 
