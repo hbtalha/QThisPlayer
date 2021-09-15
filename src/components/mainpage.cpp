@@ -247,7 +247,7 @@ void MainPage::processDroppedChaptersText(QString txt)
 
     for(int i = 0; i < lines.size(); ++i)
     {
-        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)\\)?(?:(.*))?");
+        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)?(?:(.*))?");
         QRegularExpressionMatch match = r.match(lines.at(i));
         int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
         int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
