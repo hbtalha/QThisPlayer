@@ -259,7 +259,7 @@ void MainPage::processDroppedChaptersText(QString txt)
         if((i != 0 && milliseconds != 0.0) || timestamps.isEmpty())
         {
             timestamps.append(milliseconds);
-            chapters.append(chapterText);
+            chapters.append(chapterText.trimmed());
         }
     }
 
