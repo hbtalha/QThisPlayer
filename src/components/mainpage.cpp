@@ -104,31 +104,31 @@ void MainPage::setupShortcuts()
     QShortcut* playPauseShortcut = new QShortcut(QKeySequence(Qt::Key_Space), this);
     connect(playPauseShortcut, &QShortcut::activated, this, [this]
     {
-        mPlayerController->clickPlayButton();
         if(isPlayerSeekable())
         {
             emit message(player->isPaused() ? "Play" : "Pause");
         }
+        mPlayerController->clickPlayButton();
     });
 
     QShortcut* previousShortcut = new QShortcut(QKeySequence(Qt::Key_P), this);
     connect(previousShortcut, &QShortcut::activated, this, [this]
     {
-        mPlayerController->clickPreviousButton();
         if(isPlayerSeekable())
         {
             emit message("Previous");
         }
+        mPlayerController->clickPreviousButton();
     });
 
     QShortcut* nextShortcut = new QShortcut(QKeySequence(Qt::Key_N), this);
     connect(nextShortcut, &QShortcut::activated, this, [this]
     {
-        mPlayerController->clickNextButton();
         if(isPlayerSeekable())
         {
             emit message("Next");
         }
+        mPlayerController->clickNextButton();
     });
 
     QShortcut* jump10SecondsForwardShortcut = new QShortcut(QKeySequence(Qt::Key_Right), this);
