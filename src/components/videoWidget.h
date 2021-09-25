@@ -35,27 +35,42 @@ public:
         : QVideoWidget(parent)
     {
         this->setMouseTracking(true);
+        fullScrren = false;
     }
 
+    void onFullScreen(bool full)
+    {
+        fullScrren = full;
+        this->update();
+    }
 signals:
     void mouseMove();
 
 protected:
+    bool fullScrren;
+
     void mouseMoveEvent(QMouseEvent *event) override
     {
         event->ignore();
         emit mouseMove();
     }
-    void paintEvent(QPaintEvent*) override
+    void paintEvent(QPaintEvent* event) override
     {
-        QPainter p(this);
-        p.setRenderHint(QPainter::Antialiasing);
-        QPainterPath path;
-        path.addRoundedRect(this->rect(), 0,0);
-        QPen pen(Qt::white, 1);
-        p.setPen(pen);
-        p.fillPath(path,QColor(27,27,27));
-        p.drawPath(path);
+        if(! fullScrren)
+        {
+            QPainter p(this);
+            p.setRenderHint(QPainter::Antialiasing);
+            QPainterPath path;
+            path.addRoundedRect(this->rect(), 0,0);
+            QPen pen(Qt::white, 1);
+            p.setPen(pen);
+            p.fillPath(path,QColor(27,27,27));
+            p.drawPath(path);
+        }
+        else
+        {
+            QVideoWidget::paintEvent(event);
+        }
     }
 };
 

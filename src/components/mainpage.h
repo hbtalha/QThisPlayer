@@ -38,6 +38,7 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
 
     bool isPlayerSeekable();
+    VideoWidget* videoWidget() const;
     PlaylistPage *playlistPage() const;
     ChapterListPage *chpaterPage() const;
     PlayerController* playerController() const;
@@ -87,7 +88,7 @@ private:
     void copyFromClipboard();
 
     PlayerController *mPlayerController;
-    VideoWidget *videoWidget;
+    VideoWidget *mVideoWidget;
     VlcInstance* instance;
     VlcMediaPlayer *player;
     PlaylistPage *playlist;

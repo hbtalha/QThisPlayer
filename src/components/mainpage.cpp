@@ -35,18 +35,18 @@ MainPage::MainPage(QWidget *parent)
     clipboard = QApplication::clipboard();
     playerHasMedia = false;
 
-    videoWidget = new VideoWidget(this);
-    videoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    videoWidget->setMinimumHeight(0);
-    QPalette pal= videoWidget->palette();
+    mVideoWidget = new VideoWidget(this);
+    mVideoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    mVideoWidget->setMinimumHeight(0);
+    QPalette pal= mVideoWidget->palette();
     pal.setBrush(QPalette::Window,QBrush(QPixmap(":/images/icons/windowIcon.png")));
-    videoWidget->setAutoFillBackground(false);
-    videoWidget->setPalette(pal);
+    mVideoWidget->setAutoFillBackground(false);
+    mVideoWidget->setPalette(pal);
 
     instance = new VlcInstance(this);
     player = new VlcMediaPlayer(instance);
     player->setPlaybackRate(1);
-    player->setVideoWidget(reinterpret_cast<HWND *>(videoWidget->winId()));
+    player->setVideoWidget(reinterpret_cast<HWND *>(mVideoWidget->winId()));
 
     setAcceptDrops(true);
     mPlayerController = new PlayerController;
@@ -60,7 +60,7 @@ MainPage::MainPage(QWidget *parent)
     chapterListPage = new ChapterListPage;
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(videoWidget);
+    layout->addWidget(mVideoWidget);
     layout->addWidget(mPlayerController);
     layout->setSpacing(0);
     setLayout(layout);
@@ -88,7 +88,7 @@ MainPage::MainPage(QWidget *parent)
     connect(mPlayerController, &PlayerController::toggleChapterList, this, &MainPage::toggleChapterListView);
     connect(mPlayerController, &PlayerController::randomToggled, playlist, &PlaylistPage::setRandom);
     connect(mPlayerController, &PlayerController::mouseMove, this, &MainPage::mouseMove);
-    connect(videoWidget, &VideoWidget::mouseMove, this, &MainPage::mouseMove);
+    connect(mVideoWidget, &VideoWidget::mouseMove, this, &MainPage::mouseMove);
     connect(playlist, &PlaylistPage::playSelected, this, &MainPage::playFile);
     connect(playlist, &PlaylistPage::mediaChanged, this, &MainPage::mediaChanged);
     connect(playlist, &PlaylistPage::currentPlayingMediaRemoved, this, &MainPage::resetPlayer);
@@ -382,6 +382,11 @@ bool MainPage::isPlayerSeekable()
     return (playerState == Vlc::Playing || playerState == Vlc::Paused || playerState == Vlc::Opening);
 }
 
+VideoWidget *MainPage::videoWidget() const
+{
+    return mVideoWidget;
+}
+
 PlaylistPage *MainPage::playlistPage() const
 {
     return playlist;
@@ -576,7 +581,7 @@ void MainPage::wheelEvent(QWheelEvent *event)
     if(! mPlayerController->shouldAllowWheelEventOperation() || ! player)
         return;
 
-    if( videoWidget->underMouse() && ! isPlayerSeekable() )
+    if( mVideoWidget->underMouse() && ! isPlayerSeekable() )
         return;
 
     if (event->angleDelta().y() > 0)
@@ -587,7 +592,7 @@ void MainPage::wheelEvent(QWheelEvent *event)
 
 void MainPage::mouseDoubleClickEvent(QMouseEvent *)
 {
-    if(videoWidget->underMouse())
+    if(mVideoWidget->underMouse())
     {
         if(isPlayerSeekable())
             emit toggleFullScreen();

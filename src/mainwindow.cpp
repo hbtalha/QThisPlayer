@@ -329,6 +329,7 @@ void MainWindow::onFullScreen()
         isChapterListShown = true;
     }
 
+    mainPage->videoWidget()->onFullScreen(true);
     mainPage->playerController()->setParent(this);
     mainPage->playerController()->setFullScreenButtonIcon(true);
 
@@ -347,6 +348,7 @@ void MainWindow::onNormalScreen()
     if(isChapterListShown)
         showChapterlist(true);
 
+    mainPage->videoWidget()->onFullScreen(false);
     mainPage->layout()->addWidget(mainPage->playerController());
     mainPage->playerController()->setFullScreenButtonIcon(false);
     mainPage->playerController()->show();
