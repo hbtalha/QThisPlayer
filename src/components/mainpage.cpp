@@ -227,6 +227,11 @@ void MainPage::setupShortcuts()
         if(isPlayerSeekable())
             copyFromClipboard();
     });
+    QShortcut* setInPicInPicWinShortcut = new QShortcut(QKeySequence(Qt::CTRL|Qt::ALT|Qt::Key_P), this);
+    connect(setInPicInPicWinShortcut, &QShortcut::activated, this, [this]
+    {
+        playerController()->clickPicInPicButton();
+    });
 }
 
 void MainPage::processDroppedChaptersText(QString txt)
