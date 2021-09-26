@@ -47,7 +47,7 @@ const QStringList supportedMediaFormats = {"3g2", "3gp", "3gp2", "3gpp", "amv", 
                                            "mlp", "mod", "mpa", "mp1", "mp2", "mp3", "mpc", "mpga", "mus", "oga", "ogg",
                                            "oma", "opus", "qcp", "ra", "rmi", "s3m", "sid", "spx", "thd", "tta", "voc",
                                            "vqf", "w64", "wav", "wma", "wv", "xa", "xm"
-                                          };
+                                          }; // TODO: separate the video and audio extensions
 
 QList<QFileInfo> filterSupportedMediaFormats(const QList<QUrl>& urls);
 bool areAllSubtitleFiles(const QList<QUrl>& urls);
