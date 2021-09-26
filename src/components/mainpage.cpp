@@ -221,8 +221,8 @@ void MainPage::setupShortcuts()
         QStringList loops =  {"Off", "All", "One"};
         emit message("Loop: " + loops.at(mPlayerController->loopOption()));
     });
-    QShortcut* pasteToAddChapters = new QShortcut(QKeySequence(QKeySequence::Paste), this);
-    connect(pasteToAddChapters, &QShortcut::activated, this, [this]
+    QShortcut* pasteToAddChaptersShortcut = new QShortcut(QKeySequence(QKeySequence::Paste), this);
+    connect(pasteToAddChaptersShortcut, &QShortcut::activated, this, [this]
     {
         if(isPlayerSeekable())
             copyFromClipboard();
