@@ -539,9 +539,18 @@ void MainWindow::createMenuAndActions()
 //    crop_5_4_Action = new QAction(tr("5:4"), cropActionGroup);
 //    crop_5_4_Action->setCheckable(true);
 
+    QAction* fullScreenAction = new QAction(tr("FullScreen"));
+    connect(fullScreenAction, &QAction::triggered, this, [this]
+    {
+        if(mainPage->isPlayerSeekable())
+            setFullScreen(true);
+    });
+
     QAction* takeSnapshotAction = new QAction(tr("Take Snapshot"));
     connect(takeSnapshotAction, &QAction::triggered, mainPage, &MainPage::takeSnapshot);
 
+    videoMenu->addAction(fullScreenAction);
+    videoMenu->addSeparator();
     videoMenu->addAction(takeSnapshotAction);
 
     //Actions for the subtitle menu
