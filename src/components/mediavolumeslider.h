@@ -52,6 +52,7 @@ public:
         this->setRange(0, 100);
         this->setMaximumWidth(150);
         this->setOrientation(Qt::Horizontal);
+        this->setCursor(Qt::PointingHandCursor);
 
         m_lock = false;
 
