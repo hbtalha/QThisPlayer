@@ -58,7 +58,9 @@ private:
     QList<int> currentPlayingList;
     int currentPlayingIndex;
     int currentFilePosition;
+    int rowsDifference;
     bool isRandom;
+    int previousSelectedRow;
 
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;

@@ -48,9 +48,15 @@ PlaylistPage::PlaylistPage()
     {
         currentFilePosition = index.row();
         currentPlayingIndex = currentPlayingList.indexOf(currentFilePosition);
-        setRandom(isRandom);
         playCurrent();
+
+        if(isRandom)
+        {
+            setRandom(isRandom);
+        }
     });
+
+    rowsDifference = 0;
 
     QShortcut* deleteItemShortcut = new QShortcut(QKeySequence(Qt::Key_Delete), this);
     connect(deleteItemShortcut, &QShortcut::activated, this, &PlaylistPage::removeSelected);
@@ -104,6 +110,8 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
     {
         currentPlayingList.append(tempPlayList);
     }
+
+    previousSelectedRow = currentFilePosition;
 }
 
 void PlaylistPage::playFileAtPosition(int position)
@@ -160,15 +168,14 @@ void PlaylistPage::playPrevious()
 
 void PlaylistPage::playCurrent()
 {
-    static int previousFilePosition = 0;
     emit playSelected(fileAt(currentFilePosition));
     emit mediaChanged(playlistFiles.at(currentFilePosition).fileName());
 
-    if(previousFilePosition < this->count())
-        this->item(previousFilePosition)->setBackground(QColor());
+    if(previousSelectedRow < this->count())
+        this->item(previousSelectedRow)->setBackground(QColor());
 
     this->item(currentFilePosition)->setBackground(QColor(34, 49, 63));
-    previousFilePosition = currentFilePosition;
+    previousSelectedRow = currentFilePosition;
 }
 
 bool PlaylistPage::isAtEnd()
@@ -195,11 +202,18 @@ void PlaylistPage::setRandom(bool random)
     {
         if(isRandom)
         {
-            std::random_shuffle(currentPlayingList.begin(), currentPlayingList.end());
+            if(currentFilePosition < currentPlayingList.size() && currentFilePosition >= 0)
+            {
+                if(currentPlayingList.size() > 2)
+                {
+                    currentPlayingList.removeOne(currentFilePosition);
 
-            currentPlayingList.move(currentPlayingIndex, 0);
-            currentPlayingIndex = 0;
-            currentFilePosition = currentPlayingList.at(currentPlayingIndex);
+                    std::random_shuffle(currentPlayingList.begin(), currentPlayingList.end());
+
+                    currentPlayingList.prepend(currentFilePosition);
+                    currentPlayingIndex = 0;
+                }
+            }
         }
         else
         {
@@ -230,12 +244,22 @@ bool PlaylistPage::isEmpty()
 
 void PlaylistPage::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int row)
 {
-    for(int i = end; i >= start; i--)
+    if((start >= 0 && start < playlistFiles.size()) && (row >= 0 && row < playlistFiles.size()))
     {
-        playlistFiles.move(i, row);
+        if(start < row)
+            playlistFiles.move(start, row-1);
+        else
+            playlistFiles.move(start, row);
     }
 
+    if(! this->selectedIndexes().isEmpty())
+        (isRandom ? currentFilePosition : currentPlayingIndex) = this->selectedIndexes().last().row() - rowsDifference;
+
     setRandom(isRandom);
+
+    previousSelectedRow = currentFilePosition;
+
+    tests();
 }
 
 void PlaylistPage::removeSelected()
@@ -313,6 +337,11 @@ void PlaylistPage::dragMoveEvent(QDragMoveEvent *event)
     }
     else
     {
+        if(! this->selectedIndexes().isEmpty())
+        {
+            rowsDifference = this->selectedIndexes().last().row() - ( isRandom ? currentFilePosition : currentPlayingIndex );
+        }
+
         QListWidget::dragMoveEvent(event);
     }
 }
