@@ -172,7 +172,7 @@ void PlaylistPage::playCurrent()
     emit mediaChanged(playlistFiles.at(currentFilePosition).fileName());
 
     if(previousSelectedRow < this->count())
-        this->item(previousSelectedRow)->setBackground(QColor());
+        this->item(previousSelectedRow)->setBackground( ( (previousSelectedRow % 2) == 0 ) ? QColor() : QColor(27,27,27) );
 
     this->item(currentFilePosition)->setBackground(QColor(34, 49, 63));
     previousSelectedRow = currentFilePosition;
