@@ -258,8 +258,6 @@ void PlaylistPage::onRowsMoved(const QModelIndex &, int start, int end, const QM
     setRandom(isRandom);
 
     previousSelectedRow = currentFilePosition;
-
-    tests();
 }
 
 void PlaylistPage::removeSelected()
@@ -344,11 +342,6 @@ void PlaylistPage::dragMoveEvent(QDragMoveEvent *event)
 
         QListWidget::dragMoveEvent(event);
     }
-}
-
-void PlaylistPage::tests()
-{
-
 }
 
 void PlaylistPage::dropEvent(QDropEvent *event)

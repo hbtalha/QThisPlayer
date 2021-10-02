@@ -65,8 +65,6 @@ private:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
-
-    void tests();
 };
 
 #endif // PLAYLISTPAGE_H
