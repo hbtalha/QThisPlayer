@@ -43,6 +43,10 @@ public:
     void displayMessage(const QString& text);
     void setParentWidget(QWidget* parent);
 
+signals:
+    void mouseWheelRolledUp();
+    void mouseWheelRolledDown();
+
 private:
     void paintEvent(QPaintEvent *event);
 
@@ -57,6 +61,8 @@ private:
 
     void setPopupOpacity(float opacity);
     float getPopupOpacity() const;
+
+    void wheelEvent(QWheelEvent *event) override;
 };
 
 #endif // POPUP_H

@@ -94,6 +94,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     screenMessage = new ScreenMessage();
     screenMessage->setParentWidget(this);
+    connect(screenMessage, &ScreenMessage::mouseWheelRolledUp, mainPage, &MainPage::increaseVolume);
+    connect(screenMessage, &ScreenMessage::mouseWheelRolledDown, mainPage, &MainPage::decreaseVolume);
 
     picInPicWin = new PictureInPictureWindow();
     connect(picInPicWin, &PictureInPictureWindow::exitPicInPic, this, &MainWindow::setPicInPicWindow);

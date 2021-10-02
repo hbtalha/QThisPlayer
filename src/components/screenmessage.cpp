@@ -22,6 +22,7 @@
 #include <QScreen>
 #include <QDebug>
 #include <QStyle>
+#include <QMouseEvent>
 
 ScreenMessage::ScreenMessage()
 {
@@ -108,4 +109,12 @@ void ScreenMessage::setPopupOpacity(const float opacity)
 float ScreenMessage::getPopupOpacity() const
 {
     return popupOpacity;
+}
+
+void ScreenMessage::wheelEvent(QWheelEvent *event)
+{
+    if (event->angleDelta().y() > 0)
+        emit mouseWheelRolledUp();
+    else
+        emit mouseWheelRolledDown();
 }
