@@ -174,7 +174,7 @@ void PlaylistPage::playCurrent()
     if(previousSelectedRow < this->count())
         this->item(previousSelectedRow)->setBackground( ( (previousSelectedRow % 2) == 0 ) ? QColor() : QColor(27,27,27) );
 
-    this->item(currentFilePosition)->setBackground(QColor(34, 49, 63));
+    this->item(currentFilePosition)->setBackground(QColor(115, 147, 179));
     previousSelectedRow = currentFilePosition;
 }
 
