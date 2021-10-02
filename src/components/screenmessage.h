@@ -48,7 +48,7 @@ signals:
     void mouseWheelRolledDown();
 
 private:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
     QLabel label;
     QGridLayout layout;
