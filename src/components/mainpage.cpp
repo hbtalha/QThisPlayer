@@ -234,63 +234,69 @@ void MainPage::setupShortcuts()
     });
 }
 
-void MainPage::processDroppedChaptersText(QString txt)
+void MainPage::processChaptersText(QString filePath)
 {
-    QStringList lines = txt.split("\n", Qt::SkipEmptyParts);
-
-    // ignore lines starting with ';'
-    for(int i = lines.size() - 1; i >= 0; --i)
+    QFile file(filePath);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        if(lines.at(i).startsWith(";"))
+        QTextStream text(&file);
+
+        QStringList lines = text.readAll().split("\n", Qt::SkipEmptyParts);
+
+        // ignore lines starting with ';'
+        for(int i = lines.size() - 1; i >= 0; --i)
         {
-            lines.removeAt(i);
-        }
-    }
-
-    QStringList chapters;
-    QList<qint64> timestamps;
-
-    for(int i = 0; i < lines.size(); ++i)
-    {
-        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?");
-        QRegularExpressionMatch match = r.match(lines.at(i));
-        int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
-        int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
-        int seconds  = match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
-        QString chapterText = match.captured(4).trimmed();
-
-        double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
-
-        if((i != 0 && milliseconds != 0.0) || timestamps.isEmpty())
-        {
-            timestamps.append(milliseconds);
-            chapters.append(chapterText.trimmed());
-        }
-    }
-
-    if(! timestamps.isEmpty())
-    {
-        qint64 mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
-
-        // don't add chapter with a timestamp higher than the actuall media length
-        for(qint64 i = timestamps.size() - 1; i >= 0; --i)
-        {
-            if(timestamps.at(i) > mediaLength)
+            if(lines.at(i).startsWith(";"))
             {
-                chapters.removeAt(i);
-                timestamps.removeAt(i);
-            }
-            else
-            {
-                break;
+                lines.removeAt(i);
             }
         }
 
-        if( ! timestamps.isEmpty() )
+        QStringList chapters;
+        QList<qint64> timestamps;
+
+        for(int i = 0; i < lines.size(); ++i)
         {
-            mPlayerController->mediaProgressSlider()->setChapters(chapters, timestamps);
-            chapterListPage->setChapters(chapters, timestamps);
-            emit message("Chapter list added");
+            QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?");
+            QRegularExpressionMatch match = r.match(lines.at(i));
+            int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
+            int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
+            int seconds  = match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
+            QString chapterText = match.captured(4).trimmed();
+
+            double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
+
+            if((i != 0 && milliseconds != 0.0) || timestamps.isEmpty())
+            {
+                timestamps.append(milliseconds);
+                chapters.append(chapterText.trimmed());
+            }
+        }
+
+        if(! timestamps.isEmpty())
+        {
+            qint64 mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
+
+            // don't add chapter with a timestamp higher than the actuall media length
+            for(qint64 i = timestamps.size() - 1; i >= 0; --i)
+            {
+                if(timestamps.at(i) > mediaLength)
+                {
+                    chapters.removeAt(i);
+                    timestamps.removeAt(i);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if( ! timestamps.isEmpty() )
+            {
+                mPlayerController->mediaProgressSlider()->setChapters(chapters, timestamps);
+                chapterListPage->setChapters(chapters, timestamps);
+                emit message("Chapter list added");
+            }
         }
     }
 }
@@ -301,7 +307,21 @@ void MainPage::copyFromClipboard()
 
     if (mimeData->hasText())
     {
-        processDroppedChaptersText(mimeData->text());
+        processChaptersText(mimeData->text());
+    }
+}
+
+void MainPage::checkForChapterFile(QString filePath)
+{
+    QString fileTxt = filePath + ".txt";
+    QString fileCh = filePath + ".ch";
+    if(QFile::exists(fileTxt))
+    {
+        processChaptersText(fileTxt);
+    }
+    else if(QFile::exists(fileCh))
+    {
+        processChaptersText(fileCh);
     }
 }
 
@@ -407,13 +427,21 @@ PlayerController *MainPage::playerController() const
     return mPlayerController;
 }
 
-void MainPage::playFile(const QString &fileName)
+void MainPage::playFile(const QFileInfo &file)
 {
-    if(! fileName.isEmpty())
+    if(! file.filePath().isEmpty())
     {
-        VlcMedia* _media = new VlcMedia(fileName, true, instance);
-        player->setMedia(_media);
-        player->play();
+        if(QFile::exists(file.filePath()))
+        {
+            VlcMedia* _media = new VlcMedia(file.filePath(), true, instance);
+            player->setMedia(_media);
+            player->play();
+
+            QTimer::singleShot(500, this, [this, file]
+            {
+                checkForChapterFile(file.absolutePath() + "/" + file.baseName());
+            });
+        }
     }
 }
 
@@ -547,7 +575,7 @@ void MainPage::dropEvent(QDropEvent *event)
     if(mimeData->hasFormat("text/plain"))
     {
         if(isPlayerSeekable())
-            processDroppedChaptersText(mimeData->text());
+            processChaptersText(mimeData->text());
     }
     else if(mimeData->hasUrls())
     {
@@ -557,15 +585,7 @@ void MainPage::dropEvent(QDropEvent *event)
         {
             if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch")))
             {
-                auto txtFile = urls.at(0).toLocalFile();
-
-                QFile file(txtFile);
-                if(file.open(QIODevice::ReadOnly | QIODevice::Text))
-                {
-                    QTextStream text(&file);
-                    processDroppedChaptersText(text.readAll());
-                }
-
+                processChaptersText(urls.at(0).toLocalFile());
                 return;
             }
 

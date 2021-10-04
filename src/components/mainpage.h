@@ -62,7 +62,7 @@ signals:
     void mediaStateChanged(Vlc::State state);
 
 public slots:
-    void playFile(const QString& fileName);
+    void playFile(const QFileInfo& file);
     void increaseVolume();
     void decreaseVolume();
     void play();
@@ -83,9 +83,10 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 private:
     void setupShortcuts();
-    void processDroppedChaptersText(QString txt);
+    void processChaptersText(QString filePath);
 //    void chapterizeProgressSlider(QStringList chapters, QList<qint64> timestamps);
     void copyFromClipboard();
+    void checkForChapterFile(QString filePath);
 
     PlayerController *mPlayerController;
     VideoWidget *mVideoWidget;
