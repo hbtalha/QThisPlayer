@@ -20,6 +20,7 @@ SOURCES += \
     src/components/playercontroller.cpp \
     src/components/playlistpage.cpp \
     src/components/screenmessage.cpp \
+    src/dialogs/about.cpp \
     src/dialogs/gototime.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     src/components/playlistpage.h \
     src/components/screenmessage.h \
     src/components/videoWidget.h \
+    src/dialogs/about.h \
     src/dialogs/gototime.h \
     src/mainwindow.h \
     src/settings.h \
@@ -60,6 +62,7 @@ RESOURCES += \
     src/resources.qrc
 
 FORMS += \
+    src/dialogs/about.ui \
     src/dialogs/gototime.ui
 
 DISTFILES += \

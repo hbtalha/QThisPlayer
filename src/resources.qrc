@@ -17,5 +17,7 @@
         <file>images/icons/fullscreen.png</file>
         <file>images/icons/loop_current.png</file>
         <file>images/icons/random.png</file>
+        <file>images/icons/app_icon.png</file>
+        <file>images/icons/app_name.png</file>
     </qresource>
 </RCC>
