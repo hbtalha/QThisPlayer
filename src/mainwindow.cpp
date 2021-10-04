@@ -590,7 +590,7 @@ void MainWindow::createMenuAndActions()
     QAction* aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, &QAction::triggered, this, [this]
     {
-        About about;
+        About about(this);
         about.exec();
     });
 
