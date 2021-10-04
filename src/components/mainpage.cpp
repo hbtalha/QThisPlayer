@@ -234,69 +234,87 @@ void MainPage::setupShortcuts()
     });
 }
 
-void MainPage::processChaptersText(QString filePath)
+void MainPage::checkForChapterFile(QString filePath)
+{
+    QString fileTxt = filePath + ".txt";
+    QString fileCh = filePath + ".ch";
+    if(QFile::exists(fileTxt))
+    {
+        addChapterFile(fileTxt);
+    }
+    else if(QFile::exists(fileCh))
+    {
+        addChapterFile(fileCh);
+    }
+}
+
+void MainPage::addChapterFile(const QString &filePath)
 {
     QFile file(filePath);
     if(file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream text(&file);
+        processChaptersText(text.readAll());
+    }
+}
 
-        QStringList lines = text.readAll().split("\n", Qt::SkipEmptyParts);
+void MainPage::processChaptersText(QString text)
+{
+    QStringList lines = text.split("\n", Qt::SkipEmptyParts);
 
-        // ignore lines starting with ';'
-        for(int i = lines.size() - 1; i >= 0; --i)
+    // ignore lines starting with ';'
+    for(int i = lines.size() - 1; i >= 0; --i)
+    {
+        if(lines.at(i).startsWith(";"))
         {
-            if(lines.at(i).startsWith(";"))
+            lines.removeAt(i);
+        }
+    }
+
+    QStringList chapters;
+    QList<qint64> timestamps;
+
+    for(int i = 0; i < lines.size(); ++i)
+    {
+        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?");
+        QRegularExpressionMatch match = r.match(lines.at(i));
+        int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
+        int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
+        int seconds  = match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
+        QString chapterText = match.captured(4).trimmed();
+
+        double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
+
+        if((i != 0 && milliseconds != 0.0) || timestamps.isEmpty())
+        {
+            timestamps.append(milliseconds);
+            chapters.append(chapterText.trimmed());
+        }
+    }
+
+    if(! timestamps.isEmpty())
+    {
+        qint64 mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
+
+        // don't add chapter with a timestamp higher than the actuall media length
+        for(qint64 i = timestamps.size() - 1; i >= 0; --i)
+        {
+            if(timestamps.at(i) > mediaLength)
             {
-                lines.removeAt(i);
+                chapters.removeAt(i);
+                timestamps.removeAt(i);
+            }
+            else
+            {
+                break;
             }
         }
 
-        QStringList chapters;
-        QList<qint64> timestamps;
-
-        for(int i = 0; i < lines.size(); ++i)
+        if( ! timestamps.isEmpty() )
         {
-            QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?");
-            QRegularExpressionMatch match = r.match(lines.at(i));
-            int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
-            int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
-            int seconds  = match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
-            QString chapterText = match.captured(4).trimmed();
-
-            double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
-
-            if((i != 0 && milliseconds != 0.0) || timestamps.isEmpty())
-            {
-                timestamps.append(milliseconds);
-                chapters.append(chapterText.trimmed());
-            }
-        }
-
-        if(! timestamps.isEmpty())
-        {
-            qint64 mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
-
-            // don't add chapter with a timestamp higher than the actuall media length
-            for(qint64 i = timestamps.size() - 1; i >= 0; --i)
-            {
-                if(timestamps.at(i) > mediaLength)
-                {
-                    chapters.removeAt(i);
-                    timestamps.removeAt(i);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            if( ! timestamps.isEmpty() )
-            {
-                mPlayerController->mediaProgressSlider()->setChapters(chapters, timestamps);
-                chapterListPage->setChapters(chapters, timestamps);
-                emit message("Chapter list added");
-            }
+            mPlayerController->mediaProgressSlider()->setChapters(chapters, timestamps);
+            chapterListPage->setChapters(chapters, timestamps);
+            emit message("Chapter list added");
         }
     }
 }
@@ -308,20 +326,6 @@ void MainPage::copyFromClipboard()
     if (mimeData->hasText())
     {
         processChaptersText(mimeData->text());
-    }
-}
-
-void MainPage::checkForChapterFile(QString filePath)
-{
-    QString fileTxt = filePath + ".txt";
-    QString fileCh = filePath + ".ch";
-    if(QFile::exists(fileTxt))
-    {
-        processChaptersText(fileTxt);
-    }
-    else if(QFile::exists(fileCh))
-    {
-        processChaptersText(fileCh);
     }
 }
 
@@ -585,7 +589,7 @@ void MainPage::dropEvent(QDropEvent *event)
         {
             if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch")))
             {
-                processChaptersText(urls.at(0).toLocalFile());
+                addChapterFile(urls.at(0).toLocalFile());
                 return;
             }
 

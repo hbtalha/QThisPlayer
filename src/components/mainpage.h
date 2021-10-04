@@ -83,10 +83,11 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 private:
     void setupShortcuts();
-    void processChaptersText(QString filePath);
+    void processChaptersText(QString text);
 //    void chapterizeProgressSlider(QStringList chapters, QList<qint64> timestamps);
     void copyFromClipboard();
     void checkForChapterFile(QString filePath);
+    void addChapterFile(const QString& filePath);
 
     PlayerController *mPlayerController;
     VideoWidget *mVideoWidget;
