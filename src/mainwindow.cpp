@@ -202,7 +202,7 @@ void MainWindow::addChapterFile()
         if(dialog.exec())
         {
             Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
-            mainPage->processChaptersText(dialog.selectedUrls().at(0).toLocalFile());
+            mainPage->addChapterFile(dialog.selectedUrls().at(0).toLocalFile());
         }
     }
 }
