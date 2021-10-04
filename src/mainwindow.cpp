@@ -647,14 +647,14 @@ void MainWindow::tests()
     auto open2 = new QAction("Open");
     connect(open, &QAction::triggered, this, [this]
     {
-        mainPage->playFile("D:\\Documents\\School\\IT Development\\Database\\MySQL\\Programming with Mosh\\Video\\MySQL Tutorial for Beginners [Full Course].mp4");
+        mainPage->playFile({"D:\\Documents\\School\\IT Development\\Database\\MySQL\\Programming with Mosh\\Video\\MySQL Tutorial for Beginners [Full Course].mp4"});
 //        mainPage->playFile("D:\\Documents\\School\\IT Development\\Web Development\\Javascript\\Videos\\Single Videos\\JavaScript Course\\JavaScript Course.mp4");
     });
 
     connect(open2, &QAction::triggered, this, [this]
     {
 //        mainPage->load("D:\\Music\\00Favorite\\Frank Ocean\\Frank Ocean - channel ORANGE (2012)\\11 - Lost.mp3");
-        mainPage->playFile("D:\\Videos\\Videos\\New\\Jay Rock - Vice City feat. Black Hippy_Full-HD.mp4");
+        mainPage->playFile({"D:\\Videos\\Videos\\New\\Jay Rock - Vice City feat. Black Hippy_Full-HD.mp4"});
 //        mainPage->load("D:\\Videos\\Videos\\New\\Bruno Mars - When I Was Your Man [Official Video]_Full-HD.mp4");
 //        mainPage->load("D:\\Documents\\School\\IT Development\\Database\\MySQL\\Programming with Mosh\\Video\\MySQL Tutorial for Beginners [Full Course].mp4");
     });
