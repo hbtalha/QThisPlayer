@@ -202,13 +202,7 @@ void MainWindow::addChapterFile()
         if(dialog.exec())
         {
             Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
-
-            QFile file(dialog.selectedUrls().at(0).toLocalFile());
-            if(file.open(QIODevice::ReadOnly | QIODevice::Text))
-            {
-                QTextStream text(&file);
-                mainPage->processDroppedChaptersText(text.readAll());
-            }
+            mainPage->processChaptersText(dialog.selectedUrls().at(0).toLocalFile());
         }
     }
 }
