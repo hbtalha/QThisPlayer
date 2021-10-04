@@ -50,7 +50,7 @@ private:
     void showMouse();
     void hideMouse();
     void createMenuAndActions();
-    void openFiles(bool play = true);
+    void openFiles(QString caption, bool play = true);
     void addFilesToPlaylist();
     void addSubtitlesFile();
     void addChapterFile();

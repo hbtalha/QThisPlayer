@@ -129,9 +129,9 @@ void MainWindow::settingStyleSheet()
                         "background-color: rgb(10, 10, 10); text-align: center; }" );
 }
 
-void MainWindow::openFiles(bool play)
+void MainWindow::openFiles(QString caption, bool play)
 {
-    QFileDialog dialog(this, tr("Select one or more files to open"));
+    QFileDialog dialog(this, caption);
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setNameFilter(tr("Media Files(*.3g2 *.3gp *.3gp2 *.3gpp *.amv *.asf *.avi *.bik *.bin *.divx *.drc *.dv "
                             "*.f4v *.flv *.gvi *.gxf *.iso *.m1v *.m2v *.m2t *.m2ts *.m4v *.mkv *.mov *.mp2 *.mp2V "
@@ -164,7 +164,7 @@ void MainWindow::openFiles(bool play)
 
 void MainWindow::addFilesToPlaylist()
 {
-    openFiles(false);
+    openFiles(tr("Add one or more files to playlist"), false);
 }
 
 void MainWindow::addSubtitlesFile()
@@ -389,7 +389,7 @@ void MainWindow::createMenuAndActions()
     QAction* openFileAction = new QAction(tr("Open File..."), this);
     openFileAction->setIcon(QIcon(":/images/icons/openFile.png"));
     openFileAction->setShortcuts(QKeySequence::Open);
-    connect(openFileAction, &QAction::triggered, this, [this]  { openFiles(); });
+    connect(openFileAction, &QAction::triggered, this, [this]  { openFiles(tr("Select one or more files to open")); });
 
     QAction* addFilesToPlaylistAction = new QAction(tr("Add files to playlist"), this);
     addFilesToPlaylistAction->setIcon(QIcon(":/images/icons/openFile.png"));
