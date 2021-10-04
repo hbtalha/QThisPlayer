@@ -9,6 +9,7 @@ About::About(QWidget *parent) :
 
     this->setWindowTitle(tr("About"));
     this->setFixedSize(this->size());
+    this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);// remove question mark from the title bar
 
     ui->logo_label->setPixmap(QPixmap(":/images/icons/app_icon.png"));
     ui->name_label->setPixmap(QPixmap(":/images/icons/app_name.png"));
