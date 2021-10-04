@@ -32,7 +32,7 @@ public:
 
     void addFiles(QList<QFileInfo> files, bool play = false);
     void playFileAtPosition(int position);
-    QString fileAt(int position);
+    QFileInfo fileAt(int position);
     void playNext(bool play = true);
     void playPrevious();
     void playCurrent();
@@ -43,7 +43,7 @@ public:
     bool isEmpty();
 
 signals:
-    void playSelected(QString filePath);
+    void playSelected(QFileInfo file);
     void mediaChanged(QString filename);
     void currentPlayingMediaRemoved();
 

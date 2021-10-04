@@ -123,10 +123,10 @@ void PlaylistPage::playFileAtPosition(int position)
     }
 }
 
-QString PlaylistPage::fileAt(int position)
+QFileInfo PlaylistPage::fileAt(int position)
 {
     if(position >= 0 && position < playlistFiles.size())
-        return playlistFiles.at(position).filePath();
+        return playlistFiles.at(position);
     else
         return QString();
 }
