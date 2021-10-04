@@ -32,6 +32,7 @@
 #include "components/videoWidget.h"
 #include "components/playercontroller.h"
 #include "settings.h"
+#include "dialogs/about.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -565,9 +566,9 @@ void MainWindow::createMenuAndActions()
 
     chapterMenu->addAction(addChapterFileAction);
 
+    //Actions for the view menu
     auto viewMenu = this->menuBar()->addMenu("View");
 
-    //Actions for the view menu
     QAction* togllePlayListAction = new QAction(tr("PlayList"), this);
     togllePlayListAction->setIcon(invertedColorIcon(QIcon(":/images/icons/playlist.png")));
     togllePlayListAction->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_L));
@@ -580,6 +581,20 @@ void MainWindow::createMenuAndActions()
 
     viewMenu->addAction(togllePlayListAction);
     viewMenu->addAction(toggleChapterListAction);
+
+
+    //Action for the help menu
+
+    auto helpMenu = this->menuBar()->addMenu(tr("Help"));
+
+    QAction* aboutAction = new QAction(tr("About"), this);
+    connect(aboutAction, &QAction::triggered, this, [this]
+    {
+        About about;
+        about.exec();
+    });
+
+    helpMenu->addAction(aboutAction);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
