@@ -1,5 +1,6 @@
+<div align="center">
 <img src="https://github.com/hbtalha/QThisPlayer/blob/main/src/images/icons/app_icon.ico" width="200"/>
-
+</div>
 
 # QThisPlayer
 A media player written in Qt C++ using libvlc. Created for personal use to help me watching video tutorials better.
