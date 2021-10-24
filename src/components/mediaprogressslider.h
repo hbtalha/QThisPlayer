@@ -20,8 +20,6 @@
 #define MEDIAPROGRESSSLIDER_H
 
 #include <QObject>
-
-#include <QObject>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QMouseEvent>
