@@ -52,7 +52,7 @@ bool areAllSubtitleFiles(const QList<QUrl> &urls)
         {
             QFileInfo localFile(url.toLocalFile());
 
-            if( ! supportedSubtitlesFormats.contains(localFile.suffix()))
+            if( ! supportedSubtitlesFormats.contains(localFile.suffix(), Qt::CaseInsensitive))
                 return false;
         }
         else
