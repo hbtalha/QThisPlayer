@@ -36,7 +36,7 @@ QList<QFileInfo> filterSupportedMediaFormats(const QList<QUrl>& urls)
         {
             QFileInfo localFile(url.toLocalFile());
 
-            if(supportedMediaFormats.contains(localFile.suffix()))
+            if(supportedMediaFormats.contains(localFile.suffix(), Qt::CaseInsensitive))
                 files.append(localFile);
         }
     }
