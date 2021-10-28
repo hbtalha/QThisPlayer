@@ -17,7 +17,7 @@ And another feature that I had been longing in a video player for a long time is
 So I implemented the two features described above in the QThisPlayer. Besides those two, I implemented only the features I use the most in VLC.
 
 # Built with
-- Qt 6.2.0
+- Qt 5.15.2
 - libvlc
 
 # Screenshots
