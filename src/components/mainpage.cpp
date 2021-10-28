@@ -276,7 +276,7 @@ void MainPage::processChaptersText(QString text)
 
     for(int i = 0; i < lines.size(); ++i)
     {
-        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?");
+        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?"); // TODO: check React Crash Course for Beginners 2021 video
         QRegularExpressionMatch match = r.match(lines.at(i));
         int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
         int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();

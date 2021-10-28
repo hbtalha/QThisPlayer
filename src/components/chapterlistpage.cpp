@@ -33,7 +33,7 @@ ChapterListPage::ChapterListPage()
 
     this->setColumnCount(2);
     this->setHorizontalHeaderLabels(QStringList() << tr("Chapter") << tr("Time"));
-    this->setColumnWidth(1, 90);
+    this->setColumnWidth(1, 90);// TODO: increase width
     this->horizontalHeaderItem(1)->setTextAlignment(Qt::AlignLeft);
 
     connect(this, &QTableWidget::cellDoubleClicked, this, [this] (int row, int )
