@@ -9,7 +9,7 @@ A media player written in Qt C++ using libvlc. Created for personal use to help 
 When I am starting to learn a new technology I always start by watching video tutorials I find on YouTube. Recently I have been watching more and more one video long (3 - 6 hours) course than single videos in a playlist.
 
 
-And since YouTube added the chapters feature I had been wanting something similar in a media player where I would just drag and drop the timestamps found in the video description and it would just add chapters to my video mimicing the YouTubePlayer.
+And since YouTube added the chapters feature I had been wanting something similar in a media player where I would just drag and drop the timestamps found in the video description and it would just add chapters to my video mimicing the YouTube player.
 
 
 And another feature that I had been longing in a video player for a long time is the picture in picture video. Vlc has the 'Always on top' feature that you can make a picture in picture video out of it but it's just unpractical for me to be resizing the window all the time.
