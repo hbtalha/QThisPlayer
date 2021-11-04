@@ -12,7 +12,7 @@ When I am starting to learn a new technology I always start by watching video tu
 And since YouTube added the chapters feature I had been wanting something similar in a media player where I would just drag and drop the timestamps found in the video description and it would just add chapters to my video mimicing the YouTube player.
 
 
-And another feature that I had been longing in a video player for a long time is the picture in picture video. Vlc has the 'Always on top' feature that you can make a picture in picture video out of it but it's just unpractical for me to be resizing the window all the time.
+And another feature that I had been longing in a video player for a long time is the picture in picture mode. Vlc has the 'Always on top' feature that you can make a picture in picture video out of it but it's just unpractical for me to be resizing the window all the time.
 
 So I implemented the two features described above in the QThisPlayer. Besides those two, I implemented only the features I use the most in VLC.
 
