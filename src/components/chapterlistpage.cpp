@@ -33,7 +33,7 @@ ChapterListPage::ChapterListPage()
 
     this->setColumnCount(2);
     this->setHorizontalHeaderLabels(QStringList() << tr("Chapter") << tr("Time"));
-    this->setColumnWidth(1, 90);// TODO: increase width
+    this->setColumnWidth(1, 100);
     this->horizontalHeaderItem(1)->setTextAlignment(Qt::AlignLeft);
 
     connect(this, &QTableWidget::cellDoubleClicked, this, [this] (int row, int )
@@ -104,5 +104,5 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
 
 void ChapterListPage::resizeEvent(QResizeEvent *)
 {
-    this->setColumnWidth(0, this->width() - 90);
+    this->setColumnWidth(0, this->width() - 100);
 }
