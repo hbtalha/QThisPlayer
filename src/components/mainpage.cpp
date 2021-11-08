@@ -273,22 +273,48 @@ void MainPage::processChaptersText(QString text)
 
     QStringList chapters;
     QList<qint64> timestamps;
-
     for(int i = 0; i < lines.size(); ++i)
     {
-        QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)(?:\\s+)?(?:\\)|\\-)*(?:(.*))?"); // TODO: check React Crash Course for Beginners 2021 video
-        QRegularExpressionMatch match = r.match(lines.at(i));
-        int hours   =  match.captured(1).isEmpty() ? 0 : match.captured(1).toInt();
-        int minutes =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
-        int seconds  = match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
-        QString chapterText = match.captured(4).trimmed();
+        QString line = lines.at(i);
+        line.prepend(' '); // force timestamp capture when they are at the beginning of the line
 
-        double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
+        // TODO: check "React Crash Course for Beginners 2021", "Node.js and Express.js - Full Course:" videos
+        QRegularExpression timestampRegex("(?:[^a-zA-Z0-9_=:])((?:(\\d{1,2}):)?(\\d{1,2}):(\\d{1,2}))(?:[^a-zA-Z0-9_=:])?");
+        QRegularExpression deletionRE("^[^a-zA-Z0-9!'\"_`\\[{(\\?]*|[^a-zA-Z0-9!)'\"_`}\\]\\.\\?]*$");
+        QRegularExpressionMatch match = timestampRegex.match(line);
 
-        if((i != 0 && milliseconds != 0.0) || timestamps.isEmpty())
+        if(match.hasMatch())
         {
-            timestamps.append(milliseconds);
-            chapters.append(chapterText.trimmed());
+            int hours   =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
+            int minutes =  match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
+            int seconds  = match.captured(4).isEmpty() ? 0 : match.captured(4).toInt();
+            QString chapterTitle;
+
+            QString part1 = line.mid(0, line.indexOf(match.captured(1)));
+            QString part2 = line.mid(line.lastIndexOf(match.captured(1)) + match.captured(1).size(), line.size() - 1);
+            line.remove(match.captured(1));
+            part1.remove(deletionRE);
+            part2.remove(deletionRE);
+
+            if(! part1.isEmpty() && ! part2.isEmpty())
+                chapterTitle =   part1 + "." + part2;
+            else
+                chapterTitle = part1.isEmpty() ? part2 : part1;
+
+            chapterTitle.remove(deletionRE);
+
+            double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
+
+            if(milliseconds == 0.0)
+            {
+                timestamps.clear();
+                chapters.clear();
+            }
+
+            {
+                timestamps.append(milliseconds);
+                chapters.append(chapterTitle);
+            }
         }
     }
 
