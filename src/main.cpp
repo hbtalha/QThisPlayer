@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
     // associateFileExtensions();
 
-    QCoreApplication::setApplicationVersion("2021.10.04");
+    QCoreApplication::setApplicationVersion("2021.11.08");
     QCoreApplication::setOrganizationName("HBatalha");
     QCoreApplication::setApplicationName("QThisPlayer");
     QSettings::setDefaultFormat(QSettings::IniFormat);
