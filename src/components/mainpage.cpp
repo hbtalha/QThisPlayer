@@ -469,7 +469,7 @@ void MainPage::playFile(const QFileInfo &file)
 
             QTimer::singleShot(500, this, [this, file]
             {
-                checkForChapterFile(file.absolutePath() + "/" + file.baseName());
+                checkForChapterFile(file.absolutePath() + "/" + file.completeBaseName());
             });
         }
     }
