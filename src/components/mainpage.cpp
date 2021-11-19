@@ -278,7 +278,6 @@ void MainPage::processChaptersText(QString text)
         QString line = lines.at(i);
         line.prepend(' '); // force timestamp capture when they are at the beginning of the line
 
-        // TODO: check "React Crash Course for Beginners 2021", "Node.js and Express.js - Full Course:" videos
         QRegularExpression timestampRegex("(?:[^a-zA-Z0-9_=:])((?:(\\d{1,2}):)?(\\d{1,2}):(\\d{1,2}))(?:[^a-zA-Z0-9_=:])?");
         QRegularExpression deletionRE("^[^a-zA-Z0-9!'\"_`\\[{(\\?]*|[^a-zA-Z0-9!)'\"_`}\\]\\.\\?]*$");
         QRegularExpressionMatch match = timestampRegex.match(line);
