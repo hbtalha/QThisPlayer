@@ -3,7 +3,7 @@
 </div>
 
 # QThisPlayer
-A media player written in Qt C++ using libvlc. Created for personal use to help me watching video tutorials better.
+A media player written in Qt C++ using libvlc. Created for personal use to help me watch video tutorials better.
 
 # Motivation
 When I am starting to learn a new technology I always start by watching video tutorials I find on YouTube. Recently I have been watching more and more one video long (3 - 6 hours) course than single videos in a playlist.
