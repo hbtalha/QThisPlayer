@@ -6,7 +6,7 @@
 A media player written in Qt C++ using libvlc. Created for personal use to help me watch video tutorials better.
 
 # Motivation
-When I am starting to learn a new technology I always start by watching video tutorials I find on YouTube. Recently I have been watching more and more one video long (3 - 6 hours) course than single videos in a playlist.
+When I am starting to learn a new technology I always start by watching video tutorials I find on YouTube. Recently I have been watching more and more one video long (3 - 6 hours) course videos instead of single videos in a playlist.
 
 
 And since YouTube added the chapters feature I had been wanting something similar in a media player where I would just drag and drop the timestamps found in the video description and it would just add chapters to my video mimicing the YouTube player.
