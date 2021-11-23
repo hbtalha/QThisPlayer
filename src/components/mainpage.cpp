@@ -354,52 +354,6 @@ void MainPage::copyFromClipboard()
     }
 }
 
-/*void MainPage::chapterizeProgressSlider(QStringList chapters, QList<qint64> timestamps)
-{
-    long double total = mplayerController->mediaProgressSlider()->mediaLength();
-    double chapterGapWidth =  (total * 0.158747) / 100; // 0.158747 percent out of the length of the media(in ms) ( e.g 450 out of 283470)
-    QString baseColor = "rgb(42, 130, 218)";
-    QString gapColor = "#000080";
-    QString stops = "stop:0.0 " + baseColor + ", stop:";
-
-    QList<qint64> modifiedTimestamps(timestamps);
-
-    if(modifiedTimestamps.first() == 0)
-        modifiedTimestamps.pop_front();
-
-    // try to adjust the position of the chapter division on the progress slider to macth
-    std::transform(modifiedTimestamps.begin(), modifiedTimestamps.end(), modifiedTimestamps.begin(), [total](qint64 i)
-    {
-        /// this formula because I made a test with a media of length 283000 and
-        /// when I added one second to every chapter timestamp it stayed closer to
-        /// the actual position on progress slide (lazy solution I know)
-        return i + ((total * 1000) / 283000);
-    });
-
-    for(int i = 0; i < modifiedTimestamps.size(); ++i)
-    {
-        double timeMilSec = (modifiedTimestamps[i] - (chapterGapWidth * 2)) / total;
-
-        stops.append(QString::number(timeMilSec) + " " + baseColor + ",");
-
-        timeMilSec  = (modifiedTimestamps[i] - chapterGapWidth) / total;
-
-        stops.append("stop:" + QString::number(timeMilSec) + " " + gapColor + ", stop:");
-
-        timeMilSec  = modifiedTimestamps[i] / total;
-
-        stops.append(QString::number(timeMilSec) + " " + gapColor + ", stop:" +
-                     QString::number(timeMilSec) + " " + baseColor + ", stop:");
-    }
-
-    stops.append("1 " + baseColor + ");");
-
-    chapterListPage->setChapters(chapters, timestamps);
-    QString backgroundWithStops = "background: qlineargradient(x1:0, y1:0, x2:1, y2:0," + stops;
-
-    emit message("Chapter list added");
-}*/
-
 void MainPage::addSubtiles(const QList<QUrl> &urls)
 {
     for(auto const& subtitle : urls)

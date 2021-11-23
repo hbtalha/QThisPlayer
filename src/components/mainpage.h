@@ -84,7 +84,6 @@ protected:
 private:
     void setupShortcuts();
     void processChaptersText(QString text);
-//    void chapterizeProgressSlider(QStringList chapters, QList<qint64> timestamps);
     void copyFromClipboard();
     void checkForChapterFile(QString filePath);
     void addChapterFile(const QString& filePath);
