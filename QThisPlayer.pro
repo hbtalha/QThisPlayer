@@ -4,8 +4,18 @@ QT       += multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-LIBS += -L C:\msys64\mingw64\lib\vlc
+win32 {
+    LIBS += -L C:\msys64\mingw64\lib\vlc
+}
+
 LIBS += -lvlc
+
+unix:{
+    # suppress the default RPATH if you wish
+    QMAKE_LFLAGS_RPATH=
+
+    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/lib\'"
+}
 
 CONFIG += c++11
 
