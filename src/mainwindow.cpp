@@ -18,7 +18,9 @@
 
 #include "mainwindow.h"
 
+#ifdef Q_OS_WIN
 #include <windows.h>
+#endif
 #include <QAction>
 #include <QMenuBar>
 #include <QApplication>
@@ -42,6 +44,10 @@ MainWindow::MainWindow(QWidget *parent)
     {
         qputenv("VLC_PLUGIN_PATH", path.toLocal8Bit());
     }
+
+#ifdef  Q_OS_LINUX
+    this->setWindowIcon(QIcon(QPixmap(":/images/icons/app_icon.png")));
+#endif
 
     mainPage = new MainPage;
 
