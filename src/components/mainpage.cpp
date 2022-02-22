@@ -46,7 +46,7 @@ MainPage::MainPage(QWidget *parent)
     instance = new VlcInstance(this);
     player = new VlcMediaPlayer(instance);
     player->setPlaybackRate(1);
-    player->setVideoWidget(reinterpret_cast<HWND *>(mVideoWidget->winId()));
+    player->setVideoWidget(mVideoWidget->winId());
 
     setAcceptDrops(true);
     mPlayerController = new PlayerController;

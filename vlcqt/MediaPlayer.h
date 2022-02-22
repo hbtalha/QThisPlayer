@@ -846,9 +846,17 @@ public:
 
         \param widget video widget (VlcVideoDelegate *)
     */
+#ifdef Q_OS_LINUX
+    void setVideoWidget(uint32_t drawable)
+#elif defined Q_OS_WIN
     void setVideoWidget(void * drawable)
+#endif
     {
-        libvlc_media_player_set_hwnd(_vlcMediaPlayer, drawable);
+#ifdef Q_OS_LINUX
+        libvlc_media_player_set_xwindow(_vlcMediaPlayer, drawable);
+#elif defined Q_OS_WIN
+        libvlc_media_player_set_hwnd(_vlcMediaPlayer, reinterpret_cast<HWND *>drawable);
+#endif
     }
 
     /*!
