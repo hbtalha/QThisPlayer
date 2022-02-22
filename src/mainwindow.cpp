@@ -440,7 +440,7 @@ void MainWindow::createMenuAndActions()
     connect(playAction, &QAction::triggered, mainPage->playerController(), &PlayerController::clickPlayButton);
     connect(mainPage, &MainPage::mediaStateChanged, this, [this, playAction] (Vlc::State state)
     {
-        if(state == Vlc::Opening)
+        if(state == Vlc::Opening || state == Vlc::Playing)
         {
             playAction->setText(tr("Pause"));
             playAction->setIcon(invertedColorIcon(*mainPage->playerController()->pauseIcon()));
