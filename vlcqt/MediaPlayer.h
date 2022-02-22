@@ -849,13 +849,13 @@ public:
 #ifdef Q_OS_LINUX
     void setVideoWidget(uint32_t drawable)
 #elif defined Q_OS_WIN
-    void setVideoWidget(void * drawable)
+    void setVideoWidget(WId drawable)
 #endif
     {
 #ifdef Q_OS_LINUX
         libvlc_media_player_set_xwindow(_vlcMediaPlayer, drawable);
 #elif defined Q_OS_WIN
-        libvlc_media_player_set_hwnd(_vlcMediaPlayer, reinterpret_cast<HWND *>drawable);
+        libvlc_media_player_set_hwnd(_vlcMediaPlayer, reinterpret_cast<HWND *>(drawable));
 #endif
     }
 
