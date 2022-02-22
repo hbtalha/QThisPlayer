@@ -56,7 +56,7 @@ public:
 
         m_lock = false;
 
-        connect(this, &QSlider::valueChanged, [] (int volume)
+        connect(this, &QSlider::valueChanged, this, [] (int volume)
         {
             Settings.SetVolume(volume);
         });

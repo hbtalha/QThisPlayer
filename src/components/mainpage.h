@@ -42,6 +42,7 @@ public:
     PlaylistPage *playlistPage() const;
     ChapterListPage *chpaterPage() const;
     PlayerController* playerController() const;
+    VlcMediaPlayer * player() const;
     void addSubtiles(const QList<QUrl> &urls);
     void openFiles(const QList<QUrl>& urls, bool play);
     void takeSnapshot();
@@ -91,7 +92,7 @@ private:
     PlayerController *mPlayerController;
     VideoWidget *mVideoWidget;
     VlcInstance* instance;
-    VlcMediaPlayer *player;
+    VlcMediaPlayer *mPlayer;
     PlaylistPage *playlist;
     ChapterListPage *chapterListPage;
     QClipboard* clipboard;

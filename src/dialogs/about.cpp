@@ -45,7 +45,7 @@ About::About(QWidget *parent) :
 
     ui->pushButton->move((this->width() - ui->pushButton->width()) / 2, ui->pushButton->y());
 
-    connect(ui->pushButton, &QPushButton::clicked, [this]()
+    connect(ui->pushButton, &QPushButton::clicked, this, [this]()
     {
         this->close();
     });

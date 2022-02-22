@@ -293,7 +293,7 @@ void PlaylistPage::popupMenuTableShow(const QPoint &pos)
 
         QAction* playAction = new QAction(QIcon(":/images/icons/play.png"), tr("Play"), this);
 
-        connect(playAction, &QAction::triggered, [this, pos]()
+        connect(playAction, &QAction::triggered, this, [this, pos]()
         {
             currentFilePosition = this->indexAt(pos).row();
             playCurrent();

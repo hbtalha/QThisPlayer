@@ -44,16 +44,16 @@ MainPage::MainPage(QWidget *parent)
     mVideoWidget->setPalette(pal);
 
     instance = new VlcInstance(this);
-    player = new VlcMediaPlayer(instance);
-    player->setPlaybackRate(1);
-    player->setVideoWidget(mVideoWidget->winId());
+    mPlayer = new VlcMediaPlayer(instance);
+    mPlayer->setPlaybackRate(1);
+    mPlayer->setVideoWidget(mVideoWidget->winId());
 
     setAcceptDrops(true);
     mPlayerController = new PlayerController;
-    mPlayerController->setMediProgressSliderMediaPlayer(player);
+    mPlayerController->setMediProgressSliderMediaPlayer(mPlayer);
     setPlaylistMode(mPlayerController->loopOption());
-    player->setVolume(mPlayerController->mediaVolume());
-    player->setMute(mPlayerController->isMuted());
+    mPlayer->setVolume(mPlayerController->mediaVolume());
+    mPlayer->setMute(mPlayerController->isMuted());
 
     playlist = new PlaylistPage;
     playlist->setRandom(mPlayerController->isRandom());
@@ -65,18 +65,18 @@ MainPage::MainPage(QWidget *parent)
     layout->setSpacing(0);
     setLayout(layout);
 
-    connect(player, &VlcMediaPlayer::stateChanged, [this] { mPlayerController->mediaStateChanged(player->state()); });
-    connect(player, &VlcMediaPlayer::stateChanged, [this] { emit mediaStateChanged(player->state()); });
-    connect(player, &VlcMediaPlayer::stopped, [this] { emit mediaChanged(""); emit setFullScreen(false); });
-    connect(player, &VlcMediaPlayer::end, this, &MainPage::onEndOfMedia);
-    connect(player, &VlcMediaPlayer::mediaChanged, chapterListPage, &ChapterListPage::unsetChapters);
-    connect(player, &VlcMediaPlayer::stopped, chapterListPage, &ChapterListPage::unsetChapters);
-    connect(mPlayerController, &PlayerController::play, player, &VlcMediaPlayer::play);
+    connect(mPlayer, &VlcMediaPlayer::stateChanged, this, [this] { mPlayerController->mediaStateChanged(mPlayer->state()); });
+    connect(mPlayer, &VlcMediaPlayer::stateChanged, this, [this] { emit mediaStateChanged(mPlayer->state()); });
+    connect(mPlayer, &VlcMediaPlayer::stopped, this, [this] { emit mediaChanged(""); emit setFullScreen(false); });
+    connect(mPlayer, &VlcMediaPlayer::end, this, &MainPage::onEndOfMedia);
+    connect(mPlayer, &VlcMediaPlayer::mediaChanged, chapterListPage, &ChapterListPage::unsetChapters);
+    connect(mPlayer, &VlcMediaPlayer::stopped, chapterListPage, &ChapterListPage::unsetChapters);
+    connect(mPlayerController, &PlayerController::play, mPlayer, &VlcMediaPlayer::play);
     connect(mPlayerController, &PlayerController::playWithNoMedia, this, &MainPage::play);
-    connect(mPlayerController, &PlayerController::pause, player, &VlcMediaPlayer::pause);
-    connect(mPlayerController, &PlayerController::stop, player, &VlcMediaPlayer::stop);
-    connect(mPlayerController, &PlayerController::muteVolume, player,&VlcMediaPlayer::setMute);
-    connect(mPlayerController, &PlayerController::volumeChanged, player,&VlcMediaPlayer::setVolume);
+    connect(mPlayerController, &PlayerController::pause, mPlayer, &VlcMediaPlayer::pause);
+    connect(mPlayerController, &PlayerController::stop, mPlayer, &VlcMediaPlayer::stop);
+    connect(mPlayerController, &PlayerController::muteVolume, mPlayer,&VlcMediaPlayer::setMute);
+    connect(mPlayerController, &PlayerController::volumeChanged, mPlayer,&VlcMediaPlayer::setVolume);
     connect(mPlayerController, &PlayerController::seekForward, this, [this] { jumpForward(10); });
     connect(mPlayerController, &PlayerController::seekBackward, this,  [this] { jumpBackward(10); });
     connect(mPlayerController, &PlayerController::next, this, &MainPage::next);
@@ -106,7 +106,7 @@ void MainPage::setupShortcuts()
     {
         if(isPlayerSeekable())
         {
-            emit message(player->isPaused() ? "Play" : "Pause");
+            emit message(mPlayer->isPaused() ? "Play" : "Pause");
         }
         mPlayerController->clickPlayButton();
     });
@@ -158,7 +158,7 @@ void MainPage::setupShortcuts()
         if(isPlayerSeekable())
         {
             mPlayerController->clickVolButton();
-            QString mute = player->isMuted() ? "On" : "Off";
+            QString mute = mPlayer->isMuted() ? "On" : "Off";
             emit message("Mute: " + mute);
         }
     });
@@ -179,22 +179,22 @@ void MainPage::setupShortcuts()
     {
         if(isPlayerSeekable())
         {
-            static int sub = player->subtitleCount();
+            static int sub = mPlayer->subtitleCount();
 
             ++sub;
 
             if(sub == 0 || sub == 1) // these two seem to have no effect
                 sub = 2;
 
-            if(sub > player->subtitleCount())
+            if(sub > mPlayer->subtitleCount())
                 sub = -1;
 
             if(sub == -1)
                 emit message("Subtitle track: N/A");
             else
-                emit message("Subtitle track: " + player->subtitles().value(sub));
+                emit message("Subtitle track: " + mPlayer->subtitles().value(sub));
 
-            player->setSubtitle(sub);
+            mPlayer->setSubtitle(sub);
         }
     });
     QShortcut* fullScreenShortcut = new QShortcut(QKeySequence(Qt::Key_F), this);
@@ -357,7 +357,7 @@ void MainPage::copyFromClipboard()
 void MainPage::addSubtiles(const QList<QUrl> &urls)
 {
     for(auto const& subtitle : urls)
-        player->setSubtitleFile(subtitle.toString());
+        mPlayer->setSubtitleFile(subtitle.toString());
 
     emit message("Subtitle track added");
 }
@@ -371,8 +371,8 @@ void MainPage::takeSnapshot()
 {
     if(isPlayerSeekable())
     {
-        player->takeSnapshot(playlist->currentFilePlayingPath() + "-" +
-                             QDateTime::currentDateTime().toString(Qt::ISODateWithMs).remove(":") + ".jpg");
+        mPlayer->takeSnapshot(playlist->currentFilePlayingPath() + "-" +
+                              QDateTime::currentDateTime().toString(Qt::ISODateWithMs).remove(":") + ".jpg");
     }
 }
 
@@ -380,13 +380,13 @@ void MainPage::setPlayerTime(qint64 time)
 {
     if(isPlayerSeekable())
     {
-        player->setTime(time);
+        mPlayer->setTime(time);
     }
 }
 
 bool MainPage::isPlayerSeekable()
 {
-    Vlc::State playerState = player->state();
+    Vlc::State playerState = mPlayer->state();
     return (playerState == Vlc::Playing || playerState == Vlc::Paused || playerState == Vlc::Opening);
 }
 
@@ -410,6 +410,11 @@ PlayerController *MainPage::playerController() const
     return mPlayerController;
 }
 
+VlcMediaPlayer *MainPage::player() const
+{
+    return mPlayer;
+}
+
 void MainPage::playFile(const QFileInfo &file)
 {
     if(! file.filePath().isEmpty())
@@ -417,8 +422,8 @@ void MainPage::playFile(const QFileInfo &file)
         if(QFile::exists(file.filePath()))
         {
             VlcMedia* _media = new VlcMedia(file.filePath(), true, instance);
-            player->setMedia(_media);
-            player->play();
+            mPlayer->setMedia(_media);
+            mPlayer->play();
 
             QTimer::singleShot(500, this, [this, file]
             {
@@ -442,7 +447,7 @@ void MainPage::decreaseVolume()
 
 void MainPage::play()
 {
-    if(player->state() == Vlc::Idle or player->state() == Vlc::Ended)
+    if(mPlayer->state() == Vlc::Idle or mPlayer->state() == Vlc::Ended)
     {
         if(! playlist->isEmpty())
             playlist->playCurrent();
@@ -451,7 +456,7 @@ void MainPage::play()
 
 void MainPage::pause()
 {
-    player->pause();
+    mPlayer->pause();
 }
 
 void MainPage::next()
@@ -470,14 +475,14 @@ void MainPage::jumpForward(int sec)
     {
         if(sec > 0)
         {
-            qint64 currentTime = player->time();
+            qint64 currentTime = mPlayer->time();
             qint64 time =  currentTime + (sec * 1000);
 
             if(time > mPlayerController->mediaProgressSlider()->mediaLength())
             {
                 time = mPlayerController->mediaProgressSlider()->mediaLength();
             }
-            player->setTime(time);
+            mPlayer->setTime(time);
         }
     }
 }
@@ -488,14 +493,14 @@ void MainPage::jumpBackward(int sec)
     {
         if(sec > 0)
         {
-            qint64 currentTime = player->time();
+            qint64 currentTime = mPlayer->time();
             qint64 time =  currentTime - (sec * 1000);
 
             if(time < 0)
             {
                 time = 0;
             }
-            player->setTime(time);
+            mPlayer->setTime(time);
         }
     }
 }
@@ -535,13 +540,13 @@ void MainPage::onEndOfMedia()
 void MainPage::resetPlayer()
 {
     playerController()->clickStopButton(); // clear the view
-    player->setMedia(nullptr);
-    playerController()->mediaStateChanged(player->state());
+    mPlayer->setMedia(nullptr);
+    playerController()->mediaStateChanged(mPlayer->state());
 }
 
 void MainPage::onJumpToChapter(qint64 time)
 {
-    player->setTime(time);
+    mPlayer->setTime(time);
     mPlayerController->mediaProgressSlider()->updatePostionIfPlayerPaused();
 }
 
@@ -586,7 +591,7 @@ void MainPage::dropEvent(QDropEvent *event)
 
 void MainPage::wheelEvent(QWheelEvent *event)
 {
-    if(! mPlayerController->shouldAllowWheelEventOperation() || ! player)
+    if(! mPlayerController->shouldAllowWheelEventOperation() || ! mPlayer)
         return;
 
     if( mVideoWidget->underMouse() && ! isPlayerSeekable() )
@@ -609,5 +614,5 @@ void MainPage::mouseDoubleClickEvent(QMouseEvent *)
 
 void MainPage::testFunction()
 {
-    qDebug() << player->state();
+    qDebug() << mPlayer->state();
 }

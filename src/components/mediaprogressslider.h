@@ -198,7 +198,7 @@ inline void MediaProgressSlider::setMediaPlayer(VlcMediaPlayer *player)
     connect(vlcMediaPlayer, &VlcMediaPlayer::end, this, &MediaProgressSlider::onEndOfMedia);
     connect(vlcMediaPlayer, &VlcMediaPlayer::stopped, this, &MediaProgressSlider::onEndOfMedia);
     connect(vlcMediaPlayer, &VlcMediaPlayer::timeChanged, this, &MediaProgressSlider::updateCurrentTime);
-    connect(vlcMediaPlayer, &VlcMediaPlayer::mediaChanged, [this] {settingStyleSheet();});
+    connect(vlcMediaPlayer, &VlcMediaPlayer::mediaChanged, this, [this] {settingStyleSheet();});
     connect(vlcMediaPlayer, &VlcMediaPlayer::mediaChanged, this, &MediaProgressSlider::unSetChapters);
     connect(vlcMediaPlayer, &VlcMediaPlayer::seekableChanged, this, &MediaProgressSlider::setEnabled);
     connect(vlcMediaPlayer, &VlcMediaPlayer::positionChanged, this, &MediaProgressSlider::updateCurrentPosition);

@@ -438,7 +438,7 @@ void MainWindow::createMenuAndActions()
     QAction* playAction = new QAction(tr("Play"), this);
     playAction->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
     connect(playAction, &QAction::triggered, mainPage->playerController(), &PlayerController::clickPlayButton);
-    connect(mainPage, &MainPage::mediaStateChanged, [this, playAction] (Vlc::State state)
+    connect(mainPage, &MainPage::mediaStateChanged, this, [this, playAction] (Vlc::State state)
     {
         if(state == Vlc::Opening)
         {
