@@ -75,6 +75,7 @@ public slots:
     void onEndOfMedia();
     void resetPlayer();
     void onJumpToChapter(qint64 time);
+    void addChapterFile(const QString& filePath);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -86,7 +87,6 @@ private:
     void processChaptersText(QString text);
     void copyFromClipboard();
     void checkForChapterFile(QString filePath);
-    void addChapterFile(const QString& filePath);
 
     PlayerController *mPlayerController;
     VideoWidget *mVideoWidget;
@@ -100,8 +100,6 @@ private:
     bool playerHasMedia;
 
     int playlistMode;
-
-    friend class MainWindow;
 };
 
 #endif // PLAYERPAGE_H
