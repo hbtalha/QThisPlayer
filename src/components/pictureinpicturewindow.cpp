@@ -84,7 +84,7 @@ void PictureInPictureWindow::showEvent(QShowEvent *)
 void PictureInPictureWindow::closeEvent(QCloseEvent *event)
 {
     this->hide();
-    emit exitPicInPic(false);
+    emit exitPicInPic(false, true);
     event->ignore();
 }
 

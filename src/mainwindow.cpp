@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mainPage, &MainPage::togglePicInPicWindow, this, [this]
     {
-        setPicInPicWindow(!isInPicInPicWindow);
+        setPicInPicWindow(!isInPicInPicWindow, false);
     });
     connect(mainPage, &MainPage::toggleFullScreen, this, [this]
     {
@@ -283,7 +283,7 @@ void MainWindow::setFullScreen(bool fullScreen)
     }
 }
 
-void MainWindow::setPicInPicWindow(bool picInPic)
+void MainWindow::setPicInPicWindow(bool picInPic, bool exitByClosing)
 {
     if(this->isFullScreen())
     {
@@ -310,7 +310,15 @@ void MainWindow::setPicInPicWindow(bool picInPic)
         this->setCentralWidget(mainPage);
         onNormalScreen();
         restoreWindow();
-        this->show();
+        if(exitByClosing)
+        {
+            if(mainPage->player()->state() == Vlc::Playing || mainPage->player()->state() == Vlc::Opening)
+                mainPage->playerController()->clickPlayButton();
+
+            this->showMinimized();
+        }
+        else
+            this->show();
     }
 }
 

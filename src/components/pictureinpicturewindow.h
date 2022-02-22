@@ -33,7 +33,7 @@ public:
     void setWinTitle(QString title);
 
 signals:
-    void exitPicInPic(bool);
+    void exitPicInPic(bool, bool);
 
 private:
     void hideMouse();
