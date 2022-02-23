@@ -26,7 +26,8 @@
 #include <QDebug>
 #include <QShortcut>
 #include <QMenu>
-#include <QRandomGenerator>
+#include <QDir>
+#include <QDesktopServices>
 #include <algorithm>
 
 #include "../shared.h"
@@ -302,6 +303,19 @@ void PlaylistPage::popupMenuTableShow(const QPoint &pos)
             playCurrent();
         });
 
+        QAction* openContainingFolderAction = new QAction(QIcon(":/images/icons/play.png"), tr("Open containing folder"), this);
+
+        connect(openContainingFolderAction, &QAction::triggered, this, [this, pos]()
+        {
+            auto path = playlistFiles.at(this->indexAt(pos).row()).absoluteDir().path();
+            QDir dir(path);
+
+            if(dir.exists())
+                QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+            else
+                emit message(tr("File not found"), true);
+        });
+
         QAction* removeSelectedAction = new QAction(tr("Remove selected"), this);
 
         connect(removeSelectedAction, &QAction::triggered, this, &PlaylistPage::removeSelected);
@@ -311,6 +325,9 @@ void PlaylistPage::popupMenuTableShow(const QPoint &pos)
         connect(clear, &QAction::triggered, this, &PlaylistPage::clearPlaylist);
 
         contextMenu.addAction(playAction);
+        contextMenu.addSeparator();
+        contextMenu.addAction(openContainingFolderAction);
+        contextMenu.addSeparator();
         contextMenu.addAction(removeSelectedAction);
         contextMenu.addAction(clear);
 
