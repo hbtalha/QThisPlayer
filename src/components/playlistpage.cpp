@@ -76,7 +76,10 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
     {
         playlistFiles.append(files);
         for(auto const& file : files)
+        {
             this->addItem(file.fileName());
+            this->item(this->count() - 1)->setToolTip(file.fileName());
+        }
     }
 
     // when files dropped directly into the player, the first file will be played right away
