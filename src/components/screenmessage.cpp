@@ -37,10 +37,8 @@ ScreenMessage::ScreenMessage()
     label.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     label.setStyleSheet("QLabel { color: white;"
                         "font-size:15pt;" // TODO: resize according to parent size
-                        "margin-top: 6px;"
-                        "margin-bottom: 6px;"
-                        "margin-left: 0px;"
-                        "margin-right:0px; }");
+                        "margin: 0px;"
+                        "padding: 0px;}");
 
     layout.addWidget(&label, 0, 0);
     setLayout(&layout);
