@@ -77,16 +77,16 @@ void ScreenMessage::displayMessage(const QString& text)
 {
     setPopupText(text);
 
-    this->move(parentWidget->geometry().topRight() - this->rect().topRight() - QPoint(50, 0)); // TODO: readjust position
+    this->move(parentWidget()->geometry().topRight() - this->rect().topRight() - QPoint(50, 0)); // TODO: readjust position
 
     this->show();
 
     timer->start(popupTextDuration * 1000.0);
 }
 
-void ScreenMessage::setParentWidget(QWidget *parent)
+void ScreenMessage::setViewWidget(QWidget *parent)
 {
-    parentWidget = parent;
+    viewWidget = parent;
 }
 
 void ScreenMessage::setPopupTextColor(const QString& color)

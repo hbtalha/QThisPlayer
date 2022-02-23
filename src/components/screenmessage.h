@@ -41,7 +41,7 @@ public:
     void setPopupTextDuration(const float);
     void informBackgroundColor(QColor color);
     void displayMessage(const QString& text);
-    void setParentWidget(QWidget* parent);
+    void setViewWidget(QWidget* parent);
 
 signals:
     void mouseWheelRolledUp();
@@ -57,7 +57,7 @@ private:
 
     QString textColor;
     int popupTextDuration;
-    QWidget* parentWidget;
+    QWidget* viewWidget;
 
     void setPopupOpacity(float opacity);
     float getPopupOpacity() const;

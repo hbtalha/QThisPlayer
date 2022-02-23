@@ -100,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&gotoTime, &GoToTime::goToTime, mainPage, &MainPage::setPlayerTime);
 
     screenMessage = new ScreenMessage();
-    screenMessage->setParentWidget(this);
+    screenMessage->setViewWidget(this);
     connect(screenMessage, &ScreenMessage::mouseWheelRolledUp, mainPage, &MainPage::increaseVolume);
     connect(screenMessage, &ScreenMessage::mouseWheelRolledDown, mainPage, &MainPage::decreaseVolume);
 
@@ -293,7 +293,7 @@ void MainWindow::setPicInPicWindow(bool picInPic, bool exitByClosing)
     isInPicInPicWindow = picInPic;
     if(picInPic)
     {
-        screenMessage->setParentWidget(picInPicWin);
+        screenMessage->setViewWidget(picInPicWin);
         this->hide();
         mainPage->playerController()->hide();
         mainPage->playerController()->setPicInPicView(true);
@@ -303,7 +303,7 @@ void MainWindow::setPicInPicWindow(bool picInPic, bool exitByClosing)
     }
     else
     {
-        screenMessage->setParentWidget(this);
+        screenMessage->setViewWidget(this);
         picInPicWin->takeCentralWidget();
         picInPicWin->hide();
         mainPage->playerController()->setPicInPicView(false);
