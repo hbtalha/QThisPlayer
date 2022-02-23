@@ -34,13 +34,13 @@ class ScreenMessage : public QWidget
 public:
     explicit ScreenMessage();
 
-    enum ShowOptions {GENERAL, ERROR_};
+    enum ShowOption {GENERAL, ERROR_};
 
     void setPopupText(const QString& text);
     void setPopupTextColor(const QString&);
     void setPopupTextDuration(const float);
     void informBackgroundColor(QColor color);
-    void displayMessage(const QString& text);
+    void displayMessage(const QString& text, ShowOption showOpt);
     void setViewWidget(QWidget* parent);
 
 signals:
@@ -58,6 +58,7 @@ private:
     QString textColor;
     int popupTextDuration;
     QWidget* viewWidget;
+    ShowOption showOption;
 
     void setPopupOpacity(float opacity);
     float getPopupOpacity() const;

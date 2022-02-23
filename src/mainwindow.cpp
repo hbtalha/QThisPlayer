@@ -93,9 +93,9 @@ MainWindow::MainWindow(QWidget *parent)
     {
         showChapterlist(!chapterDockWidget->isVisible());
     });
-    connect(mainPage, &MainPage::message, this, [this] (QString message)
+    connect(mainPage, &MainPage::message, this, [this] (QString message, bool isError)
     {
-        screenMessage->displayMessage(message);
+        screenMessage->displayMessage(message, (isError) ? ScreenMessage::ShowOption::ERROR_ : ScreenMessage::ShowOption::GENERAL);
     });
     connect(&gotoTime, &GoToTime::goToTime, mainPage, &MainPage::setPlayerTime);
 

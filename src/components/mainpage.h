@@ -59,7 +59,7 @@ signals:
     void togglePicInPicWindow();
     void setFullScreen(bool);
     void mouseMove();
-    void message(QString);
+    void message(QString, bool = false);
     void mediaStateChanged(Vlc::State state);
 
 public slots:

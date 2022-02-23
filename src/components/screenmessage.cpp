@@ -62,7 +62,8 @@ void ScreenMessage::paintEvent(QPaintEvent *event)
     roundedRect.setWidth(rect().width() - 10);
     roundedRect.setHeight(rect().height() - 10);
 
-    painter.setBrush(QBrush(QColor(20,20,20)));
+    QColor color =  (showOption == ShowOption::GENERAL) ? QColor(20,20,20) : Qt::red;
+    painter.setBrush(QBrush(color));
     painter.setPen(Qt::NoPen);
     painter.drawRoundedRect(roundedRect, 10, 10);
 }
@@ -73,8 +74,9 @@ void ScreenMessage::setPopupText(const QString &text)
     adjustSize();
 }
 
-void ScreenMessage::displayMessage(const QString& text)
+void ScreenMessage::displayMessage(const QString& text, ShowOption showOpt)
 {
+    showOption = showOpt;
     setPopupText(text);
 
     this->move(viewWidget->geometry().topRight() - this->rect().topRight() - QPoint(50, 0)); // TODO: readjust position
