@@ -91,6 +91,7 @@ MainPage::MainPage(QWidget *parent)
     connect(mVideoWidget, &VideoWidget::mouseMove, this, &MainPage::mouseMove);
     connect(playlist, &PlaylistPage::playSelected, this, &MainPage::playFile);
     connect(playlist, &PlaylistPage::mediaChanged, this, &MainPage::mediaChanged);
+    connect(playlist, &PlaylistPage::message, this, &MainPage::message);
     connect(playlist, &PlaylistPage::currentPlayingMediaRemoved, this, &MainPage::resetPlayer);
     connect(chapterListPage, &ChapterListPage::jumpToChapter, this, &MainPage::onJumpToChapter);
     connect(chapterListPage, &ChapterListPage::clearChapters,
