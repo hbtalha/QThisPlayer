@@ -45,6 +45,7 @@ public:
 signals:
     void playSelected(QFileInfo file);
     void mediaChanged(QString filename);
+    void message(QString, bool = false);
     void currentPlayingMediaRemoved();
 
 private slots:
