@@ -77,7 +77,7 @@ void ScreenMessage::displayMessage(const QString& text)
 {
     setPopupText(text);
 
-    this->move(parentWidget()->geometry().topRight() - this->rect().topRight() - QPoint(50, 0)); // TODO: readjust position
+    this->move(viewWidget->geometry().topRight() - this->rect().topRight() - QPoint(50, 0)); // TODO: readjust position
 
     this->show();
 
