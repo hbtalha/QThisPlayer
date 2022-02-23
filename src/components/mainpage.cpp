@@ -430,6 +430,10 @@ void MainPage::playFile(const QFileInfo &file)
                 checkForChapterFile(file.absolutePath() + "/" + file.completeBaseName());
             });
         }
+        else
+        {
+            emit message("File not found", true);
+        }
     }
 }
 
