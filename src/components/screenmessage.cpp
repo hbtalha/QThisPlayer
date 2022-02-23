@@ -60,7 +60,7 @@ void ScreenMessage::paintEvent(QPaintEvent *event)
     roundedRect.setWidth(rect().width() - 10);
     roundedRect.setHeight(rect().height() - 10);
 
-    QColor color =  (showOption == ShowOption::GENERAL) ? QColor(20,20,20) : Qt::red;
+    QColor color =  (showOption == ShowOption::GENERAL) ? QColor(20,20,20) : QColor(231, 76, 60);
     painter.setBrush(QBrush(color));
     painter.setPen(Qt::NoPen);
     painter.drawRoundedRect(roundedRect, 10, 10);
