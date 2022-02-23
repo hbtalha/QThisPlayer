@@ -557,10 +557,17 @@ void MainWindow::createMenuAndActions()
             setFullScreen(true);
     });
 
+    QAction* picInPicAction = new QAction(tr("Picture-in-Picture"));
+    connect(picInPicAction, &QAction::triggered, this, [this]
+    {
+        setPicInPicWindow(true);
+    });
+
     QAction* takeSnapshotAction = new QAction(tr("Take Snapshot"));
     connect(takeSnapshotAction, &QAction::triggered, mainPage, &MainPage::takeSnapshot);
 
     videoMenu->addAction(fullScreenAction);
+    videoMenu->addAction(picInPicAction);
     videoMenu->addSeparator();
     videoMenu->addAction(takeSnapshotAction);
 
