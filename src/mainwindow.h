@@ -43,7 +43,7 @@ private:
     void showChapterlist(bool show);
     void restoreWindow();
     void setFullScreen(bool fullScreen);
-    void setPicInPicWindow(bool picInPic, bool exitByClosing);
+    void setPicInPicWindow(bool picInPic, bool exitByClosing = false);
     void toggleFullScreen();
     void onFullScreen();
     void onNormalScreen();

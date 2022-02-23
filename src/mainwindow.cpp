@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mainPage, &MainPage::togglePicInPicWindow, this, [this]
     {
-        setPicInPicWindow(!isInPicInPicWindow, false);
+        setPicInPicWindow(!isInPicInPicWindow);
     });
     connect(mainPage, &MainPage::toggleFullScreen, this, [this]
     {
