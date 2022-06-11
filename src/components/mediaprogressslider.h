@@ -115,11 +115,13 @@ public:
     qint64 mediaLength();
     QString formattedFullTime();
     void updatePostionIfPlayerPaused();
+    void syncToVideoTime();
 
     void testFunction();
 
 signals:
     void chaptersSet(bool);
+    void videoTimeSynced(QString);
 
 public slots:
     void goToNextChapter();
@@ -324,6 +326,13 @@ inline void MediaProgressSlider::updatePostionIfPlayerPaused()
     {
         updateCurrentPosition(vlcMediaPlayer->position());
     }
+}
+
+inline void MediaProgressSlider::syncToVideoTime()
+{
+    qDebug() << "Requested";
+    if(currentChapterIndex < mediaChaptersTimestamps.size())
+        emit videoTimeSynced(formattedTime(mediaChaptersTimestamps.at(currentChapterIndex)));
 }
 
 inline qint64 MediaProgressSlider::mediaLength()

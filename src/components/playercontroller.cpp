@@ -249,6 +249,7 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     connect(mediaVolumeSlider,&MediaVolumeSlider::pressed, volButton, &QToolButton::setChecked);
     connect(mediaProgress, &MediaProgressSlider::chaptersSet, nextChapterButton, &QToolButton::setVisible);
     connect(mediaProgress, &MediaProgressSlider::chaptersSet, previousChapterButton, &QToolButton::setVisible);
+    connect(mediaProgress, &MediaProgressSlider::videoTimeSynced, this, &PlayerController::videoTimeSynced);
 }
 
 MediaProgressSlider *PlayerController::mediaProgressSlider() const
@@ -418,6 +419,11 @@ void PlayerController::onRandomClicked(bool clicked)
 void PlayerController::setFullScreenButtonIcon(bool isInFullscreen)
 {
     fullScreenButton->setIcon( isInFullscreen ? QIcon(":/images/icons/exit-fullscreen.png") : QIcon(":/images/icons/fullscreen.png"));
+}
+
+void PlayerController::syncToVideoTime()
+{
+    mediaProgress->syncToVideoTime();
 }
 
 void PlayerController::setPlayButtonIcon(bool playButtonIcon)

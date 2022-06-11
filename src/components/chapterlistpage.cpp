@@ -20,21 +20,31 @@
 
 #include <QMenu>
 #include <QAction>
+#include <QPushButton>
+#include <QTimer>
+#include <QScrollBar>
+#include <QHeaderView>
 
 #include "../shared.h"
 
 ChapterListPage::ChapterListPage()
 {
+    this->setColumnCount(2);
+    this->setHorizontalHeaderLabels(QStringList() << tr("Chapter") << tr("Time"));
+    this->setColumnWidth(1, 65);
+    this->horizontalHeaderItem(1)->setTextAlignment(Qt::AlignLeft);
     this->setSelectionMode(QAbstractItemView::SingleSelection);
     this->setFocusPolicy(Qt::NoFocus);
     this->setSelectionBehavior(QTableWidget::SelectRows);
     this->setAlternatingRowColors(true);
     this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    this->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
 
-    this->setColumnCount(2);
-    this->setHorizontalHeaderLabels(QStringList() << tr("Chapter") << tr("Time"));
-    this->setColumnWidth(1, 100);
-    this->horizontalHeaderItem(1)->setTextAlignment(Qt::AlignLeft);
+    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [this]
+    {
+        syncToVideoTimeButton->setFixedSize(QSize(114, 25));
+    });
 
     connect(this, &QTableWidget::cellDoubleClicked, this, [this] (int row, int )
     {
@@ -42,6 +52,23 @@ ChapterListPage::ChapterListPage()
     } );
 
     connect(this, &QTableWidget::customContextMenuRequested, this, &ChapterListPage::popupMenuTableShow);
+
+    syncToVideoTimeButton = new QPushButton(tr("Sync to video time"), this);
+    syncToVideoTimeButton->setCursor(Qt::PointingHandCursor);
+    syncToVideoTimeButton->setFixedSize(0, 0);
+    connect(syncToVideoTimeButton, &QPushButton::clicked, this, &ChapterListPage::videoTimeSynced);
+    syncToVideTimeStyleSheetSet = false;
+}
+
+void ChapterListPage::setSyncToVideTimeStyleSheet()
+{
+    syncToVideoTimeButton->setStyleSheet("QPushButton {"
+                                         "color: black;"
+                                         "background-color: #3498DB;"
+                                         "border-width: 2px;"
+                                         "border-radius: 10px;"
+                                         "border-color: beige;"
+                                         "}");
 }
 
 void ChapterListPage::setChapters(QStringList chapters, QList<qint64> timestamps)
@@ -70,6 +97,21 @@ void ChapterListPage::setChapters(QStringList chapters, QList<qint64> timestamps
 void ChapterListPage::unsetChapters()
 {
     this->setRowCount(0);
+}
+#include<QDebug>
+void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
+{
+    qDebug() << "VideoSync: " << currentChapterTimestamp;
+    auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
+
+    if(!items.isEmpty())
+    {
+        this->scrollToItem(items.first(), QAbstractItemView::PositionAtTop);
+        this->selectRow(items.first()->row());
+
+        // if I set it invisible like I wanted it messes up the stylesheet when setting it visible agin idk why
+        syncToVideoTimeButton->setFixedSize(0,0);
+    }
 }
 
 void ChapterListPage::popupMenuTableShow(const QPoint &pos)
@@ -102,7 +144,18 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
     }
 }
 
-void ChapterListPage::resizeEvent(QResizeEvent *)
+void ChapterListPage::resizeEvent(QResizeEvent *e)
 {
-    this->setColumnWidth(0, this->width() - 100);
+    // setting the stylesheet in the constructor didn't work quite well
+    if( ! syncToVideTimeStyleSheetSet)
+    {
+        QTimer::singleShot(0, [this]
+        {
+            setSyncToVideTimeStyleSheet();
+            syncToVideTimeStyleSheetSet = true;
+        });
+    }
+
+    syncToVideoTimeButton->move(this->geometry().center().x() - 50, this->height() - 50);
+    QTableWidget::resizeEvent(e);
 }

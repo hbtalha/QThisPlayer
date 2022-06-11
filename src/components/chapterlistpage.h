@@ -21,6 +21,8 @@
 
 #include <QTableWidget>
 
+class QPushButton;
+
 class ChapterListPage : public QTableWidget
 {
     Q_OBJECT
@@ -29,17 +31,22 @@ public:
 
     void setChapters(QStringList chapters, QList<qint64> timestamps);
     void unsetChapters();
+    void syncToVideoTime(QString currentChapterTimestamp);
 
 signals:
     void jumpToChapter(int time);
     void clearChapters();
+    void videoTimeSynced();
 
 private slots:
     void popupMenuTableShow(const QPoint &pos);
 
 private:
-
+    QPushButton* syncToVideoTimeButton;
     QList<qint64> timeStamps;
+    bool syncToVideTimeStyleSheetSet;
+
+    void setSyncToVideTimeStyleSheet();
 
     void resizeEvent(QResizeEvent *event) override;
 };

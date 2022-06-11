@@ -88,12 +88,14 @@ MainPage::MainPage(QWidget *parent)
     connect(mPlayerController, &PlayerController::toggleChapterList, this, &MainPage::toggleChapterListView);
     connect(mPlayerController, &PlayerController::randomToggled, playlist, &PlaylistPage::setRandom);
     connect(mPlayerController, &PlayerController::mouseMove, this, &MainPage::mouseMove);
+    connect(mPlayerController, &PlayerController::videoTimeSynced, chapterListPage, &ChapterListPage::syncToVideoTime);
     connect(mVideoWidget, &VideoWidget::mouseMove, this, &MainPage::mouseMove);
     connect(playlist, &PlaylistPage::playSelected, this, &MainPage::playFile);
     connect(playlist, &PlaylistPage::mediaChanged, this, &MainPage::mediaChanged);
     connect(playlist, &PlaylistPage::message, this, &MainPage::message);
     connect(playlist, &PlaylistPage::currentPlayingMediaRemoved, this, &MainPage::resetPlayer);
     connect(chapterListPage, &ChapterListPage::jumpToChapter, this, &MainPage::onJumpToChapter);
+    connect(chapterListPage, &ChapterListPage::videoTimeSynced, mPlayerController, &PlayerController::syncToVideoTime);
     connect(chapterListPage, &ChapterListPage::clearChapters,
             mPlayerController->mediaProgressSlider(), &MediaProgressSlider::unSetChapters);
 

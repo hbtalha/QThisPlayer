@@ -61,6 +61,7 @@ public:
     void setPicInPicView(bool minView);
     void setMediProgressSliderMediaPlayer(VlcMediaPlayer* mediaPlayer);
     void setFullScreenButtonIcon(bool isInFullscreen);
+    void syncToVideoTime();
 
     void clickPlayButton();
     void clickPreviousButton();
@@ -96,6 +97,7 @@ signals:
     void loopToggled(int);
     void randomToggled(bool);
     void mouseMove();
+    void videoTimeSynced(QString);
 
 public slots:
     void toggleVolButton(bool isLoud);
