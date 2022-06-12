@@ -32,6 +32,7 @@ public:
     void setChapters(QStringList chapters, QList<qint64> timestamps);
     void unsetChapters();
     void syncToVideoTime(QString currentChapterTimestamp);
+    void syncToVideoTimeOnShow();
 
 signals:
     void jumpToChapter(int time);
@@ -45,10 +46,12 @@ private:
     QPushButton* syncToVideoTimeButton;
     QList<qint64> timeStamps;
     bool syncToVideTimeStyleSheetSet;
+    bool syncOnShow;
 
     void setSyncToVideTimeStyleSheet();
 
     void resizeEvent(QResizeEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 };
 
 #endif // CHAPTERLISTPAGE_H

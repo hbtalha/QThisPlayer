@@ -432,6 +432,8 @@ void MainPage::playFile(const QFileInfo &file)
             {
                 checkForChapterFile(file.absolutePath() + "/" + file.completeBaseName());
             });
+
+            chapterListPage->syncToVideoTimeOnShow();
         }
         else
         {

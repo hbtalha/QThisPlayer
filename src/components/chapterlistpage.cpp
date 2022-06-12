@@ -58,6 +58,7 @@ ChapterListPage::ChapterListPage()
     syncToVideoTimeButton->setFixedSize(0, 0);
     connect(syncToVideoTimeButton, &QPushButton::clicked, this, &ChapterListPage::videoTimeSynced);
     syncToVideTimeStyleSheetSet = false;
+    syncOnShow = false;
 }
 
 void ChapterListPage::setSyncToVideTimeStyleSheet()
@@ -114,6 +115,11 @@ void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
     }
 }
 
+void ChapterListPage::syncToVideoTimeOnShow()
+{
+    syncOnShow = true;
+}
+
 void ChapterListPage::popupMenuTableShow(const QPoint &pos)
 {
     QTableWidgetItem* item = this->itemAt(pos);
@@ -158,4 +164,13 @@ void ChapterListPage::resizeEvent(QResizeEvent *e)
 
     syncToVideoTimeButton->move(this->geometry().center().x() - 50, this->height() - 50);
     QTableWidget::resizeEvent(e);
+}
+
+void ChapterListPage::showEvent(QShowEvent *event)
+{
+    if(syncOnShow)
+        emit videoTimeSynced();
+    syncOnShow = false;
+
+    QTableWidget::showEvent(event);
 }
