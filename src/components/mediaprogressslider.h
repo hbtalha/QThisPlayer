@@ -140,7 +140,6 @@ private:
     qint64 timeInRange(qint64 time);
     bool isPlayerSeekable();
     int getValueFromXPos( int posX );
-    float getValuePercentageFromXPos( int posX );
     int getValueFromMediaPlayerTime(qint64 time);
 
     VlcMediaPlayer *vlcMediaPlayer;
@@ -455,11 +454,6 @@ inline int MediaProgressSlider::getValueFromXPos( int posX )
                width() - mHandleLength,
                false
            );
-}
-
-inline float MediaProgressSlider::getValuePercentageFromXPos( int posX )
-{
-    return getValueFromXPos( posX ) / static_cast<float>( maximum() );
 }
 
 inline int MediaProgressSlider::getValueFromMediaPlayerTime(qint64 time)
