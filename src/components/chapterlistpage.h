@@ -45,7 +45,7 @@ private slots:
 private:
     QPushButton* syncToVideoTimeButton;
     QList<qint64> timeStamps;
-    bool syncToVideTimeStyleSheetSet;
+    bool syncToVideoTimeStyleSheetSet;
     bool syncOnShow;
 
     void setSyncToVideTimeStyleSheet();

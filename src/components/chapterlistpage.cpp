@@ -57,7 +57,7 @@ ChapterListPage::ChapterListPage()
     syncToVideoTimeButton->setCursor(Qt::PointingHandCursor);
     syncToVideoTimeButton->setFixedSize(0, 0);
     connect(syncToVideoTimeButton, &QPushButton::clicked, this, &ChapterListPage::videoTimeSynced);
-    syncToVideTimeStyleSheetSet = false;
+    syncToVideoTimeStyleSheetSet = false;
     syncOnShow = false;
 }
 
@@ -153,12 +153,12 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
 void ChapterListPage::resizeEvent(QResizeEvent *e)
 {
     // setting the stylesheet in the constructor didn't work quite well
-    if( ! syncToVideTimeStyleSheetSet)
+    if( ! syncToVideoTimeStyleSheetSet)
     {
         QTimer::singleShot(0, [this]
         {
             setSyncToVideTimeStyleSheet();
-            syncToVideTimeStyleSheetSet = true;
+            syncToVideoTimeStyleSheetSet = true;
         });
     }
 
