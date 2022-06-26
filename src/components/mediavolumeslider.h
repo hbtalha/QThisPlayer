@@ -49,7 +49,7 @@ public:
     MediaVolumeSlider(QWidget* parent)
         :QSlider(parent)
     {
-        this->setRange(0, 100);
+        this->setRange(0, 200);
         this->setMaximumWidth(150);
         this->setOrientation(Qt::Horizontal);
         this->setCursor(Qt::PointingHandCursor);
@@ -96,9 +96,9 @@ protected:
 
         float newValue = getValueFromXPos( event->pos().x() );
 
-        if(newValue >= 0 and newValue <= 100)
+        if(newValue >= 0 and newValue <= 200)
         {
-            QToolTip::showText(QCursor::pos(), QString::number(newValue), nullptr);
+            QToolTip::showText(QCursor::pos(), QString::number(int(newValue / 2)), nullptr);
 
             if (!m_lock)
                 return;
@@ -110,7 +110,7 @@ protected:
     {
         lock();
         float newValue = getValueFromXPos( event->pos().x() );
-        if(newValue >= 0 and newValue <= 100)
+        if(newValue >= 0 and newValue <= 200)
         {
             this->setValue(newValue);
             emit pressed(false /*set volume button unchecked, hence unmute*/);
