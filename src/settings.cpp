@@ -57,7 +57,7 @@ int QThisPlayerSettings::volume()
     return settings.value("volume", 50).toInt();
 }
 
-void QThisPlayerSettings::SetVolume(int volume)
+void QThisPlayerSettings::setVolume(int volume)
 {
     settings.setValue("volume", volume);
 }

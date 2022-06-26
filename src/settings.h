@@ -36,7 +36,7 @@ public:
     int playlistMode();
     void setPlaylistMode(int loop);
     int volume();
-    void SetVolume(int volume);
+    void setVolume(int volume);
     bool isMuted();
     void setMute(bool mute);
     bool seeRemainingTime();

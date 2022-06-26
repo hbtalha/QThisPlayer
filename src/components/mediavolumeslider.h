@@ -58,7 +58,7 @@ public:
 
         connect(this, &QSlider::valueChanged, this, [] (int volume)
         {
-            Settings.SetVolume(volume);
+            Settings.setVolume(volume);
         });
 
         this->setStyle(new MyStyle(this->style()));
