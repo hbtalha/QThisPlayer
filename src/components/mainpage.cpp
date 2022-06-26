@@ -442,16 +442,31 @@ void MainPage::playFile(const QFileInfo &file)
     }
 }
 
+int MainPage::volumeAdjuster(int vol, int incrementOrDecrement)
+{
+    int filler = 0;
+    while(vol % 10 != 0)
+    {
+        vol += incrementOrDecrement;
+        filler += incrementOrDecrement;
+    }
+    return filler;
+}
+
 void MainPage::increaseVolume()
 {
-    mPlayerController->setVolume(mPlayerController->mediaVolume() + 5);
-    emit message(QString("Volume %1%").arg(mPlayerController->mediaVolume()));
+    int filler = volumeAdjuster(mPlayerController->mediaVolume(), 1);
+    filler = (filler == 0) ? 10 : filler;
+    mPlayerController->setVolume(mPlayerController->mediaVolume() + filler);
+    emit message(QString("Volume %1%").arg(int(mPlayerController->mediaVolume() / 2)));
 }
 
 void MainPage::decreaseVolume()
 {
-    mPlayerController->setVolume(mPlayerController->mediaVolume() - 5);
-    emit message(QString("Volume %1%").arg(mPlayerController->mediaVolume()));
+    int filler = volumeAdjuster(mPlayerController->mediaVolume(), -1);
+    filler = (filler == 0) ? -10 : filler;
+    mPlayerController->setVolume(mPlayerController->mediaVolume() + filler);
+    emit message(QString("Volume %1%").arg(int(mPlayerController->mediaVolume() / 2)));
 }
 
 void MainPage::play()

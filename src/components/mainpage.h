@@ -89,6 +89,8 @@ private:
     void copyFromClipboard();
     void checkForChapterFile(QString filePath);
 
+    int volumeAdjuster(int vol, int incrementOrDecrement);
+
     PlayerController *mPlayerController;
     VideoWidget *mVideoWidget;
     VlcInstance* instance;
