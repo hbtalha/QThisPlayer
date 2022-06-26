@@ -27,7 +27,8 @@
 QScopedPointer<QThisPlayerSettings> instance;
 QThisPlayerSettings &QThisPlayerSettings::singleton()
 {
-    instance.reset(new QThisPlayerSettings);
+    if(!instance)
+        instance.reset(new QThisPlayerSettings);
 
     return *instance;
 }
