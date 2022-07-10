@@ -75,25 +75,6 @@ FORMS += \
     src/dialogs/about.ui \
     src/dialogs/gototime.ui
 
-DISTFILES += \
-    src/images/icons/chapterList.png \
-    src/images/icons/decreaseVolume.png \
-    src/images/icons/exit-fullscreen.png \
-    src/images/icons/exit-picture-in-picture.png \
-    src/images/icons/fullscreen.png \
-    src/images/icons/increaseVolume.png \
-    src/images/icons/loop_current.png \
-    src/images/icons/muteVolume.png \
-    src/images/icons/nextChapter.png \
-    src/images/icons/openFile.png \
-    src/images/icons/picture-in-picture.png \
-    src/images/icons/playlist.png \
-    src/images/icons/previousChapter.png \
-    src/images/icons/random.png \
-    src/images/icons/record.png \
-    src/images/icons/refresh.png \
-    src/images/icons/toggleRepeat.png
-
 RC_ICONS = src/images/icons/app_icon.ico
 
 QMAKE_TARGET_DESCRIPTION = "QThisPlayer"
