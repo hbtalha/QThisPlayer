@@ -99,7 +99,7 @@ void ChapterListPage::unsetChapters()
 {
     this->setRowCount(0);
 }
-#include<QDebug>
+
 void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
 {
     auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
