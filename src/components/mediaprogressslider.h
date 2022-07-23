@@ -329,7 +329,6 @@ inline void MediaProgressSlider::updatePostionIfPlayerPaused()
 
 inline void MediaProgressSlider::syncToVideoTime()
 {
-    qDebug() << "Requested";
     if(currentChapterIndex < mediaChaptersTimestamps.size())
         emit videoTimeSynced(formattedTime(mediaChaptersTimestamps.at(currentChapterIndex)));
 }
