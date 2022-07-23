@@ -107,7 +107,6 @@ void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
     if(!items.isEmpty())
     {
         this->scrollToItem(items.first(), QAbstractItemView::PositionAtTop);
-        this->selectRow(items.first()->row());
 
         // if I set it invisible like I wanted it messes up the stylesheet when setting it visible agin idk why
         syncToVideoTimeButton->setFixedSize(0,0);
