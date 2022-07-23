@@ -102,7 +102,6 @@ void ChapterListPage::unsetChapters()
 #include<QDebug>
 void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
 {
-    qDebug() << "VideoSync: " << currentChapterTimestamp;
     auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
 
     if(!items.isEmpty())
