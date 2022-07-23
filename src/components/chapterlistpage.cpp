@@ -46,7 +46,7 @@ ChapterListPage::ChapterListPage()
         syncToVideoTimeButton->setFixedSize(QSize(114, 25));
     });
 
-    connect(this, &QTableWidget::cellDoubleClicked, this, [this] (int row, int )
+    connect(this, &QTableWidget::cellClicked, this, [this] (int row, int )
     {
         emit jumpToChapter(timeStamps.at(row));
     } );
