@@ -413,16 +413,15 @@ inline QString MediaProgressSlider::currentChapter(qint64 time, bool shouldUpdat
 
 inline void MediaProgressSlider::setChapters(QStringList chapters, QList<qint64> timestamps)
 {
-    emit chaptersSet(true);
-    chaptersPresent = true;
-    mediaChapters = chapters;
-    mediaChaptersTimestamps = timestamps;
-    if(vlcMediaPlayer)
+    if(chapters.size() == timestamps.size() && ! chapters.empty() && ! timestamps.empty() && vlcMediaPlayer)
     {
+        emit chaptersSet(true);
+        chaptersPresent = true;
+        mediaChapters = chapters;
+        mediaChaptersTimestamps = timestamps;
         chapterLabel->setText(currentChapter(vlcMediaPlayer->time()));
+        this->update();
     }
-
-    this->update();
 }
 
 inline void MediaProgressSlider::unSetChapters()
