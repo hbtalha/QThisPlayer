@@ -250,6 +250,7 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     connect(mediaProgress, &MediaProgressSlider::chaptersSet, nextChapterButton, &QToolButton::setVisible);
     connect(mediaProgress, &MediaProgressSlider::chaptersSet, previousChapterButton, &QToolButton::setVisible);
     connect(mediaProgress, &MediaProgressSlider::videoTimeSynced, this, &PlayerController::videoTimeSynced);
+    connect(mediaProgress, &MediaProgressSlider::currentChapterUpdated, this, &PlayerController::currentChapterUpdated);
 }
 
 MediaProgressSlider *PlayerController::mediaProgressSlider() const

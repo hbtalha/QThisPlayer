@@ -113,6 +113,14 @@ void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
     }
 }
 
+void ChapterListPage::updateCurrentChapter(QString currentChapterTimestamp)
+{
+    auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
+
+    if(!items.isEmpty())
+        this->selectRow(items.first()->row());
+}
+
 void ChapterListPage::syncToVideoTimeOnShow()
 {
     syncOnShow = true;

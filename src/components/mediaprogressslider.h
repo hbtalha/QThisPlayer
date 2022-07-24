@@ -122,6 +122,7 @@ public:
 signals:
     void chaptersSet(bool);
     void videoTimeSynced(QString);
+    void currentChapterUpdated(QString);
 
 public slots:
     void goToNextChapter();
@@ -285,6 +286,9 @@ inline void MediaProgressSlider::updateCurrentTime(qint64 time)
     if(chaptersPresent)
     {
         chapterLabel->setText(currentChapter(time));
+
+        if(chaptersPresent)
+            emit currentChapterUpdated(formattedTime(mediaChaptersTimestamps.at(currentChapterIndex)));
     }
     if(seeRemainingTimeLabel)
     {

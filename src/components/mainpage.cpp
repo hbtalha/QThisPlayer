@@ -89,6 +89,7 @@ MainPage::MainPage(QWidget *parent)
     connect(mPlayerController, &PlayerController::randomToggled, playlist, &PlaylistPage::setRandom);
     connect(mPlayerController, &PlayerController::mouseMove, this, &MainPage::mouseMove);
     connect(mPlayerController, &PlayerController::videoTimeSynced, chapterListPage, &ChapterListPage::syncToVideoTime);
+    connect(mPlayerController, &PlayerController::currentChapterUpdated, chapterListPage, &ChapterListPage::updateCurrentChapter);
     connect(mVideoWidget, &VideoWidget::mouseMove, this, &MainPage::mouseMove);
     connect(playlist, &PlaylistPage::playSelected, this, &MainPage::playFile);
     connect(playlist, &PlaylistPage::mediaChanged, this, &MainPage::mediaChanged);

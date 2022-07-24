@@ -98,6 +98,7 @@ signals:
     void randomToggled(bool);
     void mouseMove();
     void videoTimeSynced(QString);
+    void currentChapterUpdated(QString);
 
 public slots:
     void toggleVolButton(bool isLoud);

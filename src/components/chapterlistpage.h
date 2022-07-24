@@ -32,6 +32,7 @@ public:
     void setChapters(QStringList chapters, QList<qint64> timestamps);
     void unsetChapters();
     void syncToVideoTime(QString currentChapterTimestamp);
+    void updateCurrentChapter(QString currentChapterTimestamp);
     void syncToVideoTimeOnShow();
 
 signals:
