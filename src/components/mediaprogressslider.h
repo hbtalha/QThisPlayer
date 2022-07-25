@@ -158,6 +158,7 @@ private:
     QLabel *chapterLabel;
     QHBoxLayout *labelsLayout;
 
+    QString currentChapterSet;
     QStringList mediaChapters;
     QList<qint64> mediaChaptersTimestamps;
 
@@ -285,10 +286,17 @@ inline void MediaProgressSlider::updateCurrentTime(qint64 time)
 
     if(chaptersPresent)
     {
-        chapterLabel->setText(currentChapter(time));
+        QString currChapter = currentChapter(time);
 
-        if(chaptersPresent)
-            emit currentChapterUpdated(formattedTime(mediaChaptersTimestamps.at(currentChapterIndex)));
+        if(currentChapterSet != currChapter)
+        {
+            currentChapterSet = currChapter;
+
+            chapterLabel->setText(currChapter);
+
+            if(chaptersPresent)
+                emit currentChapterUpdated(formattedTime(mediaChaptersTimestamps.at(currentChapterIndex)));
+        }
     }
     if(seeRemainingTimeLabel)
     {
