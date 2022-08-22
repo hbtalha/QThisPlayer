@@ -68,7 +68,7 @@ private:
     bool isChapterListShown;
     bool isInPicInPicWindow;
 
-    bool shouldSavesSettings;
+    bool shouldSaveSettings;
 
     void tests();
 

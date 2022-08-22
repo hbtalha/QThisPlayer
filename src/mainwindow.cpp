@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     isPlaylistShown = false;
     isChapterListShown = false;
     isInPicInPicWindow = false;
-    shouldSavesSettings = false;
+    shouldSaveSettings = false;
 
     timerMouse = new QTimer(this);
     connect(timerMouse, &QTimer::timeout, this, &MainWindow::hideMouse);
@@ -626,7 +626,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    if(shouldSavesSettings)
+    if(shouldSaveSettings)
     {
         Settings.setMainWindowSize(this->size());
         Settings.setMainWindowPosition(QPoint(this->x(), this->y()));
@@ -636,7 +636,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
-    if(shouldSavesSettings)
+    if(shouldSaveSettings)
     {
         Settings.setMainWindowPosition(QPoint(this->x(), this->y()));
     }
@@ -645,11 +645,11 @@ void MainWindow::moveEvent(QMoveEvent *event)
 
 void MainWindow::showEvent(QShowEvent* event)
 {
-    if(! shouldSavesSettings) // the same as testing if it's on startup
+    if(! shouldSaveSettings) // the same as testing if it's on startup
     {
         restoreWindow();
     }
-    shouldSavesSettings = true;
+    shouldSaveSettings = true;
     event->accept();
 }
 
