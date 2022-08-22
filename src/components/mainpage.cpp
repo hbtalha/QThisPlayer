@@ -29,6 +29,8 @@
 #include "videoWidget.h"
 #include "../shared.h"
 
+#define DOUBLE_CLICK_INTERVAL 200
+
 MainPage::MainPage(QWidget *parent)
     : QWidget(parent)
 {
@@ -630,10 +632,28 @@ void MainPage::wheelEvent(QWheelEvent *event)
 
 void MainPage::mouseDoubleClickEvent(QMouseEvent *)
 {
+    clickElapsedTimer.start();
     if(mVideoWidget->underMouse())
     {
         if(isPlayerSeekable())
+        {
             emit toggleFullScreen();
+            shouldCancelSingleClick = true;
+        }
+    }
+}
+
+void MainPage::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL )
+    {
+        if(isPlayerSeekable())
+            QTimer::singleShot(DOUBLE_CLICK_INTERVAL, this,[this]
+        {
+            if(!shouldCancelSingleClick)
+                mPlayerController->clickPlayButton();
+            shouldCancelSingleClick = false;
+        });
     }
 }
 

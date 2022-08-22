@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include <QClipboard>
+#include <QElapsedTimer>
 
 class VideoWidget;
 class QStackedWidget;
@@ -83,6 +84,7 @@ protected:
     void dropEvent(QDropEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event);
 private:
     void setupShortcuts();
     void processChaptersText(QString text);
@@ -98,7 +100,9 @@ private:
     PlaylistPage *playlist;
     ChapterListPage *chapterListPage;
     QClipboard* clipboard;
+    QElapsedTimer clickElapsedTimer;
 
+    bool shouldCancelSingleClick = false;
     bool isDockedPlaylist;
     bool playerHasMedia;
 
