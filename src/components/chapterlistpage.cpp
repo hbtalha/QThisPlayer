@@ -129,23 +129,23 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
     {
         QMenu contextMenu;
 
-        QAction* jumpToChapterAction = new QAction(tr("Jump to chapter"), this);
+        QAction jumpToChapterAction(tr("Jump to chapter"));
 
-        connect(jumpToChapterAction, &QAction::triggered, this, [this, item]
+        connect(&jumpToChapterAction, &QAction::triggered, this, [this, item]
         {
             emit jumpToChapter(timeStamps.at(item->row()));
         });
 
-        QAction* clearChaptersAction = new QAction(tr("Clear chapter"), this);
+        QAction clearChaptersAction(tr("Clear chapter"));
 
-        connect(clearChaptersAction, &QAction::triggered, this, [this]
+        connect(&clearChaptersAction, &QAction::triggered, this, [this]
         {
             emit clearChapters();
             unsetChapters();
         });
 
-        contextMenu.addAction(jumpToChapterAction);
-        contextMenu.addAction(clearChaptersAction);
+        contextMenu.addAction(&jumpToChapterAction);
+        contextMenu.addAction(&clearChaptersAction);
 
         contextMenu.exec(QCursor::pos());
     }
