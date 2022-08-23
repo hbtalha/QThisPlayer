@@ -43,7 +43,7 @@ ChapterListPage::ChapterListPage()
 
     connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [this]
     {
-        syncToVideoTimeButton->setFixedSize(QSize(114, 25));
+        syncToVideoTimeButton->setVisible(true);
     });
 
     connect(this, &QTableWidget::cellClicked, this, [this] (int row, int )
@@ -55,14 +55,9 @@ ChapterListPage::ChapterListPage()
 
     syncToVideoTimeButton = new QPushButton(tr("Sync to video time"), this);
     syncToVideoTimeButton->setCursor(Qt::PointingHandCursor);
-    syncToVideoTimeButton->setFixedSize(0, 0);
+    syncToVideoTimeButton->setFixedSize(114, 25);
     connect(syncToVideoTimeButton, &QPushButton::clicked, this, &ChapterListPage::videoTimeSynced);
-    syncToVideoTimeStyleSheetSet = false;
     syncOnShow = false;
-}
-
-void ChapterListPage::setSyncToVideTimeStyleSheet()
-{
     syncToVideoTimeButton->setStyleSheet("QPushButton {"
                                          "color: black;"
                                          "background-color: #3498DB;"
@@ -107,9 +102,7 @@ void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
     if(!items.isEmpty())
     {
         this->scrollToItem(items.first(), QAbstractItemView::PositionAtTop);
-
-        // if I set it invisible like I wanted it messes up the stylesheet when setting it visible agin idk why
-        syncToVideoTimeButton->setFixedSize(0,0);
+        syncToVideoTimeButton->setVisible(false);
     }
 }
 
@@ -158,16 +151,6 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
 
 void ChapterListPage::resizeEvent(QResizeEvent *e)
 {
-    // setting the stylesheet in the constructor didn't work quite well
-    if( ! syncToVideoTimeStyleSheetSet)
-    {
-        QTimer::singleShot(0, [this]
-        {
-            setSyncToVideTimeStyleSheet();
-            syncToVideoTimeStyleSheetSet = true;
-        });
-    }
-
     syncToVideoTimeButton->move(this->geometry().center().x() - 50, this->height() - 50);
     QTableWidget::resizeEvent(e);
 }
