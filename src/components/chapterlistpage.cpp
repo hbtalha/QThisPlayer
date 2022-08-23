@@ -56,6 +56,7 @@ ChapterListPage::ChapterListPage()
     syncToVideoTimeButton = new QPushButton(tr("Sync to video time"), this);
     syncToVideoTimeButton->setCursor(Qt::PointingHandCursor);
     syncToVideoTimeButton->setFixedSize(114, 25);
+    syncToVideoTimeButton->setVisible(false);
     connect(syncToVideoTimeButton, &QPushButton::clicked, this, &ChapterListPage::videoTimeSynced);
     syncOnShow = false;
     syncToVideoTimeButton->setStyleSheet("QPushButton {"
@@ -93,6 +94,7 @@ void ChapterListPage::setChapters(QStringList chapters, QList<qint64> timestamps
 void ChapterListPage::unsetChapters()
 {
     this->setRowCount(0);
+    syncToVideoTimeButton->setVisible(false);
 }
 
 void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
