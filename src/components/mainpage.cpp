@@ -645,15 +645,29 @@ void MainPage::mouseDoubleClickEvent(QMouseEvent *event)
 
 void MainPage::mouseReleaseEvent(QMouseEvent *event)
 {
-    if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL && event->button() == Qt::LeftButton)
+    if(isPlayerSeekable())
+    {
+        if(event->button() == Qt::ForwardButton)
+            jumpForward(4);
+        else if(event->button() == Qt::BackButton)
+            jumpBackward(4);
+    }
+    if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL)
     {
         if(isPlayerSeekable())
-            QTimer::singleShot(DOUBLE_CLICK_INTERVAL, this,[this]
         {
-            if(!shouldCancelSingleClick)
-                mPlayerController->clickPlayButton();
-            shouldCancelSingleClick = false;
-        });
+            if(event->button() == Qt::LeftButton)
+            {
+                QTimer::singleShot(DOUBLE_CLICK_INTERVAL, this,[this]
+                {
+                    if(!shouldCancelSingleClick)
+                        mPlayerController->clickPlayButton();
+                    shouldCancelSingleClick = false;
+                });
+            }
+            else if(event->button() == Qt::MiddleButton)
+                emit toggleFullScreen();
+        }
     }
 }
 
