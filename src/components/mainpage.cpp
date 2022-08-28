@@ -630,10 +630,10 @@ void MainPage::wheelEvent(QWheelEvent *event)
         decreaseVolume();
 }
 
-void MainPage::mouseDoubleClickEvent(QMouseEvent *)
+void MainPage::mouseDoubleClickEvent(QMouseEvent *event)
 {
     clickElapsedTimer.start();
-    if(mVideoWidget->underMouse())
+    if(mVideoWidget->underMouse() && event->button() == Qt::LeftButton)
     {
         if(isPlayerSeekable())
         {
@@ -645,7 +645,7 @@ void MainPage::mouseDoubleClickEvent(QMouseEvent *)
 
 void MainPage::mouseReleaseEvent(QMouseEvent *event)
 {
-    if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL )
+    if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL && event->button() == Qt::LeftButton)
     {
         if(isPlayerSeekable())
             QTimer::singleShot(DOUBLE_CLICK_INTERVAL, this,[this]
