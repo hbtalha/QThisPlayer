@@ -85,6 +85,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
 private:
     void setupShortcuts();
     void processChaptersText(QString text);
@@ -102,6 +103,7 @@ private:
     QClipboard* clipboard;
     QElapsedTimer clickElapsedTimer;
 
+    bool rightMouseButtonPressed;
     bool shouldCancelSingleClick = false;
     bool isDockedPlaylist;
     bool playerHasMedia;

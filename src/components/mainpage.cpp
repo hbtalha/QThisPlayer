@@ -36,6 +36,7 @@ MainPage::MainPage(QWidget *parent)
 {
     clipboard = QApplication::clipboard();
     playerHasMedia = false;
+    rightMouseButtonPressed = false;
 
     mVideoWidget = new VideoWidget(this);
     mVideoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -645,13 +646,19 @@ void MainPage::mouseDoubleClickEvent(QMouseEvent *event)
 
 void MainPage::mouseReleaseEvent(QMouseEvent *event)
 {
+    if(event->button() == Qt::RightButton)
+        rightMouseButtonPressed = false;
+
     if(isPlayerSeekable())
     {
+        bool isControlModifierPressed = (Qt::ControlModifier == QApplication::keyboardModifiers());
+
         if(event->button() == Qt::ForwardButton)
-            jumpForward(4);
+            jumpForward((rightMouseButtonPressed || isControlModifierPressed) ? 60 : 4);
         else if(event->button() == Qt::BackButton)
-            jumpBackward(4);
+            jumpBackward((rightMouseButtonPressed || isControlModifierPressed) ? 60 : 4);
     }
+
     if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL)
     {
         if(isPlayerSeekable())
@@ -669,6 +676,12 @@ void MainPage::mouseReleaseEvent(QMouseEvent *event)
                 emit toggleFullScreen();
         }
     }
+}
+
+void MainPage::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::RightButton)
+        rightMouseButtonPressed = true;
 }
 
 void MainPage::testFunction()
