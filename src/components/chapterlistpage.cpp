@@ -24,6 +24,7 @@
 #include <QTimer>
 #include <QScrollBar>
 #include <QHeaderView>
+#include <QMouseEvent>
 
 #include "../shared.h"
 
@@ -48,6 +49,7 @@ ChapterListPage::ChapterListPage()
 
     connect(this, &QTableWidget::cellClicked, this, [this] (int row, int )
     {
+        currentChapterRow = row;
         emit jumpToChapter(timeStamps.at(row));
     } );
 
@@ -113,7 +115,10 @@ void ChapterListPage::updateCurrentChapter(QString currentChapterTimestamp)
     auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
 
     if(!items.isEmpty())
-        this->selectRow(items.first()->row());
+    {
+        currentChapterRow = items.first()->row();
+        this->selectRow(currentChapterRow);
+    }
 }
 
 void ChapterListPage::syncToVideoTimeOnShow()
@@ -128,6 +133,12 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
     if(item != nullptr)
     {
         QMenu contextMenu;
+
+        connect(&contextMenu, &QMenu::aboutToHide, this, [this]()
+        {
+            if(this->rowCount() > 0 && currentChapterRow < this->rowCount())
+                this->selectRow(currentChapterRow);
+        });
 
         QAction jumpToChapterAction(tr("Jump to chapter"));
 
@@ -164,4 +175,12 @@ void ChapterListPage::showEvent(QShowEvent *event)
     syncOnShow = false;
 
     QTableWidget::showEvent(event);
+}
+
+void ChapterListPage::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() != Qt::RightButton && event->button() != Qt::LeftButton)
+        event->ignore();
+    else
+        QTableWidget::mousePressEvent(event);
 }

@@ -47,9 +47,11 @@ private:
     QPushButton* syncToVideoTimeButton;
     QList<qint64> timeStamps;
     bool syncOnShow;
+    int currentChapterRow;
 
     void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
+    void mousePressEvent(QMouseEvent* event) override;
 };
 
 #endif // CHAPTERLISTPAGE_H
