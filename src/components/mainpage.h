@@ -104,7 +104,7 @@ private:
     QElapsedTimer clickElapsedTimer;
 
     bool rightMouseButtonPressed;
-    bool shouldCancelSingleClick = false;
+    bool shouldCancelSingleClick;
     bool isDockedPlaylist;
     bool playerHasMedia;
 

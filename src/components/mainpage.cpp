@@ -37,6 +37,7 @@ MainPage::MainPage(QWidget *parent)
     clipboard = QApplication::clipboard();
     playerHasMedia = false;
     rightMouseButtonPressed = false;
+    shouldCancelSingleClick = false;
 
     mVideoWidget = new VideoWidget(this);
     mVideoWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
