@@ -575,6 +575,7 @@ void MainPage::resetPlayer()
 
 void MainPage::onJumpToChapter(qint64 time)
 {
+    // BUG:if it comes here when the video is paused, on play it will be go one second back and continue
     mPlayer->setTime(time);
     mPlayerController->mediaProgressSlider()->updatePostionIfPlayerPaused();
 }
