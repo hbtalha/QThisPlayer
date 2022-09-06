@@ -69,12 +69,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    src/resources.qrc
+    resources.qrc \
+    resources.qrc
 
 FORMS += \
     src/dialogs/about.ui \
     src/dialogs/gototime.ui
 
-RC_ICONS = src/images/icons/app_icon.ico
+RC_ICONS = images/icons/app_icon.ico
 
 QMAKE_TARGET_DESCRIPTION = "QThisPlayer"
