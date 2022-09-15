@@ -648,11 +648,12 @@ void MainWindow::showEvent(QShowEvent* event)
     if(! shouldSaveSettings) // the same as testing if it's on startup
     {
         restoreWindow();
+#ifdef Q_OS_WIN
+        mainPage->playerController()->createWinThumbnailToolBar(this);
+#endif
     }
     shouldSaveSettings = true;
-#ifdef Q_OS_WIN
-    mainPage->playerController()->createWinThumbnailToolBar(this);
-#endif
+
     event->accept();
 }
 
