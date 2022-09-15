@@ -43,6 +43,10 @@ PlaylistPage::PlaylistPage()
     this->setAlternatingRowColors( true );
     this->setDropIndicatorShown(true);
 
+#ifdef Q_OS_WIN
+    connect(this->model(), &QAbstractItemModel::rowsInserted, this, &PlaylistPage::mediaNumberChanged);
+    connect(this->model(), &QAbstractItemModel::rowsRemoved, this, &PlaylistPage::mediaNumberChanged);
+#endif
     connect(this->model(), &QAbstractItemModel::rowsMoved, this, &PlaylistPage::onRowsMoved);
     connect(this, &QListWidget::customContextMenuRequested, this, &PlaylistPage::popupMenuTableShow);
     connect(this, &QListWidget::activated, this, [this] (QModelIndex index)

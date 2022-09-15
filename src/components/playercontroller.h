@@ -35,7 +35,8 @@ class MediaProgressSlider;
 class VlcMediaPlayer;
 class SeekSlider;
 class QIcon;
-
+class QWinThumbnailToolBar;
+class QWinThumbnailToolButton;
 
 class PlayerController : public QWidget
 {
@@ -62,6 +63,8 @@ public:
     void setMediProgressSliderMediaPlayer(VlcMediaPlayer* mediaPlayer);
     void setFullScreenButtonIcon(bool isInFullscreen);
     void syncToVideoTime();
+
+    void createWinThumbnailToolBar(QWidget* widget);
 
     void clickPlayButton();
     void clickPreviousButton();
@@ -108,6 +111,7 @@ public slots:
     void toggleLoop();
     void setupLoopButton(int mode);
     void onRandomClicked(bool clicked);
+    void onPlaylistMediaNumberChanged(int number);
 
 private:
     void setPlayButtonIcon(bool playButtonIcon);
@@ -135,6 +139,11 @@ private:
     QToolButton *randomButton;
     QToolButton *volButton;
     Vlc::State mediaState;
+
+    QWinThumbnailToolBar* thumbnailToolBar;
+    QWinThumbnailToolButton* playThumbnailButton;
+    QWinThumbnailToolButton* nextThumbnailButton;
+    QWinThumbnailToolButton* previousThumbnailButton;
 
     bool muted;
     bool random;

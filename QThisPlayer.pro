@@ -6,6 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32 {
     LIBS += -L C:\msys64\mingw64\lib\vlc
+    QT += winextras
 }
 
 LIBS += -lvlc

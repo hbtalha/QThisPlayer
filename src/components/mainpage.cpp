@@ -99,6 +99,7 @@ MainPage::MainPage(QWidget *parent)
     connect(playlist, &PlaylistPage::mediaChanged, this, &MainPage::mediaChanged);
     connect(playlist, &PlaylistPage::message, this, &MainPage::message);
     connect(playlist, &PlaylistPage::currentPlayingMediaRemoved, this, &MainPage::resetPlayer);
+    connect(playlist, &PlaylistPage::mediaNumberChanged, this, [this] { playerController()->onPlaylistMediaNumberChanged(playlist->count()); });
     connect(chapterListPage, &ChapterListPage::jumpToChapter, this, &MainPage::onJumpToChapter);
     connect(chapterListPage, &ChapterListPage::videoTimeSynced, mPlayerController, &PlayerController::syncToVideoTime);
     connect(chapterListPage, &ChapterListPage::clearChapters,

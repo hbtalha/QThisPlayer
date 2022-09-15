@@ -23,6 +23,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QStyle>
+#include <QWinThumbnailToolButton>
+#include <QWinThumbnailToolBar>
 
 #include "vlcqt/vlcqt.h"
 #include "../shared.h"
@@ -49,9 +51,11 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     mPlayIcon  = new QIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     mPauseIcon = new QIcon(style()->standardIcon(QStyle::SP_MediaPause));
 
+    playThumbnailButton = nullptr;
+
     playButton = new QToolButton;
-    playButton->setCursor(Qt::PointingHandCursor);
     setPlayButtonIcon(true);
+    playButton->setCursor(Qt::PointingHandCursor);
     playButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     playButton->setToolTip(tr("Play\nIf the playlist is empty, open a medium"));
     playButton->setMaximumSize(QSize(36,36));
@@ -417,6 +421,14 @@ void PlayerController::onRandomClicked(bool clicked)
     emit randomToggled(clicked);
 }
 
+void PlayerController::onPlaylistMediaNumberChanged(int number)
+{
+    bool nextPreviousButtonVisible = !(number <= 1);
+    previousThumbnailButton->setVisible(nextPreviousButtonVisible);
+    nextThumbnailButton->setVisible(nextPreviousButtonVisible);
+    playThumbnailButton->setVisible((number != 0));
+}
+
 void PlayerController::setFullScreenButtonIcon(bool isInFullscreen)
 {
     fullScreenButton->setIcon( isInFullscreen ? QIcon(":/images/icons/exit-fullscreen.png") : QIcon(":/images/icons/fullscreen.png"));
@@ -427,17 +439,46 @@ void PlayerController::syncToVideoTime()
     mediaProgress->syncToVideoTime();
 }
 
+void PlayerController::createWinThumbnailToolBar(QWidget* widget)
+{
+    thumbnailToolBar = new QWinThumbnailToolBar(widget);
+    thumbnailToolBar->setWindow(widget->windowHandle());
+
+    playThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
+    playThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+    connect(playThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::onPlayClicked);
+
+    previousThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
+    previousThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward));
+    connect(previousThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::previous);
+
+    nextThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
+    nextThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaSkipForward));
+    connect(nextThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::next);
+
+    thumbnailToolBar->addButton(previousThumbnailButton);
+    thumbnailToolBar->addButton(playThumbnailButton);
+    thumbnailToolBar->addButton(nextThumbnailButton);
+
+    onPlaylistMediaNumberChanged(0);
+    setPlayButtonIcon(true);
+}
+
 void PlayerController::setPlayButtonIcon(bool playButtonIcon)
 {
     if(playButtonIcon)
     {
         playButton->setIcon(*mPlayIcon);
         playButton->setToolTip(tr("Play"));
+        if(playThumbnailButton)
+            playThumbnailButton->setIcon(*mPlayIcon);
     }
     else
     {
         playButton->setIcon(*mPauseIcon);
         playButton->setToolTip(tr("Pause the playback"));
+        if(playThumbnailButton)
+            playThumbnailButton->setIcon(*mPauseIcon);
     }
 }
 

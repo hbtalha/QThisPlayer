@@ -650,6 +650,9 @@ void MainWindow::showEvent(QShowEvent* event)
         restoreWindow();
     }
     shouldSaveSettings = true;
+#ifdef Q_OS_WIN
+    mainPage->playerController()->createWinThumbnailToolBar(this);
+#endif
     event->accept();
 }
 

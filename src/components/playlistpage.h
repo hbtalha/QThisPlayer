@@ -47,6 +47,7 @@ signals:
     void mediaChanged(QString filename);
     void message(QString, bool = false);
     void currentPlayingMediaRemoved();
+    void mediaNumberChanged();
 
 private slots:
     void onRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
