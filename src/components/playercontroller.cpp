@@ -435,11 +435,11 @@ void PlayerController::createWinThumbnailToolBar(QWidget* widget)
     connect(playThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::onPlayClicked);
 
     previousThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
-    previousThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward));
+    previousThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward)));
     connect(previousThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::previous);
 
     nextThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
-    nextThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaSkipForward));
+    nextThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaSkipForward)));
     connect(nextThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::next);
 
     thumbnailToolBar->addButton(previousThumbnailButton);
@@ -457,14 +457,14 @@ void PlayerController::setPlayButtonIcon(bool playButtonIcon)
         playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         playButton->setToolTip(tr("Play"));
         if(playThumbnailButton)
-            playThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+            playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
     }
     else
     {
         playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         playButton->setToolTip(tr("Pause the playback"));
         if(playThumbnailButton)
-            playThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
+            playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPause)));
     }
 }
 
