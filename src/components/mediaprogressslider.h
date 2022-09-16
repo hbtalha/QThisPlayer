@@ -558,6 +558,8 @@ inline void MediaProgressSlider::wheelEvent(QWheelEvent *event)
         vlcMediaPlayer->setTime(timeInRange(newTime));
     }
 
+    updatePostionIfPlayerPaused();
+
     event->accept();
 }
 
