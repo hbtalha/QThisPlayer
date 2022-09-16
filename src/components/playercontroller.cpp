@@ -48,9 +48,6 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
 
     mediaProgress = new MediaProgressSlider(this);
 
-    mPlayIcon  = new QIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    mPauseIcon = new QIcon(style()->standardIcon(QStyle::SP_MediaPause));
-
     playThumbnailButton = nullptr;
 
     playButton = new QToolButton;
@@ -349,16 +346,6 @@ bool PlayerController::shouldAllowWheelEventOperation()
     return ! mediaProgress->underMouse() && ! mediaVolumeSlider->underMouse();
 }
 
-QIcon *PlayerController::playIcon() const
-{
-    return mPlayIcon;
-}
-
-QIcon *PlayerController::pauseIcon() const
-{
-    return mPauseIcon;
-}
-
 void PlayerController::setPicInPicView(bool picInPicView)
 {
     fullScreenButton->setVisible(! picInPicView);
@@ -445,7 +432,6 @@ void PlayerController::createWinThumbnailToolBar(QWidget* widget)
     thumbnailToolBar->setWindow(widget->windowHandle());
 
     playThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
-    playThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     connect(playThumbnailButton, &QWinThumbnailToolButton::clicked, this, &PlayerController::onPlayClicked);
 
     previousThumbnailButton = new QWinThumbnailToolButton(thumbnailToolBar);
@@ -468,17 +454,17 @@ void PlayerController::setPlayButtonIcon(bool playButtonIcon)
 {
     if(playButtonIcon)
     {
-        playButton->setIcon(*mPlayIcon);
+        playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         playButton->setToolTip(tr("Play"));
         if(playThumbnailButton)
-            playThumbnailButton->setIcon(*mPlayIcon);
+            playThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     }
     else
     {
-        playButton->setIcon(*mPauseIcon);
+        playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         playButton->setToolTip(tr("Pause the playback"));
         if(playThumbnailButton)
-            playThumbnailButton->setIcon(*mPauseIcon);
+            playThumbnailButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
     }
 }
 

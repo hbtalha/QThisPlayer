@@ -451,12 +451,12 @@ void MainWindow::createMenuAndActions()
         if(state == Vlc::Opening || state == Vlc::Playing)
         {
             playAction->setText(tr("Pause"));
-            playAction->setIcon(invertedColorIcon(*mainPage->playerController()->pauseIcon()));
+            playAction->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         }
         if(state == Vlc::Paused || state == Vlc::Stopped || state == Vlc::Ended)
         {
             playAction->setText(tr("Play"));
-            playAction->setIcon(invertedColorIcon(*mainPage->playerController()->playIcon()));
+            playAction->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         }
     });
 

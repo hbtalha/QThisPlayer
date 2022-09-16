@@ -57,8 +57,6 @@ public:
     int mediaVolume();
     int loopOption();
     bool shouldAllowWheelEventOperation();
-    QIcon *playIcon() const;
-    QIcon *pauseIcon() const;
     void setPicInPicView(bool minView);
     void setMediProgressSliderMediaPlayer(VlcMediaPlayer* mediaPlayer);
     void setFullScreenButtonIcon(bool isInFullscreen);
@@ -115,11 +113,6 @@ public slots:
 
 private:
     void setPlayButtonIcon(bool playButtonIcon);
-
-    // because when changing media time continuosly when it's paused the app crashes a lot with a QIcon:isNull excptn
-    // not sure about what the problem is but using an heap allocated QIcon seem to stop the crash
-    QIcon *mPlayIcon;
-    QIcon *mPauseIcon;
 
     SeekSlider* seekSlider;
     MediaProgressSlider * mediaProgress;
