@@ -122,9 +122,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     addDockWidget(Qt::LeftDockWidgetArea, chapterDockWidget);
     addDockWidget(Qt::RightDockWidgetArea, playlistDockWidget);
-
-    // case exists any
-    openFilesFromExplorer();
 }
 
 void MainWindow::settingStyleSheet()
@@ -651,6 +648,8 @@ void MainWindow::showEvent(QShowEvent* event)
 #ifdef Q_OS_WIN
         mainPage->playerController()->createWinThumbnailToolBar(this);
 #endif
+        // case exists any
+        openFilesFromExplorer();
     }
     shouldSaveSettings = true;
 
