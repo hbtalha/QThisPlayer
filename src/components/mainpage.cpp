@@ -24,6 +24,7 @@
 #include <QShortcut>
 #include <QTableWidget>
 #include <algorithm>
+#include <QDebug>
 #include <vlcqt/vlcqt.h>
 
 #include "videoWidget.h"
