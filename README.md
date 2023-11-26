@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://github.com/hbtalha/QThisPlayer/blob/main/src/images/icons/app_icon.ico" width="200"/>
+<img src="https://github.com/hbtalha/QThisPlayer/blob/main/images/icons/app_icon.ico" width="200"/>
 </div>
 
 # QThisPlayer
@@ -23,9 +23,9 @@ So I implemented the two features described above in the QThisPlayer. Besides th
 # Screenshots
 Chapters
 
-<img src="https://github.com/hbtalha/QThisPlayer/blob/main/src/images/screenshots/Screenshot_1.png" width="600"/>
-<img src="https://github.com/hbtalha/QThisPlayer/blob/main/src/images/screenshots/Screenshot_2.png" width="600"/>
-<img src="https://github.com/hbtalha/QThisPlayer/blob/main/src/images/screenshots/Screenshot_4.png" width="600"/>
+<img src="https://github.com/hbtalha/QThisPlayer/blob/main/images/screenshots/Screenshot_1.png" width="600"/>
+<img src="https://github.com/hbtalha/QThisPlayer/blob/main/images/screenshots/Screenshot_2.png" width="600"/>
+<img src="https://github.com/hbtalha/QThisPlayer/blob/main/images/screenshots/Screenshot_4.png" width="600"/>
 
 Picture in Picture
 
