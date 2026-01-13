@@ -62,7 +62,9 @@ public:
     void setFullScreenButtonIcon(bool isInFullscreen);
     void syncToVideoTime();
 
+#ifdef Q_OS_WIN
     void createWinThumbnailToolBar(QWidget* widget);
+#endif
 
     void clickPlayButton();
     void clickPreviousButton();
@@ -133,10 +135,12 @@ private:
     QToolButton *volButton;
     Vlc::State mediaState;
 
+#ifdef Q_OS_WIN
     QWinThumbnailToolBar* thumbnailToolBar;
     QWinThumbnailToolButton* playThumbnailButton;
     QWinThumbnailToolButton* nextThumbnailButton;
     QWinThumbnailToolButton* previousThumbnailButton;
+#endif
 
     bool muted;
     bool random;

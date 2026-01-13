@@ -23,10 +23,10 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QStyle>
+#ifdef Q_OS_WIN
 #include <QWinThumbnailToolButton>
 #include <QWinThumbnailToolBar>
-
-#include "vlcqt/vlcqt.h"
+#endif
 #include "../shared.h"
 #include "../settings.h"
 
@@ -48,7 +48,9 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
 
     mediaProgress = new MediaProgressSlider(this);
 
+#ifdef Q_OS_WIN
     playThumbnailButton = nullptr;
+#endif
 
     playButton = new QToolButton;
     setPlayButtonIcon(true);
@@ -410,10 +412,12 @@ void PlayerController::onRandomClicked(bool clicked)
 
 void PlayerController::onPlaylistMediaNumberChanged(int number)
 {
+#ifdef Q_OS_WIN
     bool nextPreviousButtonVisible = !(number <= 1);
     previousThumbnailButton->setVisible(nextPreviousButtonVisible);
     nextThumbnailButton->setVisible(nextPreviousButtonVisible);
     playThumbnailButton->setVisible((number != 0));
+#endif
 }
 
 void PlayerController::setFullScreenButtonIcon(bool isInFullscreen)
@@ -426,6 +430,7 @@ void PlayerController::syncToVideoTime()
     mediaProgress->syncToVideoTime();
 }
 
+#ifdef Q_OS_WIN
 void PlayerController::createWinThumbnailToolBar(QWidget* widget)
 {
     thumbnailToolBar = new QWinThumbnailToolBar(widget);
@@ -449,6 +454,7 @@ void PlayerController::createWinThumbnailToolBar(QWidget* widget)
     onPlaylistMediaNumberChanged(0);
     setPlayButtonIcon(true);
 }
+#endif
 
 void PlayerController::setPlayButtonIcon(bool playButtonIcon)
 {
@@ -456,15 +462,17 @@ void PlayerController::setPlayButtonIcon(bool playButtonIcon)
     {
         playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         playButton->setToolTip(tr("Play"));
-        if(playThumbnailButton)
+#ifdef Q_OS_WIN
             playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
+#endif
     }
     else
     {
         playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         playButton->setToolTip(tr("Pause the playback"));
-        if(playThumbnailButton)
+#ifdef Q_OS_WIN
             playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPause)));
+#endif
     }
 }
 
