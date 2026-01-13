@@ -95,7 +95,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
         firstItem = tempPlayList.first();
     }
 
-    if(isRandom)
+    if(isRandom && tempPlayList.size() > 1)
         std::random_shuffle(tempPlayList.begin(), tempPlayList.end());
 
     if(currentPlayingList.isEmpty())
