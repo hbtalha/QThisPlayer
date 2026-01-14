@@ -92,7 +92,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
 
     if(play)
     {
-        firstItem = tempPlayList.first();
+        firstItem = tempPlayList.takeFirst();
     }
 
     if(isRandom && tempPlayList.size() > 1)
@@ -101,7 +101,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
     if(currentPlayingList.isEmpty())
     {
         currentPlayingIndex = 0;
-        currentFilePosition = tempPlayList.first();
+        currentFilePosition = play ? firstItem : tempPlayList.first();
     }
 
     if(play)
