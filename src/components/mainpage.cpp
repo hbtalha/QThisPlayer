@@ -592,12 +592,7 @@ void MainPage::dropEvent(QDropEvent *event)
 {
     auto mimeData = event->mimeData();
 
-    if(mimeData->hasFormat("text/plain"))
-    {
-        if(isPlayerSeekable())
-            processChaptersText(mimeData->text());
-    }
-    else if(mimeData->hasUrls())
+    if(mimeData->hasUrls())
     {
         auto urls = mimeData->urls();
 
@@ -619,6 +614,12 @@ void MainPage::dropEvent(QDropEvent *event)
 
         openFiles(mimeData->urls(), /*play*/ true);
     }
+    else if(mimeData->hasText())
+    {
+        if(isPlayerSeekable())
+            processChaptersText(mimeData->text());
+    }
+
 }
 
 void MainPage::wheelEvent(QWheelEvent *event)
