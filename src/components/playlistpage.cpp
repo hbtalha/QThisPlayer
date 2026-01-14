@@ -288,6 +288,7 @@ void PlaylistPage::removeSelected()
         }
         this->takeItem(row);
         playlistFiles.removeAt(row);
+        currentPlayingList.removeOne(row);
     }
 }
 
