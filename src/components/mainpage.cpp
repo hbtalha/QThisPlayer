@@ -80,6 +80,7 @@ MainPage::MainPage(QWidget *parent)
     connect(mPlayerController, &PlayerController::playWithNoMedia, this, &MainPage::play);
     connect(mPlayerController, &PlayerController::pause, mPlayer, &VlcMediaPlayer::pause);
     connect(mPlayerController, &PlayerController::stop, mPlayer, &VlcMediaPlayer::stop);
+    connect(mPlayerController, &PlayerController::stop, mVideoWidget,[this]{ mVideoWidget->update();});
     connect(mPlayerController, &PlayerController::muteVolume, mPlayer,&VlcMediaPlayer::setMute);
     connect(mPlayerController, &PlayerController::volumeChanged, mPlayer,&VlcMediaPlayer::setVolume);
     connect(mPlayerController, &PlayerController::seekForward, this, [this] { jumpForward(10); });
@@ -103,8 +104,7 @@ MainPage::MainPage(QWidget *parent)
     connect(playlist, &PlaylistPage::mediaNumberChanged, this, [this] { playerController()->onPlaylistMediaNumberChanged(playlist->count()); });
     connect(chapterListPage, &ChapterListPage::jumpToChapter, this, &MainPage::onJumpToChapter);
     connect(chapterListPage, &ChapterListPage::videoTimeSynced, mPlayerController, &PlayerController::syncToVideoTime);
-    connect(chapterListPage, &ChapterListPage::clearChapters,
-            mPlayerController->mediaProgressSlider(), &MediaProgressSlider::unSetChapters);
+    connect(chapterListPage, &ChapterListPage::clearChapters, mPlayerController->mediaProgressSlider(), &MediaProgressSlider::unSetChapters);
 
     setupShortcuts();
 }
