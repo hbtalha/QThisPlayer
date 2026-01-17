@@ -115,6 +115,7 @@ public slots:
 
 private:
     void setPlayButtonIcon(bool playButtonIcon);
+    void setUpCommonToolButton(QToolButton *button, const QIcon &icon, const QString& tooltip, bool autoReplay = false);
 
     SeekSlider* seekSlider;
     MediaProgressSlider * mediaProgress;

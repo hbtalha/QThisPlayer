@@ -62,43 +62,19 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     QHBoxLayout *playBackLayout = new QHBoxLayout;
 
     previousButton = new QToolButton;
-    previousButton->setCursor(Qt::PointingHandCursor);
-    previousButton->setIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward));
-    previousButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    previousButton->setMaximumSize(QSize(28,28));
-    previousButton->setToolTip(tr("Previous media in the playlist"));
+    setUpCommonToolButton(previousButton, style()->standardIcon(QStyle::SP_MediaSkipBackward), tr("Previous media in the playlist"));
 
     seekBackwardButton = new QToolButton;
-    seekBackwardButton->setCursor(Qt::PointingHandCursor);
-    seekBackwardButton->setIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward));
-    seekBackwardButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    seekBackwardButton->setMaximumSize(QSize(28,28));
-    seekBackwardButton->setToolTip(tr("Seek backward 10 seconds"));
-    seekBackwardButton->setAutoRepeat(true);
-    seekBackwardButton->setAutoRepeatDelay(500);
+    setUpCommonToolButton(seekBackwardButton,style()->standardIcon(QStyle::SP_MediaSeekBackward), tr("Seek backward 10 seconds"), true);
 
-    stopButton = new QToolButton;
-    stopButton->setCursor(Qt::PointingHandCursor);
-    stopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
-    stopButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    stopButton->setMaximumSize(QSize(28,28));
-    stopButton->setToolTip(tr("Stop playback"));
+    stopButton = new QToolButton;    
+    setUpCommonToolButton(stopButton, style()->standardIcon(QStyle::SP_MediaStop), tr("Stop playback"));
 
     seekForwardButton = new QToolButton;
-    seekForwardButton->setCursor(Qt::PointingHandCursor);
-    seekForwardButton->setIcon(style()->standardIcon(QStyle::SP_MediaSeekForward));
-    seekForwardButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    seekForwardButton->setMaximumSize(QSize(28,28));
-    seekForwardButton->setToolTip(tr("Seek forward 10 seconds"));
-    seekForwardButton->setAutoRepeat(true);
-    seekForwardButton->setAutoRepeatDelay(500);
+    setUpCommonToolButton(seekForwardButton, style()->standardIcon(QStyle::SP_MediaSeekForward), tr("eek forward 10 seconds"), true);
 
     nextButton = new QToolButton;
-    nextButton->setCursor(Qt::PointingHandCursor);
-    nextButton->setIcon(style()->standardIcon(QStyle::SP_MediaSkipForward));
-    nextButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    nextButton->setMaximumSize(QSize(28,28));
-    nextButton->setToolTip(tr("Next media in the playlist"));
+    setUpCommonToolButton(nextButton, style()->standardIcon(QStyle::SP_MediaSkipForward), tr("Next media in the playlist"));
 
     playBackLayout->addWidget(previousButton);
     playBackLayout->addWidget(seekBackwardButton);
@@ -108,26 +84,14 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     playBackLayout->setSpacing(1);
 
     fullScreenButton = new QToolButton;
-    setFullScreenButtonIcon(false);
-    fullScreenButton->setCursor(Qt::PointingHandCursor);
-    fullScreenButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    fullScreenButton->setMaximumSize(QSize(28,28));
-    fullScreenButton->setToolTip(tr("Toggle the video in full screen"));
+    setUpCommonToolButton(fullScreenButton, QIcon(":/images/icons/fullscreen.png"), tr("Toggle the video in full screen"));
     fullScreenButton->setEnabled(false);
 
     picInPicButton = new QToolButton;
-    picInPicButton->setCursor(Qt::PointingHandCursor);
-    picInPicButton->setIcon(QIcon(":/images/icons/picture-in-picture.png"));
-    picInPicButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    picInPicButton->setMaximumSize(QSize(28,28));
-    picInPicButton->setToolTip(tr("Toggle the video in picture in picture"));
+    setUpCommonToolButton(picInPicButton, QIcon(":/images/icons/picture-in-picture.png"), tr("Toggle the video in picture in picture"));
 
     extendedSettingsButton = new QToolButton;
-    extendedSettingsButton->setCursor(Qt::PointingHandCursor);
-    extendedSettingsButton->setIcon(QIcon(":/images/icons/extendedSettings.jpg"));
-    extendedSettingsButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    extendedSettingsButton->setMaximumSize(QSize(28,28));
-    extendedSettingsButton->setToolTip(tr("Show extended settings"));
+    setUpCommonToolButton(extendedSettingsButton, QIcon(":/images/icons/extendedSettings.png"), tr("how extended settings"));
     extendedSettingsButton->hide();
 
     QHBoxLayout *settingsLayout = new QHBoxLayout;
@@ -137,26 +101,15 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     settingsLayout->setSpacing(0);
 
     playlistButton = new QToolButton;
-    playlistButton->setCursor(Qt::PointingHandCursor);
-    playlistButton->setIcon(QIcon(":/images/icons/playlist.png"));
-    playlistButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    playlistButton->setMaximumSize(QSize(28,28));
-    playlistButton->setToolTip(tr("Show/hide playlist"));
+    setUpCommonToolButton(playlistButton, QIcon(":/images/icons/playlist.png"), tr("Show/hide playlist"));
 
     loopButton = new QToolButton;
-    loopButton->setCursor(Qt::PointingHandCursor);
-    loopButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    loopButton->setMaximumSize(QSize(28,28));
-    loopButton->setToolTip(tr("Click to toggle between loop all, loop one and no loop"));
+    setUpCommonToolButton(loopButton, QIcon(":/images/icons/toggleRepeat.png"), tr("Click to toggle between loop all, loop one and no loop"));
     loopButton->setCheckable(true);
     setupLoopButton(loop);
 
     randomButton = new QToolButton;
-    randomButton->setCursor(Qt::PointingHandCursor);
-    randomButton->setIcon(QIcon(":/images/icons/random.png"));
-    randomButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    randomButton->setMaximumSize(QSize(28,28));
-    randomButton->setToolTip(tr("Random"));
+    setUpCommonToolButton(randomButton, QIcon(":/images/icons/random.png"), tr("Random"));
     randomButton->setCheckable(true);
     randomButton->setChecked(random);
 
@@ -166,27 +119,15 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     playListLayout->setSpacing(0);
 
     chapterListButton = new QToolButton;
-    chapterListButton->setIcon(QIcon(":/images/icons/chapterList.png"));
-    chapterListButton->setCursor(Qt::PointingHandCursor);
-    chapterListButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    chapterListButton->setMaximumSize(QSize(28,28));
-    chapterListButton->setToolTip(tr("Show/hide chapter list"));
+    setUpCommonToolButton(chapterListButton, QIcon(":/images/icons/chapterList.png"), tr("how/hide chapter list"));
 
     QToolButton* nextChapterButton = new QToolButton;
-    nextChapterButton->setIcon(QIcon(":/images/icons/nextChapter.png"));
-    nextChapterButton->setCursor(Qt::PointingHandCursor);
-    nextChapterButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    nextChapterButton->setToolTip(tr("Next Chapter"));
-    nextChapterButton->setMaximumSize(QSize(27,27));
+    setUpCommonToolButton(nextChapterButton, QIcon(":/images/icons/nextChapter.png"), tr("ext Chapte"));
     nextChapterButton->hide();
     connect(nextChapterButton, &QToolButton::clicked, mediaProgress, &MediaProgressSlider::goToNextChapter);
 
     QToolButton* previousChapterButton = new QToolButton;
-    previousChapterButton->setIcon(QIcon(":/images/icons/previousChapter.png"));
-    previousChapterButton->setCursor(Qt::PointingHandCursor);
-    previousChapterButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    previousChapterButton->setToolTip(tr("Previous Chapter"));
-    previousChapterButton->setMaximumSize(QSize(27,27));
+    setUpCommonToolButton(previousChapterButton, QIcon(":/images/icons/previousChapter.png"), tr("revious Chapter"));
     previousChapterButton->hide();
     connect(previousChapterButton, &QToolButton::clicked, mediaProgress, &MediaProgressSlider::goToPreviousChapter);
 
@@ -474,6 +415,17 @@ void PlayerController::setPlayButtonIcon(bool playButtonIcon)
             playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPause)));
 #endif
     }
+}
+
+void PlayerController::setUpCommonToolButton(QToolButton *button, const QIcon &icon, const QString &tooltip, bool autoRepeat)
+{
+    button->setCursor(Qt::PointingHandCursor);
+    button->setIcon(icon);
+    button->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    button->setMaximumSize(QSize(28,28));
+    button->setToolTip(tooltip);
+    button->setAutoRepeat(autoRepeat);
+    button->setAutoRepeatDelay(500);
 }
 
 void PlayerController::setMediProgressSliderMediaPlayer(VlcMediaPlayer *mediaPlayer)
