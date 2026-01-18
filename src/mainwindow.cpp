@@ -629,6 +629,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         Settings.setMainWindowPosition(QPoint(this->x(), this->y()));
     }
     event->accept();
+    screenMessage->adjustPositionToParent();
 }
 
 void MainWindow::moveEvent(QMoveEvent *event)
@@ -638,6 +639,7 @@ void MainWindow::moveEvent(QMoveEvent *event)
         Settings.setMainWindowPosition(QPoint(this->x(), this->y()));
     }
     event->accept();
+    screenMessage->adjustPositionToParent();
 }
 
 void MainWindow::showEvent(QShowEvent* event)

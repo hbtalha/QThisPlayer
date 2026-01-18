@@ -42,6 +42,7 @@ public:
     void informBackgroundColor(QColor color);
     void displayMessage(const QString& text, ShowOption showOpt);
     void setViewWidget(QWidget* parent);
+    void adjustPositionToParent();
 
 signals:
     void mouseWheelRolledUp();
