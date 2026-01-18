@@ -23,14 +23,13 @@
 #include <QtDebug>
 #include <QShortcut>
 #include <QTableWidget>
-#include <algorithm>
 #include <QDebug>
 #include <vlcqt/vlcqt.h>
 
 #include "videoWidget.h"
 #include "../shared.h"
 
-#define DOUBLE_CLICK_INTERVAL 200
+const int DOUBLE_CLICK_INTERVAL = 200;
 
 MainPage::MainPage(QWidget *parent)
     : QWidget(parent)
@@ -664,7 +663,8 @@ void MainPage::mouseReleaseEvent(QMouseEvent *event)
             jumpBackward((rightMouseButtonPressed || isControlModifierPressed) ? 60 : 4);
     }
 
-    if(!mPlayerController->underMouse() && clickElapsedTimer.elapsed() > DOUBLE_CLICK_INTERVAL)
+    auto elapsed = clickElapsedTimer.elapsed();
+    if(!mPlayerController->underMouse() && (!clickElapsedTimer.isValid() || elapsed > DOUBLE_CLICK_INTERVAL))
     {
         if(isPlayerSeekable())
         {
