@@ -111,7 +111,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
 
         currentPlayingList.insert(currentPlayingIndex, firstItem);
 
-        currentFilePosition = currentPlayingList.at(currentPlayingIndex);
+        currentFilePosition = previousSelectedRow = currentPlayingList.at(currentPlayingIndex);
         playCurrent();
     }
     else
