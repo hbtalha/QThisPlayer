@@ -107,6 +107,7 @@ void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
     {
         this->scrollToItem(items.first(), QAbstractItemView::PositionAtTop);
         syncToVideoTimeButton->setVisible(false);
+        this->selectRow(items.first()->row());
     }
 }
 
