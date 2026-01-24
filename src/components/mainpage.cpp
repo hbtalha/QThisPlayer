@@ -82,8 +82,8 @@ MainPage::MainPage(QWidget *parent)
     connect(mPlayerController, &PlayerController::stop, mVideoWidget,[this]{ mVideoWidget->update();});
     connect(mPlayerController, &PlayerController::muteVolume, mPlayer,&VlcMediaPlayer::setMute);
     connect(mPlayerController, &PlayerController::volumeChanged, mPlayer,&VlcMediaPlayer::setVolume);
-    connect(mPlayerController, &PlayerController::seekForward, this, [this] { jumpForward(10); });
-    connect(mPlayerController, &PlayerController::seekBackward, this,  [this] { jumpBackward(10); });
+    connect(mPlayerController, &PlayerController::seekForward, this, [this] { jumpForward(10, false); });
+    connect(mPlayerController, &PlayerController::seekBackward, this,  [this] { jumpBackward(10, false); });
     connect(mPlayerController, &PlayerController::next, this, &MainPage::next);
     connect(mPlayerController, &PlayerController::previous, this, &MainPage::previous);
     connect(mPlayerController, &PlayerController::loopToggled, this, &MainPage::setPlaylistMode);
@@ -499,7 +499,7 @@ void MainPage::previous()
     playlist->playPrevious();
 }
 
-void MainPage::jumpForward(int sec)
+void MainPage::jumpForward(int sec, bool shouldShowMessage )
 {
     if(isPlayerSeekable())
     {
@@ -508,16 +508,20 @@ void MainPage::jumpForward(int sec)
             qint64 currentTime = mPlayer->time();
             qint64 time =  currentTime + (sec * 1000);
 
-            if(time > mPlayerController->mediaProgressSlider()->mediaLength())
+            auto mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
+
+            if(time > mediaLength)
             {
-                time = mPlayerController->mediaProgressSlider()->mediaLength();
+                time = mediaLength;
             }
             mPlayer->setTime(time);
+            if(shouldShowMessage)
+                emit  message(formattedTime(time) + " / " + formattedTime(mediaLength));
         }
     }
 }
 
-void MainPage::jumpBackward(int sec)
+void MainPage::jumpBackward(int sec, bool shouldShowMessage)
 {
     if(isPlayerSeekable())
     {
@@ -531,6 +535,8 @@ void MainPage::jumpBackward(int sec)
                 time = 0;
             }
             mPlayer->setTime(time);
+            if(shouldShowMessage)
+                emit  message(formattedTime(time) + " / " + formattedTime(mPlayer->length()));
         }
     }
 }

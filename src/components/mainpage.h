@@ -60,7 +60,7 @@ signals:
     void togglePicInPicWindow();
     void setFullScreen(bool);
     void mouseMove();
-    void message(QString, bool = false);
+    void message(QString, bool isError = false);
     void mediaStateChanged(Vlc::State state);
 
 public slots:
@@ -71,8 +71,8 @@ public slots:
     void pause();
     void next();
     void previous();
-    void jumpForward(int sec);
-    void jumpBackward(int sec);
+    void jumpForward(int sec, bool shouldShowMessage = true);
+    void jumpBackward(int sec, bool shouldShowMessage = true);
     void setPlaylistMode(int);
     void onEndOfMedia();
     void resetPlayer();
