@@ -62,7 +62,7 @@ private:
     int currentFilePosition;
     int rowsDifference;
     bool isRandom;
-    int previousSelectedRow;
+    int previousSelectedRow = -1;
 
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;

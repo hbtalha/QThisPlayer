@@ -111,7 +111,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
 
         currentPlayingList.insert(currentPlayingIndex, firstItem);
 
-        currentFilePosition = previousSelectedRow = currentPlayingList.at(currentPlayingIndex);
+        currentFilePosition = currentPlayingList.at(currentPlayingIndex);
         playCurrent();
     }
     else
@@ -179,7 +179,7 @@ void PlaylistPage::playCurrent()
     emit playSelected(fileAt(currentFilePosition));
     emit mediaChanged(playlistFiles.at(currentFilePosition).fileName());
 
-    if(previousSelectedRow < this->count())
+    if(previousSelectedRow < this->count() && previousSelectedRow != -1)
         this->item(previousSelectedRow)->setBackground( ( (previousSelectedRow % 2) == 0 ) ? QColor() : QColor(27,27,27) );
 
     this->item(currentFilePosition)->setBackground(QColor(115, 147, 179));
