@@ -52,8 +52,7 @@ public:
     */
     ~VlcEqualizer()
     {
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             libvlc_audio_equalizer_release(_vlcEqualizer);
         }
     }
@@ -65,11 +64,9 @@ public:
      */
     float amplificationForBandAt(uint bandIndex) const
     {
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             float ret = libvlc_audio_equalizer_get_amp_at_index(_vlcEqualizer, bandIndex);
-            if (!std::isnan(ret))
-            {
+            if (!std::isnan(ret)) {
                 return ret;
             }
         }
@@ -82,12 +79,9 @@ public:
      */
     uint bandCount() const
     {
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             return libvlc_audio_equalizer_get_band_count();
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -102,12 +96,9 @@ public:
      */
     float bandFrequency(uint bandIndex) const
     {
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             return libvlc_audio_equalizer_get_band_frequency(bandIndex);
-        }
-        else
-        {
+        } else {
             return -1.0;
         }
     }
@@ -118,12 +109,9 @@ public:
      */
     float preamplification() const
     {
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             return libvlc_audio_equalizer_get_preamp(_vlcEqualizer);
-        }
-        else
-        {
+        } else {
             return 0.0;
         }
     }
@@ -148,12 +136,9 @@ public:
     QString presetNameAt(uint index) const
     {
         const char *name = libvlc_audio_equalizer_get_preset_name(index);
-        if (name == NULL)
-        {
+        if (name == NULL) {
             return QString();
-        }
-        else
-        {
+        } else {
             return QString(name);
         }
     }
@@ -165,14 +150,12 @@ public slots:
      */
     void loadFromPreset(uint index)
     {
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             libvlc_audio_equalizer_release(_vlcEqualizer);
         }
         _vlcEqualizer = libvlc_audio_equalizer_new_from_preset(index);
 
-        if (_vlcEqualizer)
-        {
+        if (_vlcEqualizer) {
             emit presetLoaded();
         }
     }
@@ -188,8 +171,7 @@ public slots:
      */
     void setAmplificationForBandAt(float amp, uint bandIndex)
     {
-        if (!_vlcEqualizer)
-        {
+        if (!_vlcEqualizer) {
             return;
         }
         libvlc_audio_equalizer_set_amp_at_index(_vlcEqualizer, amp, bandIndex);
@@ -202,12 +184,9 @@ public slots:
      */
     void setEnabled(bool enabled)
     {
-        if (enabled && _vlcEqualizer != NULL)
-        {
+        if (enabled && _vlcEqualizer != NULL) {
             libvlc_media_player_set_equalizer(_vlcMediaPlayer, _vlcEqualizer);
-        }
-        else
-        {
+        } else {
             libvlc_media_player_set_equalizer(_vlcMediaPlayer, NULL);
         }
     }
@@ -222,8 +201,7 @@ public slots:
      */
     void setPreamplification(float value)
     {
-        if (!_vlcEqualizer)
-        {
+        if (!_vlcEqualizer) {
             return;
         }
         libvlc_audio_equalizer_set_preamp(_vlcEqualizer, value);

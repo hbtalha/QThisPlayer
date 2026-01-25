@@ -72,14 +72,11 @@ public:
 
 
         // Check if instance is running
-        if (_vlcInstance)
-        {
+        if (_vlcInstance) {
             _status = true;
             qDebug() << "VLC-Qt" << libVersion() << "initialised";
             qDebug() << "Using libvlc version:" << version();
-        }
-        else
-        {
+        } else {
             qCritical() << "VLC-Qt Error: libvlc failed to load!";
         }
     }
@@ -89,8 +86,7 @@ public:
     */
     ~VlcInstance()
     {
-        if (_status && _vlcInstance)
-        {
+        if (_status && _vlcInstance) {
             libvlc_release(_vlcInstance);
         }
     }
@@ -128,8 +124,7 @@ public:
 #endif //LIBVLCQT_VERSION
 
 #if defined(LIBVLCQT_VERSION_VCS)
-        if (QString(LIBVLCQT_VERSION_VCS) != "0" && QString(LIBVLCQT_VERSION_VCS) != "")
-        {
+        if (QString(LIBVLCQT_VERSION_VCS) != "0" && QString(LIBVLCQT_VERSION_VCS) != "") {
             version.append("-" + QString(LIBVLCQT_VERSION_VCS));
         }
 #endif //LIBVLCQT_VERSION
@@ -238,15 +233,13 @@ public:
     QList<VlcModuleDescription *> audioFilterList() const
     {
         libvlc_module_description_t *original = libvlc_audio_filter_list_get(_vlcInstance);
-        if (original == NULL)
-        {
+        if (original == NULL) {
             return QList<VlcModuleDescription *>(); // LCOV_EXCL_LINE
         }
 
         libvlc_module_description_t *list = original;
         QList<VlcModuleDescription *> audioFilters;
-        do
-        {
+        do {
             VlcModuleDescription *module = new VlcModuleDescription(VlcModuleDescription::AudioFilter, list->psz_name);
             module->setLongName(list->psz_longname);
             module->setShortName(list->psz_shortname);
@@ -254,8 +247,7 @@ public:
             audioFilters << module;
 
             list = list->p_next;
-        }
-        while (list->p_next);
+        } while (list->p_next);
 
         libvlc_module_description_list_release(original);
 
@@ -269,15 +261,13 @@ public:
     QList<VlcModuleDescription *> videoFilterList() const
     {
         libvlc_module_description_t *original = libvlc_video_filter_list_get(_vlcInstance);
-        if (original == NULL)
-        {
+        if (original == NULL) {
             return QList<VlcModuleDescription *>(); // LCOV_EXCL_LINE
         }
 
         libvlc_module_description_t *list = original;
         QList<VlcModuleDescription *> videoFilters;
-        do
-        {
+        do {
             VlcModuleDescription *module = new VlcModuleDescription(VlcModuleDescription::VideoFilter, list->psz_name);
             module->setLongName(list->psz_longname);
             module->setShortName(list->psz_shortname);
@@ -285,8 +275,7 @@ public:
             videoFilters << module;
 
             list = list->p_next;
-        }
-        while (list->p_next);
+        } while (list->p_next);
 
         libvlc_module_description_list_release(original);
 

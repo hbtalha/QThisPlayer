@@ -74,8 +74,7 @@ private:
     {
         VlcMedia *core = static_cast<VlcMedia *>(data);
 
-        switch (event->type)
-        {
+        switch (event->type) {
         case libvlc_MediaMetaChanged:
             emit core->metaChanged(Vlc::Meta(event->u.media_meta_changed.meta_type));
             break;
@@ -110,8 +109,7 @@ private:
              << libvlc_MediaFreed
              << libvlc_MediaStateChanged;
 
-        foreach (const libvlc_event_e &event, list)
-        {
+        foreach (const libvlc_event_e &event, list) {
             libvlc_event_attach(_vlcEvents, event, libvlc_callback, this);
         }
     }
@@ -126,8 +124,7 @@ private:
              << libvlc_MediaFreed
              << libvlc_MediaStateChanged;
 
-        foreach (const libvlc_event_e &event, list)
-        {
+        foreach (const libvlc_event_e &event, list) {
             libvlc_event_detach(_vlcEvents, event, libvlc_callback, this);
         }
     }
@@ -417,12 +414,9 @@ public:
         parameters = "std{access=file,mux=%1,dst='%2'}";
         parameters = parameters.arg(Vlc::mux()[mux], l + "." + Vlc::mux()[mux]);
 
-        if (duplicate)
-        {
+        if (duplicate) {
             option2 = ":sout=#duplicate{dst=display,dst=\"%1\"}";
-        }
-        else
-        {
+        } else {
             option2 = ":sout=#%1";
         }
 
@@ -461,12 +455,9 @@ public:
         parameters = "transcode{vcodec=%1,acodec=%2}:std{access=file,mux=%3,dst='%4'}";
         parameters = parameters.arg(Vlc::videoCodec()[videoCodec], Vlc::audioCodec()[audioCodec], Vlc::mux()[mux], l + "." + Vlc::mux()[mux]);
 
-        if (duplicate)
-        {
+        if (duplicate) {
             option2 = ":sout=#duplicate{dst=display,dst=\"%1\"}";
-        }
-        else
-        {
+        } else {
             option2 = ":sout=#%1";
         }
 
@@ -512,12 +503,9 @@ public:
         parameters = "transcode{vcodec=%1,vb=%2,fps=%3,scale=%4,acodec=%5}:std{access=file,mux=%6,dst='%7'}";
         parameters = parameters.arg(Vlc::videoCodec()[videoCodec], QString::number(bitrate), QString::number(fps), QString::number(scale), Vlc::audioCodec()[audioCodec], Vlc::mux()[mux], l + "." + Vlc::mux()[mux]);
 
-        if (duplicate)
-        {
+        if (duplicate) {
             option2 = ":sout=#duplicate{dst=display,dst=\"%1\"}";
-        }
-        else
-        {
+        } else {
             option2 = ":sout=#%1";
         }
 
@@ -555,8 +543,7 @@ public:
     */
     void setOptions(const QStringList &options)
     {
-        foreach (const QString &option, options)
-        {
+        foreach (const QString &option, options) {
             libvlc_media_add_option(_vlcMedia, option.toUtf8().data());
         }
     }

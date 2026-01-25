@@ -30,10 +30,8 @@ QList<QFileInfo> filterSupportedMediaFormats(const QList<QUrl>& urls)
 {
     QList<QFileInfo> files;
 
-    for(auto const& url : urls)
-    {
-        if(url.isLocalFile())
-        {
+    for(auto const& url : urls) {
+        if(url.isLocalFile()) {
             QFileInfo localFile(url.toLocalFile());
 
             if(supportedMediaFormats.contains(localFile.suffix(), Qt::CaseInsensitive))
@@ -46,16 +44,13 @@ QList<QFileInfo> filterSupportedMediaFormats(const QList<QUrl>& urls)
 
 bool areAllSubtitleFiles(const QList<QUrl> &urls)
 {
-    for(auto const& url : urls)
-    {
-        if(url.isLocalFile())
-        {
+    for(auto const& url : urls) {
+        if(url.isLocalFile()) {
             QFileInfo localFile(url.toLocalFile());
 
             if( ! supportedSubtitlesFormats.contains(localFile.suffix(), Qt::CaseInsensitive))
                 return false;
-        }
-        else
+        } else
             return false;
     }
 
@@ -93,8 +88,7 @@ QIcon invertedColorIcon(QIcon icon)
 
     QIcon invertedIcon;
 
-    for(auto& singleSize : avalSize)
-    {
+    for(auto& singleSize : avalSize) {
         QImage tempImage = icon.pixmap(singleSize).toImage();
         tempImage.invertPixels();
         invertedIcon.addPixmap(QPixmap::fromImage(std::move(tempImage)));

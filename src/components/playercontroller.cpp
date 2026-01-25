@@ -67,7 +67,7 @@ PlayerController::PlayerController(QWidget *parent) : QWidget(parent)
     seekBackwardButton = new QToolButton;
     setUpCommonToolButton(seekBackwardButton,style()->standardIcon(QStyle::SP_MediaSeekBackward), tr("Seek backward 10 seconds"), true);
 
-    stopButton = new QToolButton;    
+    stopButton = new QToolButton;
     setUpCommonToolButton(stopButton, style()->standardIcon(QStyle::SP_MediaStop), tr("Stop playback"));
 
     seekForwardButton = new QToolButton;
@@ -226,13 +226,10 @@ void PlayerController::toggleVolButton(bool isLoud)
 {
     Settings.setMute(isLoud);
 
-    if(isLoud)
-    {
+    if(isLoud) {
         volButton->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
         emit muteVolume(true);
-    }
-    else
-    {
+    } else {
         volButton->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
         emit muteVolume(false);
     }
@@ -242,25 +239,21 @@ void PlayerController::mediaStateChanged(Vlc::State state)
 {
     mediaState = state;
 
-    if(state == Vlc::Opening)
-    {
+    if(state == Vlc::Opening) {
         setPlayButtonIcon(false);
         fullScreenButton->setEnabled(true);
     }
-    if(state == Vlc::Paused || state == Vlc::Stopped || state == Vlc::Ended)
-    {
+    if(state == Vlc::Paused || state == Vlc::Stopped || state == Vlc::Ended) {
         setPlayButtonIcon(true);
     }
-    if(state ==  Vlc::Stopped || state == Vlc::Ended)
-    {
+    if(state ==  Vlc::Stopped || state == Vlc::Ended) {
         fullScreenButton->setEnabled(false);
     }
 }
 
 void PlayerController::onPlayClicked()
 {
-    switch (mediaState)
-    {
+    switch (mediaState) {
     case Vlc::Playing:
         emit pause();
         setPlayButtonIcon(true);
@@ -302,18 +295,13 @@ void PlayerController::setPicInPicView(bool picInPicView)
 }
 void PlayerController::toggleLoop()
 {
-    if(loopButton->property("state").toInt() == NO_LOOP)
-    {
+    if(loopButton->property("state").toInt() == NO_LOOP) {
         setupLoopButton(LOOP_ALL);
         emit loopToggled(LOOP_ALL);
-    }
-    else if(loopButton->property("state").toInt() == LOOP_ALL)
-    {
+    } else if(loopButton->property("state").toInt() == LOOP_ALL) {
         setupLoopButton(LOOP_CURRENT);
         emit loopToggled(LOOP_CURRENT);
-    }
-    else if(loopButton->property("state").toInt() == LOOP_CURRENT)
-    {
+    } else if(loopButton->property("state").toInt() == LOOP_CURRENT) {
         setupLoopButton(NO_LOOP);
         emit loopToggled(NO_LOOP);
     }
@@ -324,20 +312,15 @@ void PlayerController::setupLoopButton(int mode)
     loop = mode;
     Settings.setPlaylistMode(mode);
 
-    if(mode == NO_LOOP)
-    {
+    if(mode == NO_LOOP) {
         loopButton->setProperty("state",QVariant(NO_LOOP));
         loopButton->setIcon(QIcon(":/images/icons/toggleRepeat.png"));
         loopButton->setChecked(false);
-    }
-    else if(mode == LOOP_ALL)
-    {
+    } else if(mode == LOOP_ALL) {
         loopButton->setProperty("state",QVariant(LOOP_ALL));
         loopButton->setIcon(QIcon(":/images/icons/toggleRepeat.png"));
         loopButton->setChecked(true);
-    }
-    else if(mode == LOOP_CURRENT)
-    {
+    } else if(mode == LOOP_CURRENT) {
         loopButton->setProperty("state",QVariant(LOOP_CURRENT));
         loopButton->setIcon(QIcon(":/images/icons/loop_current.png"));
         loopButton->setChecked(true);
@@ -399,20 +382,17 @@ void PlayerController::createWinThumbnailToolBar(QWidget* widget)
 
 void PlayerController::setPlayButtonIcon(bool playButtonIcon)
 {
-    if(playButtonIcon)
-    {
+    if(playButtonIcon) {
         playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         playButton->setToolTip(tr("Play"));
 #ifdef Q_OS_WIN
-            playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
+        playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
 #endif
-    }
-    else
-    {
+    } else {
         playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         playButton->setToolTip(tr("Pause the playback"));
 #ifdef Q_OS_WIN
-            playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPause)));
+        playThumbnailButton->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPause)));
 #endif
     }
 }

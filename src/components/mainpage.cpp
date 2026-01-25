@@ -79,7 +79,7 @@ MainPage::MainPage(QWidget *parent)
     connect(mPlayerController, &PlayerController::playWithNoMedia, this, &MainPage::play);
     connect(mPlayerController, &PlayerController::pause, mPlayer, &VlcMediaPlayer::pause);
     connect(mPlayerController, &PlayerController::stop, mPlayer, &VlcMediaPlayer::stop);
-    connect(mPlayerController, &PlayerController::stop, mVideoWidget,[this]{ mVideoWidget->update();});
+    connect(mPlayerController, &PlayerController::stop, mVideoWidget,[this] { mVideoWidget->update();});
     connect(mPlayerController, &PlayerController::muteVolume, mPlayer,&VlcMediaPlayer::setMute);
     connect(mPlayerController, &PlayerController::volumeChanged, mPlayer,&VlcMediaPlayer::setVolume);
     connect(mPlayerController, &PlayerController::seekForward, this, [this] { jumpForward(10, false); });
@@ -111,8 +111,7 @@ MainPage::MainPage(QWidget *parent)
 void MainPage::setupShortcuts()
 {
     QShortcut* playPauseShortcut = new QShortcut(QKeySequence(Qt::Key_Space), this);
-    connect(playPauseShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(playPauseShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
         {
             emit message(mPlayer->isPaused() ? "Play" : "Pause");
@@ -121,8 +120,7 @@ void MainPage::setupShortcuts()
     });
 
     QShortcut* previousShortcut = new QShortcut(QKeySequence(Qt::Key_P), this);
-    connect(previousShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(previousShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
         {
             emit message("Previous");
@@ -131,8 +129,7 @@ void MainPage::setupShortcuts()
     });
 
     QShortcut* nextShortcut = new QShortcut(QKeySequence(Qt::Key_N), this);
-    connect(nextShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(nextShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
         {
             emit message("Next");
@@ -162,8 +159,7 @@ void MainPage::setupShortcuts()
     connect(stopShortcut, &QShortcut::activated, this, [this] { mPlayerController->clickStopButton(); });
 
     QShortcut* muteShortcut = new QShortcut(QKeySequence(Qt::Key_M), this);
-    connect(muteShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(muteShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
         {
             mPlayerController->clickVolButton();
@@ -172,20 +168,17 @@ void MainPage::setupShortcuts()
         }
     });
     QShortcut* volumeUpShortcut = new QShortcut(QKeySequence(Qt::Key_Up), this);
-    connect(volumeUpShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(volumeUpShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
             increaseVolume();
     });
     QShortcut* volumeDownShortcut = new QShortcut(QKeySequence(Qt::Key_Down), this);
-    connect(volumeDownShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(volumeDownShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
             decreaseVolume();
     });
     QShortcut* toggleThroughSubitles = new QShortcut(QKeySequence(Qt::Key_V), this);
-    connect(toggleThroughSubitles, &QShortcut::activated, this, [this]
-    {
+    connect(toggleThroughSubitles, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
         {
             static int sub = mPlayer->subtitleCount();
@@ -207,8 +200,7 @@ void MainPage::setupShortcuts()
         }
     });
     QShortcut* fullScreenShortcut = new QShortcut(QKeySequence(Qt::Key_F), this);
-    connect(fullScreenShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(fullScreenShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
             emit toggleFullScreen();
     });
@@ -216,29 +208,25 @@ void MainPage::setupShortcuts()
     connect(exitFullScreenShortcut, &QShortcut::activated, this, [this] { emit setFullScreen(false); });
 
     QShortcut* randomShortcut = new QShortcut(QKeySequence(Qt::Key_R), this);
-    connect(randomShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(randomShortcut, &QShortcut::activated, this, [this] {
         mPlayerController->clickRandomButton();
         QString isRandom =  mPlayerController->isRandom() ? "On" : "Off";
         emit message("Random: " + isRandom);
     });
 
     QShortcut* loopShortcut = new QShortcut(QKeySequence(Qt::Key_L), this);
-    connect(loopShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(loopShortcut, &QShortcut::activated, this, [this] {
         mPlayerController->clickLoopButton();
         QStringList loops =  {"Off", "All", "One"};
         emit message("Loop: " + loops.at(mPlayerController->loopOption()));
     });
     QShortcut* pasteToAddChaptersShortcut = new QShortcut(QKeySequence(QKeySequence::Paste), this);
-    connect(pasteToAddChaptersShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(pasteToAddChaptersShortcut, &QShortcut::activated, this, [this] {
         if(isPlayerSeekable())
             copyFromClipboard();
     });
     QShortcut* setInPicInPicWinShortcut = new QShortcut(QKeySequence(Qt::CTRL|Qt::ALT|Qt::Key_P), this);
-    connect(setInPicInPicWinShortcut, &QShortcut::activated, this, [this]
-    {
+    connect(setInPicInPicWinShortcut, &QShortcut::activated, this, [this] {
         playerController()->clickPicInPicButton();
     });
 }
@@ -247,12 +235,9 @@ void MainPage::checkForChapterFile(QString filePath)
 {
     QString fileTxt = filePath + ".txt";
     QString fileCh = filePath + ".ch";
-    if(QFile::exists(fileTxt))
-    {
+    if(QFile::exists(fileTxt)) {
         addChapterFile(fileTxt);
-    }
-    else if(QFile::exists(fileCh))
-    {
+    } else if(QFile::exists(fileCh)) {
         addChapterFile(fileCh);
     }
 }
@@ -260,8 +245,7 @@ void MainPage::checkForChapterFile(QString filePath)
 void MainPage::addChapterFile(const QString &filePath)
 {
     QFile file(filePath);
-    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream text(&file);
         processChaptersText(text.readAll());
     }
@@ -272,18 +256,15 @@ void MainPage::processChaptersText(QString text)
     QStringList lines = text.split("\n", Qt::SkipEmptyParts);
 
     // ignore lines starting with ';'
-    for(int i = lines.size() - 1; i >= 0; --i)
-    {
-        if(lines.at(i).startsWith(";"))
-        {
+    for(int i = lines.size() - 1; i >= 0; --i) {
+        if(lines.at(i).startsWith(";")) {
             lines.removeAt(i);
         }
     }
 
     QStringList chapters;
     QList<qint64> timestamps;
-    for(int i = 0; i < lines.size(); ++i)
-    {
+    for(int i = 0; i < lines.size(); ++i) {
         QString line = lines.at(i);
         line.prepend(' '); // force timestamp capture when they are at the beginning of the line
 
@@ -291,8 +272,7 @@ void MainPage::processChaptersText(QString text)
         QRegularExpression deletionRE("^[^a-zA-Z0-9!'\"_`\\[{(\\?]*|[^a-zA-Z0-9!)'\"_`}\\]\\.\\?]*$");
         QRegularExpressionMatch match = timestampRegex.match(line);
 
-        if(match.hasMatch())
-        {
+        if(match.hasMatch()) {
             int hours   =  match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
             int minutes =  match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
             int seconds  = match.captured(4).isEmpty() ? 0 : match.captured(4).toInt();
@@ -313,8 +293,7 @@ void MainPage::processChaptersText(QString text)
 
             double milliseconds = ((hours * 3600000) + (minutes * 60000) + (seconds * 1000));
 
-            if(milliseconds == 0.0)
-            {
+            if(milliseconds == 0.0) {
                 timestamps.clear();
                 chapters.clear();
             }
@@ -326,26 +305,20 @@ void MainPage::processChaptersText(QString text)
         }
     }
 
-    if(! timestamps.isEmpty())
-    {
+    if(! timestamps.isEmpty()) {
         qint64 mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
 
         // don't add chapter with a timestamp higher than the actuall media length
-        for(qint64 i = timestamps.size() - 1; i >= 0; --i)
-        {
-            if(timestamps.at(i) > mediaLength)
-            {
+        for(qint64 i = timestamps.size() - 1; i >= 0; --i) {
+            if(timestamps.at(i) > mediaLength) {
                 chapters.removeAt(i);
                 timestamps.removeAt(i);
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
 
-        if( ! timestamps.isEmpty() )
-        {
+        if( ! timestamps.isEmpty() ) {
             mPlayerController->mediaProgressSlider()->setChapters(chapters, timestamps);
             chapterListPage->setChapters(chapters, timestamps);
             emit message("Chapter list added");
@@ -357,8 +330,7 @@ void MainPage::copyFromClipboard()
 {
     const QMimeData *mimeData = clipboard->mimeData();
 
-    if (mimeData->hasText())
-    {
+    if (mimeData->hasText()) {
         processChaptersText(mimeData->text());
     }
 }
@@ -378,8 +350,7 @@ void MainPage::openFiles(const QList<QUrl> &urls, bool play)
 
 void MainPage::takeSnapshot()
 {
-    if(isPlayerSeekable())
-    {
+    if(isPlayerSeekable()) {
         mPlayer->takeSnapshot(playlist->currentFilePlayingPath() + "-" +
                               QDateTime::currentDateTime().toString(Qt::ISODateWithMs).remove(":") + ".jpg");
     }
@@ -387,8 +358,7 @@ void MainPage::takeSnapshot()
 
 void MainPage::setPlayerTime(qint64 time)
 {
-    if(isPlayerSeekable())
-    {
+    if(isPlayerSeekable()) {
         mPlayer->setTime(time);
     }
 }
@@ -426,23 +396,18 @@ VlcMediaPlayer *MainPage::player() const
 
 void MainPage::playFile(const QFileInfo &file)
 {
-    if(! file.filePath().isEmpty())
-    {
-        if(QFile::exists(file.filePath()))
-        {
+    if(! file.filePath().isEmpty()) {
+        if(QFile::exists(file.filePath())) {
             VlcMedia* _media = new VlcMedia(file.filePath(), true, instance);
             mPlayer->setMedia(_media);
             mPlayer->play();
 
-            QTimer::singleShot(500, this, [this, file]
-            {
+            QTimer::singleShot(500, this, [this, file] {
                 checkForChapterFile(file.absolutePath() + "/" + file.completeBaseName());
             });
 
             chapterListPage->syncToVideoTimeOnShow();
-        }
-        else
-        {
+        } else {
             emit message("File not found", true);
         }
     }
@@ -451,8 +416,7 @@ void MainPage::playFile(const QFileInfo &file)
 int MainPage::volumeAdjuster(int vol, int incrementOrDecrement)
 {
     int filler = 0;
-    while(vol % 10 != 0)
-    {
+    while(vol % 10 != 0) {
         vol += incrementOrDecrement;
         filler += incrementOrDecrement;
     }
@@ -477,8 +441,7 @@ void MainPage::decreaseVolume()
 
 void MainPage::play()
 {
-    if(mPlayer->state() == Vlc::Idle or mPlayer->state() == Vlc::Ended)
-    {
+    if(mPlayer->state() == Vlc::Idle or mPlayer->state() == Vlc::Ended) {
         if(! playlist->isEmpty())
             playlist->playCurrent();
     }
@@ -501,17 +464,14 @@ void MainPage::previous()
 
 void MainPage::jumpForward(int sec, bool shouldShowMessage )
 {
-    if(isPlayerSeekable())
-    {
-        if(sec > 0)
-        {
+    if(isPlayerSeekable()) {
+        if(sec > 0) {
             qint64 currentTime = mPlayer->time();
             qint64 time =  currentTime + (sec * 1000);
 
             auto mediaLength = mPlayerController->mediaProgressSlider()->mediaLength();
 
-            if(time > mediaLength)
-            {
+            if(time > mediaLength) {
                 time = mediaLength;
             }
             mPlayer->setTime(time);
@@ -523,15 +483,12 @@ void MainPage::jumpForward(int sec, bool shouldShowMessage )
 
 void MainPage::jumpBackward(int sec, bool shouldShowMessage)
 {
-    if(isPlayerSeekable())
-    {
-        if(sec > 0)
-        {
+    if(isPlayerSeekable()) {
+        if(sec > 0) {
             qint64 currentTime = mPlayer->time();
             qint64 time =  currentTime - (sec * 1000);
 
-            if(time < 0)
-            {
+            if(time < 0) {
                 time = 0;
             }
             mPlayer->setTime(time);
@@ -548,27 +505,20 @@ void MainPage::setPlaylistMode(int mode)
 
 void MainPage::onEndOfMedia()
 {
-    if(Settings.quitAtTheEndOfPlaylist() && playlist->isAtEnd())
-    {
+    if(Settings.quitAtTheEndOfPlaylist() && playlist->isAtEnd()) {
         qApp->quit();
     }
 
     emit mediaChanged("");
     resetPlayer(); // clear the view
 
-    if(playlistMode == PlayerController::NO_LOOP)
-    {
-        if(! playlist->isAtEnd())
-        {
+    if(playlistMode == PlayerController::NO_LOOP) {
+        if(! playlist->isAtEnd()) {
             playlist->playNext();
         }
-    }
-    else if(playlistMode==PlayerController::LOOP_ALL)
-    {
+    } else if(playlistMode==PlayerController::LOOP_ALL) {
         playlist->playNext();
-    }
-    else if(playlistMode ==PlayerController::LOOP_CURRENT)
-    {
+    } else if(playlistMode ==PlayerController::LOOP_CURRENT) {
         playlist->playCurrent();
     }
 }
@@ -597,30 +547,24 @@ void MainPage::dropEvent(QDropEvent *event)
 {
     auto mimeData = event->mimeData();
 
-    if(mimeData->hasUrls())
-    {
+    if(mimeData->hasUrls()) {
         auto urls = mimeData->urls();
 
-        if(isPlayerSeekable())
-        {
-            if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch")))
-            {
+        if(isPlayerSeekable()) {
+            if(urls.size() == 1 && (urls.at(0).toLocalFile().endsWith(".txt") || urls.at(0).toLocalFile().endsWith(".ch"))) {
                 addChapterFile(urls.at(0).toLocalFile());
                 return;
             }
 
             // will look for subtitle files
-            if(areAllSubtitleFiles(urls))
-            {
+            if(areAllSubtitleFiles(urls)) {
                 addSubtiles(urls);
                 return;
             }
         }
 
         openFiles(mimeData->urls(), /*play*/ true);
-    }
-    else if(mimeData->hasText())
-    {
+    } else if(mimeData->hasText()) {
         if(isPlayerSeekable())
             processChaptersText(mimeData->text());
     }
@@ -644,10 +588,8 @@ void MainPage::wheelEvent(QWheelEvent *event)
 void MainPage::mouseDoubleClickEvent(QMouseEvent *event)
 {
     clickElapsedTimer.start();
-    if(mVideoWidget->underMouse() && event->button() == Qt::LeftButton)
-    {
-        if(isPlayerSeekable())
-        {
+    if(mVideoWidget->underMouse() && event->button() == Qt::LeftButton) {
+        if(isPlayerSeekable()) {
             emit toggleFullScreen();
             shouldCancelSingleClick = true;
         }
@@ -659,8 +601,7 @@ void MainPage::mouseReleaseEvent(QMouseEvent *event)
     if(event->button() == Qt::RightButton)
         rightMouseButtonPressed = false;
 
-    if(isPlayerSeekable())
-    {
+    if(isPlayerSeekable()) {
         bool isControlModifierPressed = (Qt::ControlModifier == QApplication::keyboardModifiers());
 
         if(event->button() == Qt::ForwardButton)
@@ -670,20 +611,15 @@ void MainPage::mouseReleaseEvent(QMouseEvent *event)
     }
 
     auto elapsed = clickElapsedTimer.elapsed();
-    if(!mPlayerController->underMouse() && (!clickElapsedTimer.isValid() || elapsed > DOUBLE_CLICK_INTERVAL))
-    {
-        if(isPlayerSeekable())
-        {
-            if(event->button() == Qt::LeftButton)
-            {
-                QTimer::singleShot(DOUBLE_CLICK_INTERVAL, this,[this]
-                {
+    if(!mPlayerController->underMouse() && (!clickElapsedTimer.isValid() || elapsed > DOUBLE_CLICK_INTERVAL)) {
+        if(isPlayerSeekable()) {
+            if(event->button() == Qt::LeftButton) {
+                QTimer::singleShot(DOUBLE_CLICK_INTERVAL, this,[this] {
                     if(!shouldCancelSingleClick)
                         mPlayerController->clickPlayButton();
                     shouldCancelSingleClick = false;
                 });
-            }
-            else if(event->button() == Qt::MiddleButton)
+            } else if(event->button() == Qt::MiddleButton)
                 emit toggleFullScreen();
         }
     }

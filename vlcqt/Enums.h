@@ -63,8 +63,7 @@ public:
         \brief Frame format used for custom rendering
         \since VLC-Qt 1.1
     */
-    enum RenderFormat
-    {
+    enum RenderFormat {
         YUVFormat
     };
 
@@ -72,8 +71,7 @@ public:
         \enum ActionsType
         \brief Actions types identifiers
     */
-    enum ActionsType
-    {
+    enum ActionsType {
         AudioTrack,
         Subtitles,
         VideoTrack,
@@ -84,8 +82,7 @@ public:
         \enum AudioChannel
         \brief Audio channel options
     */
-    enum AudioChannel
-    {
+    enum AudioChannel {
         AudioChannelError = -1,
         Stereo = 1,
         RStereo = 2,
@@ -98,8 +95,7 @@ public:
         \enum AudioCodec
         \brief Audio codecs list
     */
-    enum AudioCodec
-    {
+    enum AudioCodec {
         NoAudio,
         MPEG2Audio,
         MP3,
@@ -112,8 +108,7 @@ public:
         \enum AudioOutput
         \brief Audio outputs list
     */
-    enum AudioOutput
-    {
+    enum AudioOutput {
         DefaultAout
     };
 
@@ -121,8 +116,7 @@ public:
         \enum Deinterlacing
         \brief Supported deinterlacing modes
     */
-    enum Deinterlacing
-    {
+    enum Deinterlacing {
         Disabled,
         Discard,
         Blend,
@@ -140,8 +134,7 @@ public:
         \enum FillMode
         \brief Supported fill modes (QML only)
     */
-    enum FillMode
-    {
+    enum FillMode {
         PreserveAspectFit = Qt::KeepAspectRatio,
         PreserveAspectCrop = Qt::KeepAspectRatioByExpanding,
         Stretch = Qt::IgnoreAspectRatio
@@ -151,8 +144,7 @@ public:
         \enum Meta
         \brief Supported meta types
     */
-    enum Meta
-    {
+    enum Meta {
         Title,
         Artist,
         Genre,
@@ -176,8 +168,7 @@ public:
         \enum Mux
         \brief Recording output file mux
     */
-    enum Mux
-    {
+    enum Mux {
         TS,
         PS,
         MP4,
@@ -189,8 +180,7 @@ public:
         \enum PlaybackMode
         \brief Playlist playback mode
     */
-    enum PlaybackMode
-    {
+    enum PlaybackMode {
         DefaultPlayback,
         Loop,
         Repeat
@@ -200,8 +190,7 @@ public:
         \enum Ratio
         \brief Supported aspect and crop ratios
     */
-    enum Ratio
-    {
+    enum Ratio {
         Original,
         Ignore, /*!< QML aspect ratio only */
         R_16_9,
@@ -220,8 +209,7 @@ public:
         \enum Scale
         \brief Supported scales
     */
-    enum Scale
-    {
+    enum Scale {
         NoScale,
         S_1_05,
         S_1_1,
@@ -240,8 +228,7 @@ public:
         \enum State
         \brief VLC-Qt playback states
     */
-    enum State
-    {
+    enum State {
         Idle,
         Opening,
         Buffering,
@@ -256,8 +243,7 @@ public:
         \enum VideoCodec
         \brief Video codecs list
     */
-    enum VideoCodec
-    {
+    enum VideoCodec {
         NoVideo,
         MPEG2Video,
         MPEG4Video,
@@ -269,8 +255,7 @@ public:
         \enum VideoOutput
         \brief Video outputs list
     */
-    enum VideoOutput
-    {
+    enum VideoOutput {
 #if defined(Q_OS_LINUX)
         X11,
         XVideo,
@@ -421,8 +406,7 @@ public:
     */
     static QSizeF ratioSize(const Vlc::Ratio &ratio)
     {
-        switch (ratio)
-        {
+        switch (ratio) {
         case Vlc::R_16_9:
             return QSizeF(16, 9);
             break;

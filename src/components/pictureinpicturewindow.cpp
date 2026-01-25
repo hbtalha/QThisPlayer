@@ -47,8 +47,7 @@ void PictureInPictureWindow::takeController(QWidget *controller)
 
 void PictureInPictureWindow::showMouse()
 {
-    if(playerController != nullptr)
-    {
+    if(playerController != nullptr) {
         this->setCursor(Qt::ArrowCursor);
         playerController->setWindowFlags(Qt::WindowStaysOnTopHint);
         playerController->show();
@@ -58,11 +57,9 @@ void PictureInPictureWindow::showMouse()
 
 void PictureInPictureWindow::hideMouse()
 {
-    if(playerController != nullptr)
-    {
+    if(playerController != nullptr) {
         timerMouse->stop();
-        if( ! playerController->underMouse())
-        {
+        if( ! playerController->underMouse()) {
             playerController->hide();
             this->setCursor(Qt::BlankCursor);
         }

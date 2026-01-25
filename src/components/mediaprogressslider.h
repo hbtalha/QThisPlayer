@@ -85,8 +85,7 @@ public:
         labelsLayout = new QHBoxLayout;
         timeElapsed = new QLabel("--:--", this);
         totalOrRemainingTimeLabel = new TimeLabel("--:--", this);
-        connect(totalOrRemainingTimeLabel, &TimeLabel::toggleTimeDisplay, this, [this]
-        {
+        connect(totalOrRemainingTimeLabel, &TimeLabel::toggleTimeDisplay, this, [this] {
             if(isPlayerSeekable())
             {
                 seeRemainingTimeLabel = ! seeRemainingTimeLabel;
@@ -182,8 +181,7 @@ inline bool MediaProgressSlider::isPlayerSeekable()
 
 inline void MediaProgressSlider::setMediaPlayer(VlcMediaPlayer *player)
 {
-    if (vlcMediaPlayer)
-    {
+    if (vlcMediaPlayer) {
         disconnect(vlcMediaPlayer, &VlcMediaPlayer::lengthChanged, this, &MediaProgressSlider::updateFullTime);
         disconnect(vlcMediaPlayer, &VlcMediaPlayer::end, this, &MediaProgressSlider::onEndOfMedia);
         disconnect(vlcMediaPlayer, &VlcMediaPlayer::stopped, this, &MediaProgressSlider::onEndOfMedia);
@@ -284,12 +282,10 @@ inline void MediaProgressSlider::updateCurrentTime(qint64 time)
 {
     timeElapsed->setText(formattedTime(time));
 
-    if(chaptersPresent)
-    {
+    if(chaptersPresent) {
         QString currChapter = currentChapter(time);
 
-        if(currentChapterSet != currChapter)
-        {
+        if(currentChapterSet != currChapter) {
             currentChapterSet = currChapter;
 
             chapterLabel->setText(currChapter);
@@ -298,20 +294,16 @@ inline void MediaProgressSlider::updateCurrentTime(qint64 time)
                 emit currentChapterUpdated(formattedTime(mediaChaptersTimestamps.at(currentChapterIndex)));
         }
     }
-    if(seeRemainingTimeLabel)
-    {
+    if(seeRemainingTimeLabel) {
         totalOrRemainingTimeLabel->setText("-" + formattedTime(mediaLength() - time));
     }
 }
 
 inline void MediaProgressSlider::updateFullTime(qint64 time)
 {
-    if (!time)
-    {
+    if (!time) {
         totalOrRemainingTimeLabel->setText("--:--");
-    }
-    else
-    {
+    } else {
         fullTime = formattedTime(time);
 
         QRegularExpression r("(?:(\\d+):)?(\\d+):(\\d+)");
@@ -333,8 +325,7 @@ inline QString MediaProgressSlider::formattedFullTime()
 
 inline void MediaProgressSlider::updatePostionIfPlayerPaused()
 {
-    if(vlcMediaPlayer->isPaused())
-    {
+    if(vlcMediaPlayer->isPaused()) {
         updateCurrentPosition(vlcMediaPlayer->position());
     }
 }
@@ -360,10 +351,8 @@ inline void MediaProgressSlider::onEndOfMedia()
 
 inline void MediaProgressSlider::goToNextChapter()
 {
-    if(currentChapterIndex < mediaChaptersTimestamps.size() - 1)
-    {
-        if(vlcMediaPlayer)
-        {
+    if(currentChapterIndex < mediaChaptersTimestamps.size() - 1) {
+        if(vlcMediaPlayer) {
             chapterLabel->setText(currentChapter(vlcMediaPlayer->time()));
             vlcMediaPlayer->setTime(mediaChaptersTimestamps.at(currentChapterIndex + 1));
 
@@ -375,10 +364,8 @@ inline void MediaProgressSlider::goToNextChapter()
 
 inline void MediaProgressSlider::goToPreviousChapter()
 {
-    if(currentChapterIndex > 0)
-    {
-        if(vlcMediaPlayer)
-        {
+    if(currentChapterIndex > 0) {
+        if(vlcMediaPlayer) {
             vlcMediaPlayer->setTime(mediaChaptersTimestamps.at(currentChapterIndex - 1));
             chapterLabel->setText(currentChapter(vlcMediaPlayer->time()));
 
@@ -390,24 +377,18 @@ inline void MediaProgressSlider::goToPreviousChapter()
 
 inline QString MediaProgressSlider::currentChapter(qint64 time, bool shouldUpdateChapterIndex)
 {
-    for( int i = 0; i < mediaChaptersTimestamps.size(); ++i)
-    {
-        try
-        {
+    for( int i = 0; i < mediaChaptersTimestamps.size(); ++i) {
+        try {
             qint64 nextTime = (i == (mediaChapters.size() - 1) ) ? mediaLength() : mediaChaptersTimestamps.at(i+1);
 
-            if(time >= mediaChaptersTimestamps.at(i) && time < nextTime)
-            {
-                if(shouldUpdateChapterIndex)
-                {
+            if(time >= mediaChaptersTimestamps.at(i) && time < nextTime) {
+                if(shouldUpdateChapterIndex) {
                     currentChapterIndex = i;
                 }
                 return mediaChapters.at(i);
                 break;
             }
-        }
-        catch(std::exception& e)
-        {
+        } catch(std::exception& e) {
             /// because I can't fucking stop libvlc debug output I have to set my
             /// debug output like this so it can stand out for me to nitice them
             qDebug() << "\n\n****************************************************\n\n";
@@ -421,8 +402,7 @@ inline QString MediaProgressSlider::currentChapter(qint64 time, bool shouldUpdat
 
 inline void MediaProgressSlider::setChapters(QStringList chapters, QList<qint64> timestamps)
 {
-    if(chapters.size() == timestamps.size() && ! chapters.empty() && ! timestamps.empty() && vlcMediaPlayer)
-    {
+    if(chapters.size() == timestamps.size() && ! chapters.empty() && ! timestamps.empty() && vlcMediaPlayer) {
         emit chaptersSet(true);
         chaptersPresent = true;
         mediaChapters = chapters;
@@ -473,13 +453,11 @@ inline int MediaProgressSlider::getValueFromMediaPlayerTime(qint64 time)
 
 inline qint64 MediaProgressSlider::timeInRange(qint64 time)
 {
-    if(time > mediaLength())
-    {
+    if(time > mediaLength()) {
         return  mediaLength();
     }
 
-    if(time < 0)
-    {
+    if(time < 0) {
         return 0;
     }
 
@@ -495,10 +473,8 @@ inline void MediaProgressSlider::mouseMoveEvent(QMouseEvent *event)
     // convert x pos value to current time
     qint64 newTime = (valueFromXPos * mediaLength()) / static_cast<float>(maximum());
 
-    if(vlcMediaPlayer != nullptr)
-    {
-        if(isPlayerSeekable())
-        {
+    if(vlcMediaPlayer != nullptr) {
+        if(isPlayerSeekable()) {
             QString hoverTime = formattedTime(newTime);
 
             QString chapter = chaptersPresent ?  currentChapter(newTime, false /*updateCurrentChapterIndex*/) : "";
@@ -513,8 +489,7 @@ inline void MediaProgressSlider::mouseMoveEvent(QMouseEvent *event)
         return;
 
     vlcMediaPlayer->setTime(timeInRange(newTime));
-    if(vlcMediaPlayer->isPaused())
-    {
+    if(vlcMediaPlayer->isPaused()) {
         this->setValue(valueFromXPos);
     }
 }
@@ -522,10 +497,8 @@ inline void MediaProgressSlider::mouseMoveEvent(QMouseEvent *event)
 inline void MediaProgressSlider::mousePressEvent(QMouseEvent *event)
 {
     lock();
-    if(isPlayerSeekable())
-    {
-        if(event->button()==Qt::LeftButton)
-        {
+    if(isPlayerSeekable()) {
+        if(event->button()==Qt::LeftButton) {
             int valueFromXPos =( getValueFromXPos( event->pos().x() ) );
             qint64 newTime = (valueFromXPos * mediaLength()) / static_cast<float>(maximum());
 
@@ -546,14 +519,11 @@ inline void MediaProgressSlider::wheelEvent(QWheelEvent *event)
     if (!vlcMediaPlayer)
         return;
 
-    if (event->angleDelta().y() > 0)
-    {
+    if (event->angleDelta().y() > 0) {
         qint64 newTime =   vlcMediaPlayer->time() + 10000;
 
         vlcMediaPlayer->setTime(timeInRange(newTime));
-    }
-    else
-    {
+    } else {
         int newTime = vlcMediaPlayer->time() - 10000;
         vlcMediaPlayer->setTime(timeInRange(newTime));
     }
@@ -565,14 +535,11 @@ inline void MediaProgressSlider::wheelEvent(QWheelEvent *event)
 
 inline void MediaProgressSlider::paintEvent(QPaintEvent *event)
 {
-    if(chaptersPresent)
-    {
-        for(int i = 0; i < mediaChaptersTimestamps.size(); ++i)
-        {
+    if(chaptersPresent) {
+        for(int i = 0; i < mediaChaptersTimestamps.size(); ++i) {
             int value = getValueFromMediaPlayerTime(mediaChaptersTimestamps.at(i));
 
-            if(value > 0)
-            {
+            if(value > 0) {
                 int position = 7 + QStyle::sliderPositionFromValue(minimum(),
                                maximum(),
                                value,

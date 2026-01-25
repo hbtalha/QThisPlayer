@@ -39,8 +39,7 @@ public:
         \enum Type
         \brief Module type
     */
-    enum Type
-    {
+    enum Type {
         AudioFilter,
         VideoFilter
     };
@@ -93,8 +92,7 @@ public:
     */
     void setShortName(const QString &name)
     {
-        if (_shortName != name)
-        {
+        if (_shortName != name) {
             _shortName = name;
         }
     }
@@ -114,8 +112,7 @@ public:
     */
     void setLongName(const QString &name)
     {
-        if (_longName != name)
-        {
+        if (_longName != name) {
             _longName = name;
         }
     }
@@ -135,8 +132,7 @@ public:
     */
     void setHelp(const QString &help)
     {
-        if (_help != help)
-        {
+        if (_help != help) {
             _help = help;
         }
     }

@@ -26,8 +26,7 @@
 
     A direct copy of libvlc stats object to remove dependency to libvlc.
 */
-struct  VlcStats
-{
+struct  VlcStats {
     bool valid;              /*!< VLC stats success status */
     int read_bytes;          /*!< libVLC stats */
     float input_bitrate;     /*!< libVLC stats */

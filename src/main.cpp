@@ -32,8 +32,7 @@ void associateFileExtensions()
     QString exePath = qApp->applicationFilePath();
     exePath.replace("/", "\\");
 
-    for(auto const& e : supportedMediaFormats)
-    {
+    for(auto const& e : supportedMediaFormats) {
         QSettings regType("HKEY_CURRENT_USER\\SOFTWARE\\Classes\\." + e,
                           QSettings::NativeFormat);
         QSettings regIcon("HKEY_CURRENT_USER\\SOFTWARE\\Classes\\." + e + "\\DefaultIcon",
@@ -42,20 +41,17 @@ void associateFileExtensions()
                            QSettings::NativeFormat);
 
         /** . means default value, you can also use the "Default" string */
-        if("" != regType.value(".").toString())
-        {
+        if("" != regType.value(".").toString()) {
             regType.setValue(".","");
         }
 
         val = exePath + ",0";
-        if(val != regIcon.value(".").toString())
-        {
+        if(val != regIcon.value(".").toString()) {
             regIcon.setValue(".",val);
         }
 
         val = exePath + " \"%1\"";
-        if(val != regShell.value(".").toString())
-        {
+        if(val != regShell.value(".").toString()) {
             regShell.setValue(".",val);
         }
     }

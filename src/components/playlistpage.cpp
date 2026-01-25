@@ -49,14 +49,12 @@ PlaylistPage::PlaylistPage()
 #endif
     connect(this->model(), &QAbstractItemModel::rowsMoved, this, &PlaylistPage::onRowsMoved);
     connect(this, &QListWidget::customContextMenuRequested, this, &PlaylistPage::popupMenuTableShow);
-    connect(this, &QListWidget::activated, this, [this] (QModelIndex index)
-    {
+    connect(this, &QListWidget::activated, this, [this] (QModelIndex index) {
         currentFilePosition = index.row();
         currentPlayingIndex = currentPlayingList.indexOf(currentFilePosition);
         playCurrent();
 
-        if(isRandom)
-        {
+        if(isRandom) {
             setRandom(isRandom);
         }
     });
@@ -77,11 +75,9 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
     for(int i = currentPlayingList.size(); i < (currentPlayingList.size() + files.size()); ++i)
         tempPlayList << i;
 
-    if(files.size() > 0)
-    {
+    if(files.size() > 0) {
         playlistFiles.append(files);
-        for(auto const& file : files)
-        {
+        for(auto const& file : files) {
             this->addItem(file.fileName());
             this->item(this->count() - 1)->setToolTip(file.fileName());
         }
@@ -90,22 +86,19 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
     // when files dropped directly into the player, the first file will be played right away
     int firstItem;
 
-    if(play)
-    {
+    if(play) {
         firstItem = tempPlayList.takeFirst();
     }
 
     if(isRandom && tempPlayList.size() > 1)
         std::random_shuffle(tempPlayList.begin(), tempPlayList.end());
 
-    if(currentPlayingList.isEmpty())
-    {
+    if(currentPlayingList.isEmpty()) {
         currentPlayingIndex = 0;
         currentFilePosition = play ? firstItem : tempPlayList.first();
     }
 
-    if(play)
-    {
+    if(play) {
         for(int i = tempPlayList.size() - 1; i >= 0; --i)
             currentPlayingList.insert(currentPlayingIndex, tempPlayList.at(i));
 
@@ -113,9 +106,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
 
         currentFilePosition = currentPlayingList.at(currentPlayingIndex);
         playCurrent();
-    }
-    else
-    {
+    } else {
         currentPlayingList.append(tempPlayList);
     }
 
@@ -124,8 +115,7 @@ void PlaylistPage::addFiles(QList<QFileInfo> files, bool play)
 
 void PlaylistPage::playFileAtPosition(int position)
 {
-    if(position >= 0 && position < playlistFiles.size())
-    {
+    if(position >= 0 && position < playlistFiles.size()) {
         currentFilePosition = position;
         emit playSelected(fileAt(position));
     }
@@ -141,18 +131,14 @@ QFileInfo PlaylistPage::fileAt(int position)
 
 void PlaylistPage::playNext(bool play)
 {
-    if(! playlistFiles.isEmpty())
-    {
-        if(currentFilePosition == currentPlayingList.last())
-        {
+    if(! playlistFiles.isEmpty()) {
+        if(currentFilePosition == currentPlayingList.last()) {
             currentFilePosition = currentPlayingList.first();
             currentPlayingIndex = 0;
-        }
-        else
+        } else
             currentFilePosition = currentPlayingList.at(++currentPlayingIndex);
 
-        if(play)
-        {
+        if(play) {
             playCurrent();
         }
     }
@@ -160,14 +146,11 @@ void PlaylistPage::playNext(bool play)
 
 void PlaylistPage::playPrevious()
 {
-    if(! playlistFiles.isEmpty())
-    {
-        if(currentFilePosition == currentPlayingList.first())
-        {
+    if(! playlistFiles.isEmpty()) {
+        if(currentFilePosition == currentPlayingList.first()) {
             currentFilePosition = currentPlayingList.last();
             currentPlayingIndex = currentPlayingList.size() - 1;
-        }
-        else
+        } else
             currentFilePosition = currentPlayingList.at(--currentPlayingIndex);
 
         playCurrent();
@@ -206,14 +189,10 @@ void PlaylistPage::setRandom(bool random)
 {
     isRandom = random;
 
-    if(! currentPlayingList.isEmpty())
-    {
-        if(isRandom)
-        {
-            if(currentFilePosition < currentPlayingList.size() && currentFilePosition >= 0)
-            {
-                if(currentPlayingList.size() > 2)
-                {
+    if(! currentPlayingList.isEmpty()) {
+        if(isRandom) {
+            if(currentFilePosition < currentPlayingList.size() && currentFilePosition >= 0) {
+                if(currentPlayingList.size() > 2) {
                     currentPlayingList.removeOne(currentFilePosition);
 
                     std::random_shuffle(currentPlayingList.begin(), currentPlayingList.end());
@@ -222,9 +201,7 @@ void PlaylistPage::setRandom(bool random)
                     currentPlayingIndex = 0;
                 }
             }
-        }
-        else
-        {
+        } else {
             int positionBefore = currentPlayingList.at(currentPlayingIndex);
 
             currentPlayingList.clear();
@@ -252,8 +229,7 @@ bool PlaylistPage::isEmpty()
 
 void PlaylistPage::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int row)
 {
-    if((start >= 0 && start < playlistFiles.size()) && (row >= 0 && row < playlistFiles.size()))
-    {
+    if((start >= 0 && start < playlistFiles.size()) && (row >= 0 && row < playlistFiles.size())) {
         if(start < row)
             playlistFiles.move(start, row-1);
         else
@@ -272,17 +248,14 @@ void PlaylistPage::removeSelected()
 {
     auto indexes = this->selectedIndexes();
 
-    std::sort(indexes.begin(), indexes.end(), [] (QModelIndex ind, QModelIndex ind2)->bool
-    {
+    std::sort(indexes.begin(), indexes.end(), [] (QModelIndex ind, QModelIndex ind2)->bool {
         return (ind.row() > ind2.row());
     } );
 
-    for(auto index : indexes)
-    {
+    for(auto index : indexes) {
         int row = index.row();
 
-        if(row == currentFilePosition)
-        {
+        if(row == currentFilePosition) {
             playNext(false);
             emit currentPlayingMediaRemoved();
         }
@@ -296,22 +269,19 @@ void PlaylistPage::popupMenuTableShow(const QPoint &pos)
 {
     QListWidgetItem* item = this->itemAt(pos);
 
-    if(item != nullptr)
-    {
+    if(item != nullptr) {
         QMenu contextMenu;
 
         QAction* playAction = new QAction(QIcon(":/images/icons/play.png"), tr("Play"), this);
 
-        connect(playAction, &QAction::triggered, this, [this, pos]()
-        {
+        connect(playAction, &QAction::triggered, this, [this, pos]() {
             currentFilePosition = this->indexAt(pos).row();
             playCurrent();
         });
 
         QAction* openContainingFolderAction = new QAction(QIcon(":/images/icons/play.png"), tr("Open containing folder"), this);
 
-        connect(openContainingFolderAction, &QAction::triggered, this, [this, pos]()
-        {
+        connect(openContainingFolderAction, &QAction::triggered, this, [this, pos]() {
             auto path = playlistFiles.at(this->indexAt(pos).row()).absoluteDir().path();
             QDir dir(path);
 
@@ -342,26 +312,19 @@ void PlaylistPage::popupMenuTableShow(const QPoint &pos)
 
 void PlaylistPage::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasUrls())
-    {
+    if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
-    }
-    else
-    {
+    } else {
         QListWidget::dragEnterEvent(event);
     }
 }
 
 void PlaylistPage::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->mimeData()->hasUrls())
-    {
+    if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
-    }
-    else
-    {
-        if(! this->selectedIndexes().isEmpty())
-        {
+    } else {
+        if(! this->selectedIndexes().isEmpty()) {
             rowsDifference = this->selectedIndexes().last().row() - ( isRandom ? currentFilePosition : currentPlayingIndex );
         }
 
@@ -371,8 +334,7 @@ void PlaylistPage::dragMoveEvent(QDragMoveEvent *event)
 
 void PlaylistPage::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasUrls())
-    {
+    if (event->mimeData()->hasUrls()) {
         addFiles(filterSupportedMediaFormats(event->mimeData()->urls()));
         event->acceptProposedAction();
     }

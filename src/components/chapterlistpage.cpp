@@ -42,13 +42,11 @@ ChapterListPage::ChapterListPage()
     this->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     this->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
 
-    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [this]
-    {
+    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         syncToVideoTimeButton->setVisible(true);
     });
 
-    connect(this, &QTableWidget::cellClicked, this, [this] (int row, int )
-    {
+    connect(this, &QTableWidget::cellClicked, this, [this] (int row, int ) {
         currentChapterRow = row;
         emit jumpToChapter(timeStamps.at(row));
     } );
@@ -76,8 +74,7 @@ void ChapterListPage::setChapters(QStringList chapters, QList<qint64> timestamps
 
     timeStamps = timestamps;
 
-    for(int i = 0; i < chapters.size(); ++i)
-    {
+    for(int i = 0; i < chapters.size(); ++i) {
         int row = this->rowCount();
         this->setRowCount(row + 1);
         auto chapterItem = new QTableWidgetItem(chapters.at(i));
@@ -85,8 +82,7 @@ void ChapterListPage::setChapters(QStringList chapters, QList<qint64> timestamps
         this->setItem(row, 0, chapterItem);
         this->setItem(row, 1, new QTableWidgetItem(formattedTime(timeStamps.at(i))));
 
-        for(int j = 0; j < 2; ++j)
-        {
+        for(int j = 0; j < 2; ++j) {
             QTableWidgetItem* item = this->item(row, j);
             item->setFlags(item->flags() & ~ Qt::ItemIsEditable);
         }
@@ -103,8 +99,7 @@ void ChapterListPage::syncToVideoTime(QString currentChapterTimestamp)
 {
     auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
 
-    if(!items.isEmpty())
-    {
+    if(!items.isEmpty()) {
         this->scrollToItem(items.first(), QAbstractItemView::PositionAtTop);
         syncToVideoTimeButton->setVisible(false);
         this->selectRow(items.first()->row());
@@ -115,8 +110,7 @@ void ChapterListPage::updateCurrentChapter(QString currentChapterTimestamp)
 {
     auto items = this->findItems(currentChapterTimestamp, Qt::MatchExactly);
 
-    if(!items.isEmpty())
-    {
+    if(!items.isEmpty()) {
         currentChapterRow = items.first()->row();
         this->selectRow(currentChapterRow);
     }
@@ -131,27 +125,23 @@ void ChapterListPage::popupMenuTableShow(const QPoint &pos)
 {
     QTableWidgetItem* item = this->itemAt(pos);
 
-    if(item != nullptr)
-    {
+    if(item != nullptr) {
         QMenu contextMenu;
 
-        connect(&contextMenu, &QMenu::aboutToHide, this, [this]()
-        {
+        connect(&contextMenu, &QMenu::aboutToHide, this, [this]() {
             if(this->rowCount() > 0 && currentChapterRow < this->rowCount())
                 this->selectRow(currentChapterRow);
         });
 
         QAction jumpToChapterAction(tr("Jump to chapter"));
 
-        connect(&jumpToChapterAction, &QAction::triggered, this, [this, item]
-        {
+        connect(&jumpToChapterAction, &QAction::triggered, this, [this, item] {
             emit jumpToChapter(timeStamps.at(item->row()));
         });
 
         QAction clearChaptersAction(tr("Clear chapter"));
 
-        connect(&clearChaptersAction, &QAction::triggered, this, [this]
-        {
+        connect(&clearChaptersAction, &QAction::triggered, this, [this] {
             emit clearChapters();
             unsetChapters();
         });

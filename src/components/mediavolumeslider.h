@@ -56,8 +56,7 @@ public:
 
         m_lock = false;
 
-        connect(this, &QSlider::valueChanged, this, [] (int volume)
-        {
+        connect(this, &QSlider::valueChanged, this, [] (int volume) {
             Settings.setVolume(volume);
         });
 
@@ -96,8 +95,7 @@ protected:
 
         float newValue = getValueFromXPos( event->pos().x() );
 
-        if(newValue >= 0 and newValue <= 200)
-        {
+        if(newValue >= 0 and newValue <= 200) {
             QToolTip::showText(QCursor::pos(), QString::number(int(newValue / 2)), nullptr);
 
             if (!m_lock)
@@ -110,8 +108,7 @@ protected:
     {
         lock();
         float newValue = getValueFromXPos( event->pos().x() );
-        if(newValue >= 0 and newValue <= 200)
-        {
+        if(newValue >= 0 and newValue <= 200) {
             this->setValue(newValue);
             emit pressed(false /*set volume button unchecked, hence unmute*/);
         }

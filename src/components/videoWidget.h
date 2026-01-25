@@ -56,8 +56,7 @@ protected:
     }
     void paintEvent(QPaintEvent* event) override
     {
-        if(! fullScrren)
-        {
+        if(! fullScrren) {
             QPainter p(this);
             p.setRenderHint(QPainter::Antialiasing);
             QPainterPath path;
@@ -66,9 +65,7 @@ protected:
             p.setPen(pen);
             p.fillPath(path,QColor(27,27,27));
             p.drawPath(path);
-        }
-        else
-        {
+        } else {
             QVideoWidget::paintEvent(event);
         }
     }

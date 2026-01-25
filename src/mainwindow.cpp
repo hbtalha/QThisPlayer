@@ -40,8 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     QString path = qApp->applicationDirPath() + "/lib/vlc";
-    if (qEnvironmentVariableIsEmpty("VLC_PLUGIN_PATH"))
-    {
+    if (qEnvironmentVariableIsEmpty("VLC_PLUGIN_PATH")) {
         qputenv("VLC_PLUGIN_PATH", path.toLocal8Bit());
     }
 
@@ -69,32 +68,26 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mainPage, &MainPage::mouseMove, this, &MainWindow::showMouse);
     connect(mainPage, &MainPage::setFullScreen, this, &MainWindow::setFullScreen);
-    connect(mainPage, &MainPage::mediaChanged, this, [this] (const QString& filename)
-    {
+    connect(mainPage, &MainPage::mediaChanged, this, [this] (const QString& filename) {
         QString title = filename.isEmpty() ? qAppName() : (filename + " - " + qAppName());
         this->setWindowTitle(title);
         picInPicWin->setWinTitle(title);
     });
 
-    connect(mainPage, &MainPage::togglePicInPicWindow, this, [this]
-    {
+    connect(mainPage, &MainPage::togglePicInPicWindow, this, [this] {
         setPicInPicWindow(!isInPicInPicWindow);
     });
-    connect(mainPage, &MainPage::toggleFullScreen, this, [this]
-    {
+    connect(mainPage, &MainPage::toggleFullScreen, this, [this] {
         if(! isInPicInPicWindow)
             setFullScreen(!isFullScreen());
     });
-    connect(mainPage, &MainPage::togglePlaylistView, this, [this]
-    {
+    connect(mainPage, &MainPage::togglePlaylistView, this, [this] {
         showPlaylist(! playlistDockWidget->isVisible());
     });
-    connect(mainPage, &MainPage::toggleChapterListView, this, [this]
-    {
+    connect(mainPage, &MainPage::toggleChapterListView, this, [this] {
         showChapterlist(!chapterDockWidget->isVisible());
     });
-    connect(mainPage, &MainPage::message, this, [this] (QString message, bool isError)
-    {
+    connect(mainPage, &MainPage::message, this, [this] (QString message, bool isError) {
         screenMessage->displayMessage(message, (isError) ? ScreenMessage::ShowOption::ERROR_ : ScreenMessage::ShowOption::GENERAL);
     });
     connect(&gotoTime, &GoToTime::goToTime, mainPage, &MainPage::setPlayerTime);
@@ -159,8 +152,7 @@ void MainWindow::openFiles(QString caption, bool play)
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setDirectory(Settings.lastOpenFoler());
 
-    if(dialog.exec())
-    {
+    if(dialog.exec()) {
         Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
         mainPage->openFiles(dialog.selectedUrls(), play);
     }
@@ -173,8 +165,7 @@ void MainWindow::addFilesToPlaylist()
 
 void MainWindow::addSubtitlesFile()
 {
-    if(mainPage->isPlayerSeekable())
-    {
+    if(mainPage->isPlayerSeekable()) {
         QFileDialog dialog(this, tr("Open subtitle file"));
         dialog.setFileMode(QFileDialog::ExistingFiles);
         dialog.setNameFilter(tr("Subtitle Files(*.cdg *.idx *.srt *.sub *.utf *.ass *.ssa *.aqt *.jss *.psb *.rt *.sami "
@@ -184,8 +175,7 @@ void MainWindow::addSubtitlesFile()
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
         dialog.setDirectory(Settings.lastOpenFoler());
 
-        if(dialog.exec())
-        {
+        if(dialog.exec()) {
             Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
             mainPage->addSubtiles(dialog.selectedUrls());
         }
@@ -194,8 +184,7 @@ void MainWindow::addSubtitlesFile()
 
 void MainWindow::addChapterFile()
 {
-    if(mainPage->isPlayerSeekable())
-    {
+    if(mainPage->isPlayerSeekable()) {
         QFileDialog dialog(this, tr("Open chapters file"));
         dialog.setFileMode(QFileDialog::ExistingFile);
         dialog.setNameFilter(tr("Chapters File(*.txt *.ch)"));
@@ -203,8 +192,7 @@ void MainWindow::addChapterFile()
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
         dialog.setDirectory(Settings.lastOpenFoler());
 
-        if(dialog.exec())
-        {
+        if(dialog.exec()) {
             Settings.setLastOpenFoler(dialog.directoryUrl().toLocalFile());
             mainPage->addChapterFile(dialog.selectedUrls().at(0).toLocalFile());
         }
@@ -214,12 +202,10 @@ void MainWindow::addChapterFile()
 void MainWindow::openFilesFromExplorer()
 {
     QList<QUrl> files;
-    for(int i = 1; i < qApp->arguments().size(); ++i)
-    {
+    for(int i = 1; i < qApp->arguments().size(); ++i) {
         files << QUrl::fromLocalFile(qApp->arguments().at(i));
     }
-    if(! files.isEmpty())
-    {
+    if(! files.isEmpty()) {
         mainPage->openFiles(files, true/*play*/);
     }
 }
@@ -255,8 +241,7 @@ void MainWindow::restoreWindow()
 
 void MainWindow::setFullScreen(bool fullScreen)
 {
-    if(fullScreen)
-    {
+    if(fullScreen) {
         onFullScreen();
 #ifdef Q_OS_LINUX
         this->show();
@@ -268,11 +253,8 @@ void MainWindow::setFullScreen(bool fullScreen)
         this->raise();
         timerMouse->start(1000);
 #endif
-    }
-    else
-    {
-        if(this->isFullScreen())
-        {
+    } else {
+        if(this->isFullScreen()) {
             this->setWindowState( windowState() ^ Qt::WindowFullScreen );
             this->show();
             onNormalScreen();
@@ -282,14 +264,12 @@ void MainWindow::setFullScreen(bool fullScreen)
 
 void MainWindow::setPicInPicWindow(bool picInPic, bool exitByClosing)
 {
-    if(this->isFullScreen())
-    {
+    if(this->isFullScreen()) {
         setFullScreen(false);
     }
 
     isInPicInPicWindow = picInPic;
-    if(picInPic)
-    {
+    if(picInPic) {
         screenMessage->setViewWidget(picInPicWin);
         this->hide();
         mainPage->playerController()->hide();
@@ -297,9 +277,7 @@ void MainWindow::setPicInPicWindow(bool picInPic, bool exitByClosing)
         picInPicWin->setCentralWidget(mainPage);
         picInPicWin->takeController(mainPage->playerController());
         picInPicWin->show();
-    }
-    else
-    {
+    } else {
         screenMessage->setViewWidget(mainPage);
         picInPicWin->takeCentralWidget();
         picInPicWin->hide();
@@ -307,14 +285,12 @@ void MainWindow::setPicInPicWindow(bool picInPic, bool exitByClosing)
         this->setCentralWidget(mainPage);
         onNormalScreen();
         restoreWindow();
-        if(exitByClosing)
-        {
+        if(exitByClosing) {
             if(mainPage->player()->state() == Vlc::Playing || mainPage->player()->state() == Vlc::Opening)
                 mainPage->playerController()->clickPlayButton();
 
             this->showMinimized();
-        }
-        else
+        } else
             this->show();
     }
 }
@@ -326,13 +302,11 @@ void MainWindow::toggleFullScreen()
 
 void MainWindow::onFullScreen()
 {
-    if(isPlaylistShown)
-    {
+    if(isPlaylistShown) {
         showPlaylist(false);
         isPlaylistShown = true;
     }
-    if(isChapterListShown)
-    {
+    if(isChapterListShown) {
         showChapterlist(false);
         isChapterListShown = true;
     }
@@ -367,8 +341,7 @@ void MainWindow::onNormalScreen()
 void MainWindow::showMouse()
 {
     this->setCursor(Qt::ArrowCursor);
-    if(this->isFullScreen())
-    {
+    if(this->isFullScreen()) {
         mainPage->playerController()->setWindowFlags(Qt::WindowStaysOnTopHint);
         mainPage->playerController()->show();
         timerMouse->start(1000);
@@ -378,10 +351,8 @@ void MainWindow::showMouse()
 void MainWindow::hideMouse()
 {
     timerMouse->stop();
-    if(this->isFullScreen())
-    {
-        if( ! mainPage->playerController()->underMouse())
-        {
+    if(this->isFullScreen()) {
+        if( ! mainPage->playerController()->underMouse()) {
             mainPage->playerController()->hide();
             this->setCursor(Qt::BlankCursor);
         }
@@ -405,8 +376,7 @@ void MainWindow::createMenuAndActions()
     QAction* quitAtEndOfPlaylistAction = new QAction(tr("Quit at the end of playlist"), this);
     quitAtEndOfPlaylistAction->setCheckable(true);
     quitAtEndOfPlaylistAction->setChecked(Settings.quitAtTheEndOfPlaylist());
-    connect(quitAtEndOfPlaylistAction, &QAction::toggled, this, [] (bool checked)
-    {
+    connect(quitAtEndOfPlaylistAction, &QAction::toggled, this, [] (bool checked) {
         Settings.setQuitAtTheEndOfPlaylist(checked);
     });
 
@@ -435,23 +405,19 @@ void MainWindow::createMenuAndActions()
 
     QAction* seekToSpecificTimeAction = new QAction(tr("Jump to Specific Time"), this);
     seekToSpecificTimeAction->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_T));
-    connect(seekToSpecificTimeAction, &QAction::triggered, this, [this]
-    {
+    connect(seekToSpecificTimeAction, &QAction::triggered, this, [this] {
         gotoTime.exec();
     });
 
     QAction* playAction = new QAction(tr("Play"), this);
     playAction->setIcon(invertedColorIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
     connect(playAction, &QAction::triggered, mainPage->playerController(), &PlayerController::clickPlayButton);
-    connect(mainPage, &MainPage::mediaStateChanged, this, [this, playAction] (Vlc::State state)
-    {
-        if(state == Vlc::Opening || state == Vlc::Playing)
-        {
+    connect(mainPage, &MainPage::mediaStateChanged, this, [this, playAction] (Vlc::State state) {
+        if(state == Vlc::Opening || state == Vlc::Playing) {
             playAction->setText(tr("Pause"));
             playAction->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         }
-        if(state == Vlc::Paused || state == Vlc::Stopped || state == Vlc::Ended)
-        {
+        if(state == Vlc::Paused || state == Vlc::Stopped || state == Vlc::Ended) {
             playAction->setText(tr("Play"));
             playAction->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         }
@@ -548,15 +514,13 @@ void MainWindow::createMenuAndActions()
 //    crop_5_4_Action->setCheckable(true);
 
     QAction* fullScreenAction = new QAction(tr("FullScreen"));
-    connect(fullScreenAction, &QAction::triggered, this, [this]
-    {
+    connect(fullScreenAction, &QAction::triggered, this, [this] {
         if(mainPage->isPlayerSeekable())
             setFullScreen(true);
     });
 
     QAction* picInPicAction = new QAction(tr("Picture-in-Picture"));
-    connect(picInPicAction, &QAction::triggered, this, [this]
-    {
+    connect(picInPicAction, &QAction::triggered, this, [this] {
         setPicInPicWindow(true);
     });
 
@@ -606,8 +570,7 @@ void MainWindow::createMenuAndActions()
     auto helpMenu = this->menuBar()->addMenu(tr("Help"));
 
     QAction* aboutAction = new QAction(tr("About"), this);
-    connect(aboutAction, &QAction::triggered, this, [this]
-    {
+    connect(aboutAction, &QAction::triggered, this, [this] {
         About about(this);
         about.exec();
     });
@@ -623,8 +586,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    if(shouldSaveSettings)
-    {
+    if(shouldSaveSettings) {
         Settings.setMainWindowSize(this->size());
         Settings.setMainWindowPosition(QPoint(this->x(), this->y()));
     }
@@ -634,8 +596,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
-    if(shouldSaveSettings)
-    {
+    if(shouldSaveSettings) {
         Settings.setMainWindowPosition(QPoint(this->x(), this->y()));
     }
     event->accept();
@@ -644,8 +605,7 @@ void MainWindow::moveEvent(QMoveEvent *event)
 
 void MainWindow::showEvent(QShowEvent* event)
 {
-    if(! shouldSaveSettings) // the same as testing if it's on startup
-    {
+    if(! shouldSaveSettings) { // the same as testing if it's on startup
         restoreWindow();
 #ifdef Q_OS_WIN
         mainPage->playerController()->createWinThumbnailToolBar(this);
@@ -686,22 +646,19 @@ void MainWindow::tests()
     connect(testCore1, &QAction::triggered, this, &MainWindow::showPlaylist);
     connect(testCore2, &QAction::triggered, this, &MainWindow::showChapterlist);
     auto open2 = new QAction("Open");
-    connect(open, &QAction::triggered, this, [this]
-    {
+    connect(open, &QAction::triggered, this, [this] {
         mainPage->playFile({"D:\\Documents\\School\\IT Development\\Database\\MySQL\\Programming with Mosh\\Video\\MySQL Tutorial for Beginners [Full Course].mp4"});
 //        mainPage->playFile("D:\\Documents\\School\\IT Development\\Web Development\\Javascript\\Videos\\Single Videos\\JavaScript Course\\JavaScript Course.mp4");
     });
 
-    connect(open2, &QAction::triggered, this, [this]
-    {
+    connect(open2, &QAction::triggered, this, [this] {
 //        mainPage->load("D:\\Music\\00Favorite\\Frank Ocean\\Frank Ocean - channel ORANGE (2012)\\11 - Lost.mp3");
         mainPage->playFile({"D:\\Videos\\Videos\\New\\Jay Rock - Vice City feat. Black Hippy_Full-HD.mp4"});
 //        mainPage->load("D:\\Videos\\Videos\\New\\Bruno Mars - When I Was Your Man [Official Video]_Full-HD.mp4");
 //        mainPage->load("D:\\Documents\\School\\IT Development\\Database\\MySQL\\Programming with Mosh\\Video\\MySQL Tutorial for Beginners [Full Course].mp4");
     });
 
-    connect(testCore, &QAction::triggered, this, [this]
-    {
+    connect(testCore, &QAction::triggered, this, [this] {
         qDebug() << this->minimumWidth();
         mainPage->testFunction();
     });

@@ -86,13 +86,12 @@ void ScreenMessage::displayMessage(const QString& text, ShowOption showOpt)
 
 void ScreenMessage::setViewWidget(QWidget *parent)
 {
-    viewWidget = parent;   
+    viewWidget = parent;
 }
 
 void ScreenMessage::adjustPositionToParent()
 {
-    if(viewWidget)
-    {
+    if(viewWidget) {
         QPoint globalTopRight = viewWidget->mapToGlobal(QPoint(viewWidget->width(), 0));
         this->move(globalTopRight.x() - this->width() - 50, globalTopRight.y());
     }
