@@ -93,6 +93,7 @@ private:
     void checkForChapterFile(QString filePath);
 
     int volumeAdjuster(int vol, int incrementOrDecrement);
+    void increaseOrDecreaseVolume(int flag);
 
     PlayerController *mPlayerController;
     VideoWidget *mVideoWidget;

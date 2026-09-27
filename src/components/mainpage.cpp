@@ -423,20 +423,25 @@ int MainPage::volumeAdjuster(int vol, int incrementOrDecrement)
     return filler;
 }
 
+void MainPage::increaseOrDecreaseVolume(int flag)
+{
+    assert(flag == 1 || flag ==-1);
+    if(flag == 1 || flag == -1) {
+        int filler = volumeAdjuster(mPlayerController->mediaVolume(), flag);
+        filler = (filler == 0) ? (flag * 10 ): filler;
+        mPlayerController->setVolume(mPlayerController->mediaVolume() + filler);
+        emit message(QString("Volume %1%").arg(int(mPlayerController->mediaVolume() / 2)));
+    }
+}
+
 void MainPage::increaseVolume()
 {
-    int filler = volumeAdjuster(mPlayerController->mediaVolume(), 1);
-    filler = (filler == 0) ? 10 : filler;
-    mPlayerController->setVolume(mPlayerController->mediaVolume() + filler);
-    emit message(QString("Volume %1%").arg(int(mPlayerController->mediaVolume() / 2)));
+    increaseOrDecreaseVolume(1);
 }
 
 void MainPage::decreaseVolume()
 {
-    int filler = volumeAdjuster(mPlayerController->mediaVolume(), -1);
-    filler = (filler == 0) ? -10 : filler;
-    mPlayerController->setVolume(mPlayerController->mediaVolume() + filler);
-    emit message(QString("Volume %1%").arg(int(mPlayerController->mediaVolume() / 2)));
+    increaseOrDecreaseVolume(-1);
 }
 
 void MainPage::play()
